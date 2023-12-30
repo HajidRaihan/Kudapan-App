@@ -2,11 +2,16 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: "#7D0A0A",
+        secondary: "#BF3131",
+      },
+    },
   },
 
   daisyui: {
-    themes: ["cupcake", "cmyk"],
+    darkTheme: false,
   },
   plugins: [require("daisyui")],
 };
