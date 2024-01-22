@@ -2,11 +2,13 @@ import Banner from "../components/Banner";
 import CounterCard from "../components/CounterCard";
 import Kategori from "../components/Kategori";
 import BottomNavigation from "../components/BottomNavigation";
+import SearchBar from "../components/SearchBar";
 
 const Home = () => {
   return (
     <>
-      <Banner title="Welcome" />
+      <SearchBar /> 
+      <Banner title="KUDAPAN APP" />
       <div className="flex gap-1 mt-2 mx-2 ">
         <Kategori title="All" selected={true} />
         <Kategori title="Makanan" />
@@ -17,7 +19,18 @@ const Home = () => {
         <p className="font-semibold text-xl">list counter</p>
       </div>
 
-      <div className="mx-5 h-screen">
+      <div className="mx-5 pb-20">
+        <CounterCard />
+        <CounterCard />
+        <CounterCard />
+        <CounterCard />
+        <CounterCard />
+        <CounterCard />
+        <CounterCard />
+        <CounterCard />
+        <CounterCard />
+        <CounterCard />
+        <CounterCard />
         <CounterCard />
         <CounterCard />
         <CounterCard />
