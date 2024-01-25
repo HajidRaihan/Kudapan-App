@@ -2,18 +2,32 @@ const { Keranjang, User, Produk } = require("../Models");
 
 const addProdukKeranjang = async (req, res) => {
   try {
-    const { userId, produkId, keranjangId } = req.body;
+    const { userId, produkId, keranjangId, jumlah } = req.body;
 
     const user = await User.findById(userId);
     if (!user) {
       return res.status(401).json({ msg: "User not found" });
     }
 
-    const newProduk = await Produk.findById(produkId);
-    if (!newProduk) {
+    const produk = await Produk.findById(produkId);
+    if (!produk) {
       return res.status(401).json({ msg: "Produk not found" });
     }
     const keranjang = user.keranjang;
+
+    console.log("ini nama produk", produk.nama);
+
+    const newProduk = {
+      nama: produk.nama,
+      harga: produk.harga,
+      image: produk.image,
+      jumlah: jumlah,
+      total: produk.harga * jumlah,
+    };
+
+    // await newProduk.save();
+
+    console.log({ newProduk });
 
     keranjang.produk.push(newProduk);
 
