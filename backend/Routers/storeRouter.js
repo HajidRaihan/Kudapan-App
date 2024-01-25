@@ -1,20 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const { getAllStore, addStore } = require("../Controller/storeController");
-const { Toko, User } = require("../Models");
 const multer = require("multer");
 const path = require("path");
-
-const diskStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, "../images"));
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + "-" + file.originalname);
-  },
-});
-
-const upload = multer({ storage: diskStorage });
+const upload = require("../middleware/multerMiddleware");
 
 router.get("/getAll", getAllStore);
 

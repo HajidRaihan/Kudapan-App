@@ -6,6 +6,7 @@ const generateLogToken = (user) => {
       _id: user._id,
       nama: user.nama,
       email: user.email,
+      role: user.role,
     },
     process.env.JWT_SECRET || "****",
     { expiresIn: "7d" }

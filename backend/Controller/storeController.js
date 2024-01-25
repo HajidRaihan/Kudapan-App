@@ -8,9 +8,6 @@ const getAllStore = async (req, res) => {
 const addStore = async (req, res) => {
   const { userId, nama, deskripsi } = req.body;
 
-  console.log(userId);
-  console.log(req.file);
-
   try {
     // Temukan pengguna berdasarkan ID
     const user = await User.findById(userId);
