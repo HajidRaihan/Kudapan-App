@@ -1,4 +1,6 @@
 const { User } = require("../Models");
+const bcrypt = require("bcrypt");
+const generateLogToken = require("../utils");
 
 const registerUser = async (req, res) => {
   try {
@@ -18,7 +20,14 @@ const registerUser = async (req, res) => {
     });
 
     await newUser.save();
-    res.status(201).json("User successfully added");
+    res.status(201).json({
+      status: "success add user",
+      data: {
+        nama: newUser.nama,
+        email: newUser.email,
+        role: newUser.role,
+      },
+    });
   } catch (error) {
     console.error("Error registering user:", error);
     res.status(500).json("Internal server error");

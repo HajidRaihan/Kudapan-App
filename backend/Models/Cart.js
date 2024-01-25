@@ -5,7 +5,7 @@ const keranjangSchema = new mongoose.Schema({
   produk: [produkSchema], // Produk di-embed di dalam Keranjang
   jumlah: {
     type: Number,
-    required: true,
+    required: false,
   },
 });
 

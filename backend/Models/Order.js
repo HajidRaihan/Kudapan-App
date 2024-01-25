@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
-const keranjangSchema = require("./Cart");
+const produkSchema = require("./Produk");
 
 const orderSchema = new mongoose.Schema({
-  keranjang: keranjangSchema, // Keranjang di-embed di dalam Order
+  produk: [produkSchema],
   total: {
     type: Number,
     required: true,
@@ -10,6 +10,11 @@ const orderSchema = new mongoose.Schema({
   waktuPemesanan: {
     type: Date,
     default: Date.now,
+  },
+  status: {
+    type: String,
+    enum: ["diproses", "Selesai"],
+    default: "diproses",
   },
 });
 

@@ -34,12 +34,27 @@ mongoose.connect("mongodb://127.0.0.1:27017/kudapan");
 
 const data = {
   produk: [
-    { nama: "Nasi Goreng", harga: 15000 },
-    { nama: "Mie Goreng", harga: 12000 },
+    {
+      nama: "Nasi Goreng",
+      harga: 15000,
+      image: "1705938764785-551ce6e0bfb794864672981f75fa8ba5.jpg",
+    },
+    {
+      nama: "Mie Goreng",
+      harga: 12000,
+      image: "1705938764785-551ce6e0bfb794864672981f75fa8ba5.jpg",
+    },
   ],
-  toko: [{ nama: "Warung Sederhana", produk: [] }],
+  toko: [
+    {
+      nama: "Warung Sederhana",
+      produk: [],
+      image: "1705938764785-551ce6e0bfb794864672981f75fa8ba5.jpg",
+      deskripsi: "toko yang menjual makanan",
+    },
+  ],
   keranjang: [{ produk: [], jumlah: 2 }],
-  order: [{ keranjang: null, total: 0 }],
+  order: [{ keranjang: null, total: 27000 }],
   user: [
     {
       nama: "John Doe",

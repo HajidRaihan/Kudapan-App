@@ -46,7 +46,7 @@ const dbURI = "mongodb://127.0.0.1:27017/kudapan"; // Sesuaikan dengan URL konek
 // Fungsi untuk menjalankan seeder
 seed.connect(dbURI, () => {
   seed.loadModels([
-    "../Models/modelTes", // Sesuaikan path model sesuai struktur proyek Anda
+    "../Models", // Sesuaikan path model sesuai struktur proyek Anda
   ]);
 
   seed.clearModels();
