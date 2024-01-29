@@ -1,1 +1,1 @@
-<h1>SKRIPSIIII!!!!</h1>
+<h1 align="center">SKRIPSIIII!!!!</h1>
