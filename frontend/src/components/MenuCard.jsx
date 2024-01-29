@@ -1,17 +1,61 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import BurgerImg from "../assets/burger-beef.jpg";
+import OrderModal from "./OrderModal";
 
-const MenuCard = () => {
+const MenuCard = ({ nama, harga, image, _id }) => {
+  const [menuId, setMenuId] = useState("");
+  const [detail, setDetail] = useState();
+
+  const [open, setOpen] = useState(false);
+  const openHandler = (id) => {
+    document.getElementById("ordermodal").showModal();
+    setMenuId(id);
+    console.log(id);
+    setOpen(true);
+  };
+  const closeHandler = () => {
+    document.getElementById("ordermodal").close();
+    setOpen(false);
+  };
+
+  // useEffect(() => {
+  //   try {
+  //     getDetailProduk(_id).then((res) => {
+  //       setDetail(res);
+  //       console.log(res);
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }, [_id]);
   return (
-    <Link to={"/order"} className="card bg-base-100 shadow-xl w-40">
+    <Link className="card bg-base-100 shadow-xl w-40">
       <figure>
-        <img src={BurgerImg} alt="Shoes" />
+        <img src={`http://localhost:8000/images/${image}`} alt="Shoes" />
       </figure>
       <div className="p-3">
-        <h2 className="text-md font-semibold">es teh</h2>
-        <p className="text-xs ">es teh manis murah meriah</p>
-        <p className="text-[10px] flex justify-end">Rp. 10.000</p>
+        <h2 className="text-md font-semibold">{nama}</h2>
+        <p className="text-xs "></p>
+        <p className="text-[10px] flex justify-end">{harga}</p>
+        {/* <p>+</p> */}
+        <div className="flex justify-end mt-2 ">
+          <button
+            className="btn bg-primary btn-sm text-white hover:bg-secondary w-16"
+            onClick={() => openHandler(_id)}
+            // onClick={openHandler}
+          >
+            +
+          </button>
+        </div>
       </div>
+      <OrderModal
+        id={"ordermodal"}
+        close={closeHandler}
+        nama={nama}
+        harga={harga}
+        image={image}
+        menuId={_id}
+      />
     </Link>
   );
 };

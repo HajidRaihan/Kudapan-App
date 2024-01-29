@@ -1,8 +1,9 @@
-const { Keranjang, User, Produk } = require("../Models");
+const { Keranjang, Produk, User } = require("../models");
 
 const addProdukKeranjang = async (req, res) => {
   try {
-    const { userId, produkId, keranjangId, jumlah } = req.body;
+    const { produkId, jumlah, catatan } = req.body;
+    const { userId } = req.params;
 
     const user = await User.findById(userId);
     if (!user) {
@@ -22,6 +23,7 @@ const addProdukKeranjang = async (req, res) => {
       harga: produk.harga,
       image: produk.image,
       jumlah: jumlah,
+      catatan: catatan,
       total: produk.harga * jumlah,
     };
 

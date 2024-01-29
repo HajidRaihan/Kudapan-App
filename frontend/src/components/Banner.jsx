@@ -12,9 +12,13 @@ import PropTypes from "prop-types";
 
 const Banner = ({ title }) => {
   return (
-    <div className="h-32  rounded-b-[40px] flex justify-center items-center relative">
-      <img src={BannerImg} alt="banner" className="object-center object-cover w-full h-full" />
-      <div className="absolute h-full w-full bg-black opacity-35" />
+    <div className="h-32  rounded-b-[40px] flex justify-center items-center relative mx-5 my-5 rounded-2xl">
+      <img
+        src={BannerImg}
+        alt="banner"
+        className="object-center object-cover w-full h-full rounded-2xl"
+      />
+      <div className="absolute h-full w-full bg-black opacity-35 rounded-2xl" />
       <p className="text-slate-50 text-2xl font-bold absolute drop-shadow-2xl shadow-black">
         {title}
       </p>

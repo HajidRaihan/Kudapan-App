@@ -4,9 +4,15 @@ import Kategori from "../components/Kategori";
 import BottomNavigation from "../components/BottomNavigation";
 import SearchBar from "../components/SearchBar";
 import { useEffect, useState } from "react";
+import { TokenHandler } from "../helper/TokenHandler";
+import Cookies from "js-cookie";
 
 const Home = () => {
   const [counter, setCounter] = useState();
+  const token = TokenHandler();
+  console.log(token);
+
+  console.log();
   useEffect(() => {
     try {
       const getCounter = async () => {
@@ -25,19 +31,26 @@ const Home = () => {
     <>
       <SearchBar />
       <Banner title="KUDAPAN APP" />
-      <div className="flex gap-1 mt-2 mx-2 ">
+      <div className="flex gap-1 my-5 mx-5">
         <Kategori title="All" selected={true} />
         <Kategori title="Makanan" />
         <Kategori title="Minuman" />
         <Kategori title="Dessert" />
       </div>
-      <div className="mx-5 my-5">
+      {/* <div className="mx-5 my-5">
         <p className="font-semibold text-xl">list counter</p>
-      </div>
+      </div> */}
 
       <div className="mx-5 pb-20">
         {counter?.map((data, index) => {
-          return <CounterCard nama={data.nama} />;
+          return (
+            <CounterCard
+              nama={data.nama}
+              deskripsi={data.deskripsi}
+              image={data.image}
+              id={data._id}
+            />
+          );
         })}
         {/* <CounterCard />
         <CounterCard />

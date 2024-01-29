@@ -1,10 +1,12 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const userRouter = require("./Routers/userRouter");
-const storeRouter = require("./Routers/storeRouter");
-const produkRouter = require("./Routers/produkRouter");
-const keranjangRouter = require("./Routers/keranjangRouter");
+const userRouter = require("./routers/userRouter");
+const storeRouter = require("./routers/storeRouter");
+const produkRouter = require("./routers/produkRouter");
+const keranjangRouter = require("./routers/keranjangRouter");
+const orderRouter = require("./routers/orderRouter");
+
 require("./db/mongoose");
 const morgan = require("morgan");
 const { verifyUser } = require("./middleware/verifyAccessToken");
@@ -21,11 +23,15 @@ app.use("/api/users", userRouter);
 app.use("/api/store", storeRouter);
 app.use("/api/produk", produkRouter);
 app.use("/api/keranjang", keranjangRouter);
+app.use("/api/order", orderRouter);
 app.use("/images", express.static("images"));
 // Handling all the unknown endpoints
 
 app.get("/", verifyUser("vendor"), (req, res) => {
   res.send("Hello World!");
+});
+app.get("/healthceck", (req, res) => {
+  res.send("Working!");
 });
 app.use((req, res) => {
   res.status(404).json({ message: "Endpoint not found" });
