@@ -20,6 +20,7 @@ const pesananSchema = new mongoose.Schema({
   },
   catatan: {
     type: String,
+    default: "",
   },
   total: {
     type: Number,

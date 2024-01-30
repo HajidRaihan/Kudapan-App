@@ -29,10 +29,7 @@ const userSchema = new mongoose.Schema({
   orders: [orderSchema], // Order di-embed di dalam User
   keranjang: {
     type: keranjangSchema,
-    default: {
-      produk: [],
-      total: 0,
-    },
+    default: null,
   },
 });
 
