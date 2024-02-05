@@ -40,7 +40,6 @@ const getProduk = async (req, res) => {
     console.log(toko);
 
     if (!toko) {
-      console.log("lahh kontol");
       return res.status(404).json({ error: "toko tidak ditemukan" });
     }
 
