@@ -1,4 +1,4 @@
-const { Toko, Produk } = require("../models");
+const { Toko, Produk, User } = require("../models");
 
 const addProduk = async (req, res) => {
   const { nama, harga } = req.body;
@@ -33,8 +33,8 @@ const addProduk = async (req, res) => {
 };
 
 const getProduk = async (req, res) => {
+  const { tokoId } = req.params;
   try {
-    const { tokoId } = req.params;
     console.log(tokoId);
     const toko = await Toko.findById(tokoId);
     console.log(toko);
@@ -43,7 +43,7 @@ const getProduk = async (req, res) => {
       return res.status(404).json({ error: "toko tidak ditemukan" });
     }
 
-    const produk = toko.produk;
+    const produk = toko;
 
     res.status(200).json(produk);
   } catch (error) {

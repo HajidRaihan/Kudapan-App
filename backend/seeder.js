@@ -19,7 +19,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/kudapan");
 //       password: "password123",
 //       role: "vendor",
 //       toko: null,
-//       orders: [],
+//       order_history: [],
 //     },
 //     {
 //       nama: "hajid raihan",
@@ -27,7 +27,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/kudapan");
 //       password: "password123",
 //       role: "vendor",
 //       toko: null,
-//       orders: [],
+//       order_history: [],
 //     },
 //   ],
 // };
@@ -53,8 +53,8 @@ const data = {
       deskripsi: "toko yang menjual makanan",
     },
   ],
-  keranjang: [{ produk: [], jumlah: 2 }],
-  order: [{ keranjang: null, total: 27000 }],
+  // keranjang: [{ produk: [], jumlah: 2 }],
+  // order: [{ keranjang: null, total: 27000 }],
   user: [
     {
       nama: "John Doe",
@@ -62,6 +62,7 @@ const data = {
       password: "password123",
       role: "vendor",
       toko: null,
+      order_history: [],
       orders: [],
     },
     {
@@ -70,6 +71,7 @@ const data = {
       password: "password123",
       role: "vendor",
       toko: null,
+      order_history: [],
       orders: [],
     },
     {
@@ -78,6 +80,7 @@ const data = {
       password: "password123",
       role: "user",
       toko: null,
+      order_history: [],
       orders: [],
     },
   ],
@@ -101,9 +104,9 @@ async function seedDatabase() {
 
     const [produk1, produk2] = await Produk.create(data.produk);
     const toko = await Toko.create({ ...data.toko[0], produk: [produk1, produk2] });
-    const keranjang = await Keranjang.create({ ...data.keranjang[0], produk: [produk1, produk2] });
-    const order = await Order.create({ ...data.order[0], keranjang });
-    const user = await User.create({ ...data.user[0], toko, orders: [order] });
+    // const keranjang = await Keranjang.create({ ...data.keranjang[0], produk: [produk1, produk2] });
+    // const order = await Order.create({ ...data.order[0], keranjang });
+    const user = await User.create({ ...data.user[0], toko, order_history: [] });
 
     console.log("Seeder: Data berhasil di-seed");
   } catch (error) {

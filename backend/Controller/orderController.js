@@ -42,12 +42,15 @@ const hitungTotalHarga = (produkArray) => {
 };
 
 const getOrderUser = async (req, res) => {
-  const userId = req.params;
+  const { userId } = req.params;
+  console.log(userId);
 
   try {
     const user = await User.findById(userId);
 
-    if (userId) {
+    console.log(user);
+
+    if (!userId) {
       return res.status(404).json({ error: "User not found" });
     }
 
@@ -55,7 +58,7 @@ const getOrderUser = async (req, res) => {
 
     return res.json(order);
   } catch (error) {
-    console.log(erorr);
+    console.log(error);
     return res.status(500).json({ error: "gagal menampilkan order", error });
   }
 };

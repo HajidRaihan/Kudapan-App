@@ -15,6 +15,8 @@ const registerUser = async (req, res) => {
       email: req.body.email,
       password: hashedPassword,
       role: req.body.role,
+      // toko: null,
+      order_history: [],
       toko: null,
       orders: [],
     });
@@ -56,7 +58,19 @@ const loginUser = async (req, res) => {
   }
 };
 
+const getAllUser = async (req, res) => {
+  const user = await User.find();
+
+  try {
+    return res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json(error);
+    console.log(error);
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
+  getAllUser,
 };

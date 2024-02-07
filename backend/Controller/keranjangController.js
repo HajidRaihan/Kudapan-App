@@ -53,6 +53,7 @@ const addProdukKeranjang = async (req, res) => {
     }
 
     const toko = await Toko.findById(tokoId);
+    console.log({ toko });
     if (!toko) {
       return res.status(401).json({ msg: "Toko not found" });
     }
@@ -79,6 +80,12 @@ const addProdukKeranjang = async (req, res) => {
 
     const keranjang = user.keranjang;
 
+    if (keranjang === null) {
+      const newKeranjang = new Keranjang({ list: [] });
+      await newKeranjang.save();
+      user.keranjang = newKeranjang;
+      await user.save();
+    }
     const tokoAda = keranjang.list.some((item) => item.toko.equals(tokoId));
 
     if (tokoAda) {
@@ -108,11 +115,30 @@ const addProdukKeranjang = async (req, res) => {
       return res.status(201).json({ message: "Keranjang ditambahkan", keranjang });
     }
   } catch (error) {
-    console.error(error);
+    console.log(error);
     return res.status(500).json({ message: "keranjang gagal di tambahkan", error: error });
+  }
+};
+
+const getKeranjang = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(401).json({ msg: "User not found" });
+    }
+    const keranjang = user.keranjang;
+    if (!keranjang) {
+      return res.status(401).json({ msg: "Keranjang not found" });
+    }
+    return res.status(200).json(keranjang);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "keranjang gagal di tampilkan", error: error });
   }
 };
 
 module.exports = {
   addProdukKeranjang,
+  getKeranjang,
 };

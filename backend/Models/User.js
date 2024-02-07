@@ -26,10 +26,13 @@ const userSchema = new mongoose.Schema({
     type: tokoSchema,
     default: null,
   }, // Menyimpan informasi toko untuk vendor
-  orders: [orderSchema], // Order di-embed di dalam User
+  order_history: [orderSchema], // Order di-embed di dalam User
   keranjang: {
     type: keranjangSchema,
     default: null,
+  },
+  orders: {
+    type: [orderSchema],
   },
 });
 
