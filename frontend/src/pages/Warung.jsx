@@ -6,37 +6,43 @@ import BackButton from "../components/BackButton";
 import { useEffect, useState } from "react";
 import { getProduk } from "../api/api";
 import { useParams } from "react-router-dom";
+import Header from "../components/Header";
 
 const Warung = () => {
-  const { id } = useParams();
+  const { tokoId } = useParams();
   const [produk, setProduk] = useState();
+  const [toko, setToko] = useState();
 
   useEffect(() => {
-    getProduk(id).then((res) => {
-      setProduk(res);
+    getProduk(tokoId).then((res) => {
+      setToko(res);
+      console.log(res);
     });
   }, []);
 
   return (
     <>
-      <div className="mx-2 absolute z-50 mt-2">
-        <BackButton />
-      </div>
-      <Banner title="Nasi Goreng Masuli" />
-      <div className="flex gap-1 mt-2 mx-2 ">
-        <Kategori title="All" selected={true} />
-        <Kategori title="Makanan" />
-        <Kategori title="Minuman" />
-        <Kategori title="Dessert" />
-      </div>
-      <div className="flex flex-wrap gap-5 justify-center mt-5 pb-20 overflow-scroll h-[480px]">
-        {produk?.map((item) => (
-          <MenuCard key={item._id} {...item} />
-        ))}
-      </div>
-      <div className="flex justify-center">
-        <BottomNavigation />
-      </div>
+      {toko ? (
+        <>
+          <Header title={toko.nama} />
+          <div className="flex gap-1 mt-2 mx-5 ">
+            <Kategori title="All" selected={true} />
+            <Kategori title="Makanan" />
+            <Kategori title="Minuman" />
+            <Kategori title="Dessert" />
+          </div>
+          <div className="flex flex-wrap gap-5 justify-center mt-5 pb-20 overflow-scroll h-[480px]">
+            {toko.produk.map((item) => (
+              <MenuCard key={item._id} {...item} />
+            ))}
+          </div>
+          <div className="flex justify-center">
+            <BottomNavigation />
+          </div>
+        </>
+      ) : (
+        ""
+      )}
     </>
   );
 };

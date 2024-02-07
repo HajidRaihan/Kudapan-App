@@ -68,7 +68,7 @@ const BottomNavigation = () => {
             transaksi
           </p>
         </Link>
-        <div>
+        <Link to={"/keranjang"}>
           <img
             src={location === "/keranjang" ? Chart : ChartBlack}
             alt=""
@@ -81,7 +81,7 @@ const BottomNavigation = () => {
           >
             keranjang
           </p>
-        </div>
+        </Link>
       </div>
     </div>
   );

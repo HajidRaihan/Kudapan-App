@@ -1,21 +1,29 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { getDetailProduk } from "../api/api";
 import { addProdukKeranjang } from "../api/keranjangApi";
+import { DecodeToken } from "../helper/DecodeToken";
 
 const OrderModal = ({ id, close, image, menuId, nama, harga }) => {
   const [jumlah, setJumlah] = useState(1);
   const [catatan, setCatatan] = useState("");
+  const { tokoId } = useParams();
+  const [detail, setDetail] = useState();
+  const dataToken = DecodeToken();
+
+  // console.log(nama, menuId);
 
   const handleAddKeranjang = async () => {
     const data = {
       produkId: menuId,
+      tokoId: tokoId,
       jumlah: jumlah,
       image: image,
       catatan: catatan,
     };
     console.log({ data });
     try {
-      const response = await addProdukKeranjang("65b2a47c5a99778d24c45d50", data);
+      const response = await addProdukKeranjang(dataToken._id, data);
       console.log(response);
 
       console.log(data);
@@ -24,12 +32,30 @@ const OrderModal = ({ id, close, image, menuId, nama, harga }) => {
     }
   };
 
+  useEffect(() => {
+    document.getElementById("ordermodal").showModal();
+  }, []);
+
+  useEffect(() => {
+    const getMenuById = async () => {
+      if (menuId) {
+        try {
+          const response = await getDetailProduk(menuId);
+          setDetail(response);
+          console.log(response);
+        } catch (error) {
+          console.log(error);
+        }
+        getMenuById();
+      }
+    };
+  }, [menuId]);
+
   return (
     <>
-      <dialog id={id} className="modal py-10">
+      <dialog id={"ordermodal"} className="modal py-10">
         <div className="modal-box">
           <form method="dialog">
-            {/* if there is a button in form, it will close the modal */}
             <button
               className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
               onClick={() => close()}

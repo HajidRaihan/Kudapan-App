@@ -3,8 +3,8 @@ import McdImg from "../assets/mcd.jpg";
 
 const CounterCard = ({ nama, deskripsi, image, id }) => {
   return (
-    <Link to={`/warung/${id}`} className="card card-side shadow-lg h-24 mb-5 bg-white">
-      <figure className="w-1/3 h-full ">
+    <Link to={`/warung/${id}`} className="card card-side shadow-lg h-32 mb-5 bg-white">
+      <figure className="w-[40%] h-full ">
         <img
           src={`http://localhost:8000/images/${image}`}
           alt="Movie"
@@ -12,7 +12,7 @@ const CounterCard = ({ nama, deskripsi, image, id }) => {
         />
       </figure>
       <div className="p-5 flex justify-center flex-col">
-        <h2 className=" text-lg font-semibold">{nama}</h2>
+        <h2 className=" text-base font-semibold">{nama}</h2>
         <p className="text-xs">{deskripsi}</p>
       </div>
     </Link>

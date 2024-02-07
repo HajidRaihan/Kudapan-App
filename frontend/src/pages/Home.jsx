@@ -5,12 +5,14 @@ import BottomNavigation from "../components/BottomNavigation";
 import SearchBar from "../components/SearchBar";
 import { useEffect, useState } from "react";
 import { TokenHandler } from "../helper/TokenHandler";
-import Cookies from "js-cookie";
+import { DecodeToken } from "../helper/DecodeToken";
 
 const Home = () => {
   const [counter, setCounter] = useState();
   const token = TokenHandler();
   console.log(token);
+  const tokenData = DecodeToken();
+  console.log(tokenData);
 
   console.log();
   useEffect(() => {
@@ -30,7 +32,7 @@ const Home = () => {
   return (
     <>
       <SearchBar />
-      <Banner title="KUDAPAN APP" />
+      {/* <Banner title="KUDAPAN APP" /> */}
       <div className="flex gap-1 my-5 mx-5">
         <Kategori title="All" selected={true} />
         <Kategori title="Makanan" />

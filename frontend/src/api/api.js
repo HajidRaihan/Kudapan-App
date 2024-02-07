@@ -1,18 +1,19 @@
 import { RequestApi } from "../helper/RequestApi";
+import { TokenHandler } from "../helper/TokenHandler";
 
 const getProduk = async (tokoId) => {
   try {
-    // const token = TokenHelper();
+    const token = TokenHandler();
 
-    // const headerToken = {
-    //   Authorization: `Bearer ${token}`,
-    // };
+    const headerToken = {
+      Authorization: `${token}`,
+    };
 
     const responseData = await RequestApi(
       "GET",
       `produk/get/${tokoId}`,
       {},
-      {},
+      headerToken,
       "Mencoba Menampilkan produk"
     );
 

@@ -7,6 +7,7 @@ import Transaksi from "./pages/Transaksi";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import PrivateRoute from "./middleware/PrivateRoute";
+import Keranjang from "./pages/Keranjang";
 
 function App() {
   return (
@@ -15,9 +16,10 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/warung/:id" element={<Warung />} />
+        <Route path="/warung/:tokoId" element={<Warung />} />
         <Route path="/order" element={<Order />} />
         <Route path="/transaksi" element={<Transaksi />} />
+        <Route path="/keranjang" element={<Keranjang />} />
       </Routes>
     </Router>
   );

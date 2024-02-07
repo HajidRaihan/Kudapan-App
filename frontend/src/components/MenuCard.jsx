@@ -7,14 +7,14 @@ const MenuCard = ({ nama, harga, image, _id }) => {
   const [detail, setDetail] = useState();
 
   const [open, setOpen] = useState(false);
-  const openHandler = (id) => {
-    document.getElementById("ordermodal").showModal();
+  const openHandler = async (id) => {
+    setOpen(true);
+    // document.getElementById("ordermodal").showModal();
     setMenuId(id);
     console.log(id);
-    setOpen(true);
   };
-  const closeHandler = () => {
-    document.getElementById("ordermodal").close();
+  const closeHandler = async () => {
+    // document.getElementById("ordermodal").close();
     setOpen(false);
   };
 
@@ -29,7 +29,7 @@ const MenuCard = ({ nama, harga, image, _id }) => {
   //   }
   // }, [_id]);
   return (
-    <Link className="card bg-base-100 shadow-xl w-40">
+    <Link className="card bg-base-100 shadow-xl w-40 h-60" onClick={() => console.log("nama".nama)}>
       <figure>
         <img src={`http://localhost:8000/images/${image}`} alt="Shoes" />
       </figure>
@@ -48,14 +48,16 @@ const MenuCard = ({ nama, harga, image, _id }) => {
           </button>
         </div>
       </div>
-      <OrderModal
-        id={"ordermodal"}
-        close={closeHandler}
-        nama={nama}
-        harga={harga}
-        image={image}
-        menuId={_id}
-      />
+      {open && (
+        <OrderModal
+          id={"ordermodal"}
+          close={closeHandler}
+          nama={nama}
+          harga={harga}
+          image={image}
+          menuId={_id}
+        />
+      )}
     </Link>
   );
 };
