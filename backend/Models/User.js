@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 const tokoSchema = require("./Store");
-const orderSchema = require("./Order");
+const historySchema = require("./History");
 const keranjangSchema = require("./Cart");
+const orderSchema = require("./Order");
 
 const userSchema = new mongoose.Schema({
   nama: {
@@ -22,18 +23,13 @@ const userSchema = new mongoose.Schema({
     enum: ["admin", "vendor", "customer"],
     default: "customer",
   }, // Menambah atribut role
-  toko: {
-    type: tokoSchema,
-    default: null,
-  }, // Menyimpan informasi toko untuk vendor
-  order_history: [orderSchema], // Order di-embed di dalam User
+  toko: { type: mongoose.Schema.Types.ObjectId, ref: "Toko" },
+  order_history: [historySchema], // Order di-embed di dalam User
   keranjang: {
     type: keranjangSchema,
     default: null,
   },
-  orders: {
-    type: [orderSchema],
-  },
+  // orders: [orderSchema], // ndk tau kenapa error passnya kukasi ini endpoint anjingg
 });
 
 module.exports = userSchema;

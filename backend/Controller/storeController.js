@@ -26,7 +26,7 @@ const addStore = async (req, res) => {
       nama: nama,
       deskripsi: deskripsi,
       image: req.file.filename,
-      produk: [],
+      // produk: [],
     });
 
     // Simpan toko ke dalam database
@@ -52,7 +52,9 @@ const getStoreById = async (req, res) => {
     if (!user || !user.toko) {
       return res.status(404).json({ error: "User atau toko tidak ditemukan" });
     }
-    return res.json({ toko: user.toko });
+
+    const toko = await Toko.findById(user.toko);
+    return res.json({ toko: toko });
   } catch (error) {
     console.log("Error getting store data : ", error);
     return res.status(500).json({ error: "Server Error" });

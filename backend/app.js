@@ -6,6 +6,7 @@ const storeRouter = require("./routers/storeRouter");
 const produkRouter = require("./routers/produkRouter");
 const keranjangRouter = require("./routers/keranjangRouter");
 const orderRouter = require("./routers/orderRouter");
+const historyRouter = require("./routers/historyRouter");
 
 require("./db/mongoose");
 const morgan = require("morgan");
@@ -19,11 +20,12 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
-app.use("/api/users", userRouter);
+app.use("/api/user", userRouter);
 app.use("/api/store", storeRouter);
 app.use("/api/produk", produkRouter);
 app.use("/api/keranjang", keranjangRouter);
 app.use("/api/order", orderRouter);
+app.use("/api/history", historyRouter);
 app.use("/images", express.static("images"));
 // Handling all the unknown endpoints
 

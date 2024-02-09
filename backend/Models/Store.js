@@ -14,7 +14,7 @@ const tokoSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  produk: [produkSchema], // Produk di-embed di dalam Toko
+  produk: [{ type: mongoose.Schema.Types.ObjectId, ref: "Produk" }], // Produk di-embed di dalam Toko
 });
 
 module.exports = tokoSchema;

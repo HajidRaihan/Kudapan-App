@@ -1,11 +1,17 @@
 const mongoose = require("mongoose");
-const produkSchema = require("./Produk");
 const pesananSchema = require("./Pesanan");
-const keranjangSchema = require("./Cart");
 
 const orderSchema = new mongoose.Schema({
-  pesanan: [keranjangSchema],
-  total: {
+  pemesan: {
+    type: String,
+    required: true,
+  },
+  email_pemesan: {
+    type: String,
+    required: true,
+  },
+  pesanan: [pesananSchema],
+  total_harga: {
     type: Number,
     required: true,
   },
@@ -13,14 +19,14 @@ const orderSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  waktuPemesanan: {
+  waktu_Pemesanan: {
     type: Date,
     default: Date.now,
   },
   status: {
     type: String,
-    enum: ["diproses", "Selesai"],
-    default: "diproses",
+    enum: ["diterima", "diproses", "Selesai"],
+    default: "diterima",
   },
 });
 

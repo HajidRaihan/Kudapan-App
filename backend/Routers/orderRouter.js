@@ -4,6 +4,6 @@ const { addOrder, getOrderUser } = require("../controller/orderController");
 const { verifyUser } = require("../middleware/verifyAccessToken");
 
 router.post("/add/:userId/:meja", verifyUser("customer"), addOrder);
-router.get("/get/:userId", verifyUser("customer"), getOrderUser);
+router.get("/get/:userId", getOrderUser);
 
 module.exports = router;
