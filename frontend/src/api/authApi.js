@@ -4,7 +4,7 @@ import { jwtDecode } from "jwt-decode";
 
 const registerUser = async (data) => {
   try {
-    const response = await RequestApi("POST", "users/register", data, {}, "Mencoba register");
+    const response = await RequestApi("POST", "user/register", data, {}, "Mencoba register");
     return response;
   } catch (error) {
     console.error("terjadi kesalahan saat register", error);
@@ -15,7 +15,7 @@ const registerUser = async (data) => {
 const loginUser = async (credential) => {
   console.log("lahh");
   try {
-    const response = await RequestApi("POST", "users/login", credential, {}, "Mencoba login");
+    const response = await RequestApi("POST", "user/login", credential, {}, "Mencoba login");
     Cookies.set("access_token", response.token);
     const token = response.token;
     const decoded = jwtDecode(token);

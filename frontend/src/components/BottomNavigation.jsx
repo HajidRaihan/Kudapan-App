@@ -54,18 +54,18 @@ const BottomNavigation = () => {
             home
           </p>
         </Link>
-        <Link to={"/transaksi"}>
+        <Link to={"/riwayat"}>
           <img
-            src={location === "/transaksi" ? HistoryIcon : HistoryIconBlack}
+            src={location === "/riwayat" ? HistoryIcon : HistoryIconBlack}
             alt=""
             className="text-white hover:shadow-md hover:shadow-white mx-auto h-5 w-5"
           />
           <p
             className={`text-center text-[10px] ${
-              location === "/transaksi" ? "text-primary" : "text-[#4C4C4C]"
+              location === "/riwayat" ? "text-primary" : "text-[#4C4C4C]"
             } `}
           >
-            transaksi
+            riwayat
           </p>
         </Link>
         <Link to={"/keranjang"}>

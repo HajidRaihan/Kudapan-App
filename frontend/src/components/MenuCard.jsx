@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import FormatRupiah from "../helper/FormatRupiah";
 import OrderModal from "./OrderModal";
 
 const MenuCard = ({ nama, harga, image, _id }) => {
@@ -31,14 +32,20 @@ const MenuCard = ({ nama, harga, image, _id }) => {
   return (
     <Link className="card bg-base-100 shadow-xl w-40 h-60" onClick={() => console.log("nama".nama)}>
       <figure>
-        <img src={`http://localhost:8000/images/${image}`} alt="Shoes" />
+        <img
+          src={`http://localhost:8000/images/${image}`}
+          alt="Shoes"
+          className="h-28 w-full object-cover object-center"
+        />
       </figure>
       <div className="p-3">
         <h2 className="text-md font-semibold">{nama}</h2>
         <p className="text-xs "></p>
-        <p className="text-[10px] flex justify-end">{harga}</p>
+        <p className="text-[10px] font-semibold">
+          <FormatRupiah value={harga} />
+        </p>
         {/* <p>+</p> */}
-        <div className="flex justify-end mt-2 ">
+        <div className="absolute bottom-3  right-3">
           <button
             className="btn bg-primary btn-sm text-white hover:bg-secondary w-16"
             onClick={() => openHandler(_id)}

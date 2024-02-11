@@ -11,29 +11,31 @@ import Header from "../components/Header";
 const Warung = () => {
   const { tokoId } = useParams();
   const [produk, setProduk] = useState();
-  const [toko, setToko] = useState();
+  const [tokoData, setTokoData] = useState();
 
   useEffect(() => {
     getProduk(tokoId).then((res) => {
-      setToko(res);
+      setTokoData(res);
       console.log(res);
     });
   }, []);
 
   return (
     <>
-      {toko ? (
+      {tokoData ? (
         <>
-          <Header title={toko.nama} />
+          <Header title={tokoData.toko} />
           <div className="flex gap-1 mt-2 mx-5 ">
             <Kategori title="All" selected={true} />
             <Kategori title="Makanan" />
             <Kategori title="Minuman" />
             <Kategori title="Dessert" />
           </div>
-          <div className="flex flex-wrap gap-5 justify-center mt-5 pb-20 overflow-scroll h-[480px]">
-            {toko.produk.map((item) => (
-              <MenuCard key={item._id} {...item} />
+          <div className="flex flex-wrap gap-5 justify-center mt-5 mb-20 ">
+            {tokoData.produk.map((item) => (
+              <>
+                <MenuCard key={item._id} {...item} />
+              </>
             ))}
           </div>
           <div className="flex justify-center">

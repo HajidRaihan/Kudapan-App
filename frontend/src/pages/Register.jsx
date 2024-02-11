@@ -18,6 +18,7 @@ const Register = () => {
       nama: nama,
       email: email,
       password: password,
+      role: "vendor",
     };
 
     try {
