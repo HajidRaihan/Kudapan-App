@@ -1,34 +1,32 @@
-import Banner from "../components/Banner";
 import CounterCard from "../components/CounterCard";
 import Kategori from "../components/Kategori";
 import BottomNavigation from "../components/BottomNavigation";
 import SearchBar from "../components/SearchBar";
 import { useEffect, useState } from "react";
-import { TokenHandler } from "../helper/TokenHandler";
-import { DecodeToken } from "../helper/DecodeToken";
 import { getAllToko } from "../api/tokoApi";
 
 const Home = () => {
   const [counter, setCounter] = useState();
-  // const token = TokenHandler();
-  // console.log(token);
-  // const tokenData = DecodeToken();
-  // console.log(tokenData);
+  const [search, setSearch] = useState("");
 
   console.log();
   useEffect(() => {
     try {
-      getAllToko().then((res) => {
+      getAllToko(search).then((res) => {
         setCounter(res);
       });
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [search]);
+
+  const searchHandler = (e) => {
+    setSearch(e.target.value);
+  };
 
   return (
     <div className="lg:mx-96">
-      <SearchBar />
+      <SearchBar handler={searchHandler} value={search} />
       {/* <Banner title="KUDAPAN APP" /> */}
       <div className="flex gap-1 my-5 mx-5">
         <Kategori title="All" selected={true} />

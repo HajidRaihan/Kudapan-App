@@ -7,29 +7,43 @@ import { useEffect, useState } from "react";
 import { getProduk } from "../api/api";
 import { useParams } from "react-router-dom";
 import Header from "../components/Header";
+import SearchBar from "../components/SearchBar";
 
 const Warung = () => {
   const { tokoId } = useParams();
   const [produk, setProduk] = useState();
   const [tokoData, setTokoData] = useState();
+  const [selectedKategori, setSelectedKategori] = useState("semua");
 
   useEffect(() => {
-    getProduk(tokoId).then((res) => {
+    getProduk(tokoId, selectedKategori).then((res) => {
       setTokoData(res);
       console.log(res);
     });
-  }, []);
+  }, [tokoId, selectedKategori]);
+
+  const selectedKategoriHandler = (kategori) => {
+    setSelectedKategori(kategori);
+  };
+
+  const listKategori = ["semua", "makanan", "minuman"];
 
   return (
     <>
       {tokoData ? (
         <>
           <Header title={tokoData.toko} />
+          <SearchBar />
           <div className="flex gap-1 mt-2 mx-5 ">
-            <Kategori title="All" selected={true} />
-            <Kategori title="Makanan" />
-            <Kategori title="Minuman" />
-            <Kategori title="Dessert" />
+            {listKategori.map((data) => {
+              return (
+                <Kategori
+                  title={data}
+                  selected={data === selectedKategori}
+                  handler={() => selectedKategoriHandler(data)}
+                />
+              );
+            })}
           </div>
           <div className="flex flex-wrap gap-5 justify-center mt-5 mb-20 ">
             {tokoData.produk.map((item) => (

@@ -1,7 +1,7 @@
 import { RequestApi } from "../helper/RequestApi";
 import { TokenHandler } from "../helper/TokenHandler";
 
-const getAllToko = async () => {
+const getAllToko = async (search) => {
   try {
     const token = TokenHandler();
 
@@ -9,9 +9,15 @@ const getAllToko = async () => {
       Authorization: `${token}`,
     };
 
+    const params = [];
+    if (search) {
+      params.push(`search=${search}`);
+    }
+    const pathUrl = `store/getAll?${params.join("&")}`;
+
     const responseData = await RequestApi(
       "GET",
-      `store/getAll`,
+      pathUrl,
       {},
       headerToken,
       "Mencoba Menampilkan toko"

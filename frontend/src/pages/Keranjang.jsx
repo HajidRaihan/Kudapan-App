@@ -42,7 +42,7 @@ const Keranjang = () => {
     }
   };
   return (
-    <div className="mb-20">
+    <div className="mb-36">
       <Header title="Keranjang" />
       {keranjangData
         ? keranjangData.map((keranjang) => {
@@ -59,7 +59,7 @@ const Keranjang = () => {
           })
         : null}
 
-      <div className="fixed bottom-3 w-full flex justify-center">
+      <div className="fixed bottom-16 w-full flex justify-center">
         <button
           className="btn bg-primary w-[350px] text-white btn-error "
           onClick={addOrderHandler}
@@ -76,6 +76,7 @@ const Keranjang = () => {
         />
       )}
       {/* <KonfirmasiModal /> */}
+      <BottomNavigation />
     </div>
   );
 };

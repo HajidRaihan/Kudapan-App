@@ -16,7 +16,7 @@ const loginUser = async (credential) => {
   console.log("lahh");
   try {
     const response = await RequestApi("POST", "user/login", credential, {}, "Mencoba login");
-    Cookies.set("access_token", response.token);
+    Cookies.set("access_token_kudapan", response.token, { expires: 7 });
     const token = response.token;
     const decoded = jwtDecode(token);
     console.log(decoded);

@@ -1,7 +1,7 @@
 import { RequestApi } from "../helper/RequestApi";
 import { TokenHandler } from "../helper/TokenHandler";
 
-const getProduk = async (tokoId) => {
+const getProduk = async (tokoId, type, search) => {
   try {
     const token = TokenHandler();
 
@@ -9,9 +9,23 @@ const getProduk = async (tokoId) => {
       Authorization: `${token}`,
     };
 
+    const params = [];
+    if (type === "semua") {
+      params.push(`type=`);
+    }
+    if (type !== "semua" && type !== null) {
+      params.push(`type=${type}`);
+    }
+    if (search) {
+      params.push(`search=${search}`);
+    }
+
+    const pathUrl = `produk/get/${tokoId}?${params.join("&")}`;
+    console.log(pathUrl);
+
     const responseData = await RequestApi(
       "GET",
-      `produk/get/${tokoId}`,
+      pathUrl,
       {},
       headerToken,
       "Mencoba Menampilkan produk"
