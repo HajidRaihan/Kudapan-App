@@ -1,6 +1,6 @@
 const SearchBar = ({ value, handler }) => {
   return (
-    <div className="mx-5 z-50 my-5">
+    <div className="mx-5 z-50 my-3">
       <input
         type="text"
         placeholder="search"

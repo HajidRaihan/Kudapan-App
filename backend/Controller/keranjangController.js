@@ -107,7 +107,7 @@ const addProdukKeranjang = async (req, res) => {
     return res.status(201).json({ message: "Keranjang ditambahkan", keranjang });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ message: "keranjang gagal di tambahkan", error: error });
+    return res.status(500).json({ message: "keranjang gagal di tambahkan dekkk", error: error });
   }
 };
 

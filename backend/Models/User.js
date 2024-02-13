@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema({
     type: keranjangSchema,
     default: null,
   },
-  // orders: [orderSchema], // ndk tau kenapa error passnya kukasi ini endpoint anjingg
+  orders: [orderSchema], // ndk tau kenapa error passnya kukasi ini endpoint anjingg
 });
 
 module.exports = userSchema;

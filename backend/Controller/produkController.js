@@ -1,3 +1,4 @@
+const { query } = require("express");
 const { Toko, Produk, User } = require("../models");
 
 // const addProduk = async (req, res) => {
@@ -102,9 +103,19 @@ const addProduk = async (req, res) => {
 
 const getProduk = async (req, res) => {
   const { tokoId } = req.params;
+  const { type } = req.query;
+
   try {
     // Temukan toko berdasarkan ID
-    const toko = await Toko.findById(tokoId).populate("produk");
+    let query;
+    if (type) {
+      query = { type: type };
+    }
+
+    const toko = await Toko.findById(tokoId).populate({
+      path: "produk",
+      match: query,
+    });
     console.log({ toko });
 
     if (!toko) {
@@ -113,7 +124,6 @@ const getProduk = async (req, res) => {
 
     // Ambil daftar produk dari toko
     const produk = toko.produk;
-    console.log({ toko: toko.nama, produk });
 
     res.status(200).json({ toko: toko.nama, produk });
   } catch (error) {
@@ -121,8 +131,6 @@ const getProduk = async (req, res) => {
     return res.status(500).json({ error: "Gagal mendapatkan produk" });
   }
 };
-
-module.exports = getProduk;
 
 const getProdukById = async (req, res) => {
   const { produkId } = req.params;

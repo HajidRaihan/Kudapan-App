@@ -8,28 +8,29 @@ const addOrder = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    // for (const [index, item] of user.keranjang.list.entries()) {
-    //   const tokoId = item.toko;
-    //   try {
-    //     const vendor = await User.findOne({ toko: tokoId });
-    //     if (!vendor) {
-    //       continue;
-    //     }
+    for (const [index, item] of user.keranjang.list.entries()) {
+      const tokoId = item.toko;
+      try {
+        const vendor = await User.findOne({ toko: tokoId });
+        if (!vendor) {
+          continue;
+        }
 
-    //     const newOrder = new Order({
-    //       pemesan: user.nama,
-    //       email_pemesan: user.email,
-    //       pesanan: user.keranjang.list[index].produk,
-    //       total_harga: user.keranjang.list[index].total_harga,
-    //       meja: meja,
-    //     });
-    //     vendor.orders.push(newOrder);
-    //     // await vendor.save();
-    //     console.log(newOrder);
-    //   } catch (error) {
-    //     console.error("Error:", error);
-    //   }
-    // }
+        const newOrder = new Order({
+          pemesan: user.nama,
+          email_pemesan: user.email,
+          pesanan: user.keranjang.list[index].produk,
+          total_harga: user.keranjang.list[index].total_harga,
+          meja: meja,
+        });
+        vendor.orders.push(newOrder);
+        await vendor.save();
+        console.log(newOrder);
+        return res.json({ message: "orderan berhasil ditambahkan", data: newOrder });
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
     // return;
     const produkToMove = user.keranjang;
 

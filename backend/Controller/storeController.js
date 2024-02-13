@@ -1,8 +1,18 @@
 const { Toko, User } = require("../models");
 
 const getAllStore = async (req, res) => {
+  const { search } = req.query;
   try {
-    const toko = await Toko.find();
+    let toko;
+    console.log({ search });
+    if (search) {
+      // Search for a store by name or location
+      toko = await Toko.find({
+        $or: [{ nama: { $regex: search, $options: "i" } }],
+      });
+    } else {
+      toko = await Toko.find();
+    }
     res.json(toko);
   } catch (error) {
     console.error("Gagal mendapatkan toko:", error);
@@ -120,6 +130,10 @@ const updateStore = async (req, res) => {
     console.error("Gagal memperbarui toko:", error);
     return res.status(500).json({ error: "Gagal memperbarui toko" });
   }
+};
+
+const filterToko = () => {
+  const { kategory } = req.query;
 };
 
 module.exports = {
