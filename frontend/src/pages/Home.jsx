@@ -46,9 +46,6 @@ const Home = () => {
         <Kategori title="Minuman" />
         <Kategori title="Dessert" />
       </div>
-      {/* <div className="mx-5 my-5">
-        <p className="font-semibold text-xl">list counter</p>
-      </div> */}
 
       <div className="mx-5 pb-20">
         {counter?.map((data, index) => {
@@ -62,20 +59,6 @@ const Home = () => {
             />
           );
         })}
-        {/* <CounterCard />
-        <CounterCard />
-        <CounterCard />
-        <CounterCard />
-        <CounterCard />
-        <CounterCard />
-        <CounterCard />
-        <CounterCard />
-        <CounterCard />
-        <CounterCard />
-        <CounterCard />
-        <CounterCard />
-        <CounterCard />
-        <CounterCard /> */}
       </div>
       <div className="flex justify-center">
         <BottomNavigation />
