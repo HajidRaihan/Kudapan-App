@@ -21,7 +21,7 @@ const KonfirmasiModal = ({ close, title, handler }) => {
             <button className="btn" onClick={() => close()}>
               Batalkan
             </button>
-            <button className="btn bg-primary btn-error w-32 text-white" onClick={handler()}>
+            <button className="btn bg-primary btn-error w-32 text-white" onClick={handler}>
               Order
             </button>
           </div>

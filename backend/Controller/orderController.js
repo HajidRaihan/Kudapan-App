@@ -26,7 +26,7 @@ const addOrder = async (req, res) => {
         vendor.orders.push(newOrder);
         await vendor.save();
         console.log(newOrder);
-        return res.json({ message: "orderan berhasil ditambahkan", data: newOrder });
+        // return res.json({ message: "orderan berhasil ditambahkan", data: newOrder });
       } catch (error) {
         console.error("Error:", error);
       }

@@ -197,7 +197,7 @@ const getKeranjang = async (req, res) => {
     }
     const keranjang = user.keranjang;
     if (!keranjang) {
-      return res.status(401).json({ msg: "Keranjang not found" });
+      return;
     }
     return res.status(200).json(keranjang);
   } catch (error) {

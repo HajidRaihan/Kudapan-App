@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import FormatRupiah from "../helper/FormatRupiah";
+import AlertModal from "./AlertModal";
+import KonfirmasiModal from "./KonfirmasiModal";
 import OrderModal from "./OrderModal";
 
 const MenuCard = ({ nama, harga, image, _id }) => {
   const [menuId, setMenuId] = useState("");
   const [detail, setDetail] = useState();
+  const [alertModalOpen, setAlertModalOpen] = useState(false);
+  const [isKeranjangModal, setIsKeranjangModal] = useState(false);
 
   const [open, setOpen] = useState(false);
   const openHandler = async (id) => {
@@ -19,16 +23,14 @@ const MenuCard = ({ nama, harga, image, _id }) => {
     setOpen(false);
   };
 
-  // useEffect(() => {
-  //   try {
-  //     getDetailProduk(_id).then((res) => {
-  //       setDetail(res);
-  //       console.log(res);
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }, [_id]);
+  const openAlertModalHandler = () => {
+    setAlertModalOpen(true);
+  };
+
+  const isKeranjangModalHandler = () => {
+    setIsKeranjangModal(true);
+  };
+
   return (
     <Link className="card bg-base-100 shadow-xl w-40 h-60" onClick={() => console.log("nama".nama)}>
       <figure>
@@ -63,6 +65,15 @@ const MenuCard = ({ nama, harga, image, _id }) => {
           harga={harga}
           image={image}
           menuId={_id}
+          openAlertModalHandler={openAlertModalHandler}
+          isKeranjangModalHandler={isKeranjangModalHandler}
+        />
+      )}
+
+      {alertModalOpen && (
+        <AlertModal
+          title={isKeranjangModal ? "Berhasil Menambahkan ke keranjang" : "Berhasil Memesan Produk"}
+          close={() => setAlertModalOpen(false)}
         />
       )}
     </Link>

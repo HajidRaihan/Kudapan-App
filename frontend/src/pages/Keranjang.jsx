@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getKeranjang } from "../api/keranjangApi";
 import { addOrder } from "../api/orderAPi";
+import AlertModal from "../components/AlertModal";
 import BottomNavigation from "../components/BottomNavigation";
 import Header from "../components/Header";
 import KeranjangCard from "../components/KeranjangCard";
@@ -11,6 +12,7 @@ const Keranjang = () => {
   const [keranjangData, setKeranjangData] = useState();
   const [totalHarga, setTotalHarga] = useState();
   const [open, setOpen] = useState(false);
+  const [alertModalOpen, setAlertModalOpen] = useState(false);
   const token = DecodeToken();
   const userId = token._id;
 
@@ -26,7 +28,7 @@ const Keranjang = () => {
       const token = DecodeToken();
       const userId = token._id;
       const keranjang = await getKeranjang(userId);
-      console.log(keranjang.list);
+      console.log(keranjang);
       setKeranjangData(keranjang.list);
     };
     getKeranjangUser();
@@ -37,6 +39,13 @@ const Keranjang = () => {
     try {
       const res = await addOrder(userId, 1);
       console.log(res);
+
+      setAlertModalOpen(true);
+      setOpen(false);
+      console.log("sukses");
+      setTimeout(() => {
+        setAlertModalOpen(false);
+      }, 2000);
     } catch (error) {
       console.error(error);
     }
@@ -59,22 +68,26 @@ const Keranjang = () => {
           })
         : null}
 
-      <div className="fixed bottom-16 w-full flex justify-center">
-        <button
-          className="btn bg-primary w-[350px] text-white btn-error "
-          onClick={addOrderHandler}
-        >
-          Order
-        </button>
-      </div>
+      {keranjangData?.length !== 0 ? (
+        <div className="fixed bottom-16 w-full flex justify-center">
+          <button className="btn bg-primary w-[350px] text-white btn-error " onClick={openHandler}>
+            Order
+          </button>
+        </div>
+      ) : null}
 
       {open && (
         <KonfirmasiModal
           close={closeHandler}
           title="Apakah anda ingin order pesanan yang ada di keranjang?"
-          // handler={}
+          handler={addOrderHandler}
         />
       )}
+
+      {alertModalOpen && (
+        <AlertModal title={"Berhasil Mengorder"} close={() => setAlertModalOpen(false)} />
+      )}
+
       {/* <KonfirmasiModal /> */}
       <BottomNavigation />
     </div>

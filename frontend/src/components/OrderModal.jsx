@@ -2,14 +2,25 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getDetailProduk } from "../api/api";
 import { addProdukKeranjang } from "../api/keranjangApi";
+import { addOrder } from "../api/orderAPi";
 import { DecodeToken } from "../helper/DecodeToken";
 
-const OrderModal = ({ id, close, image, menuId, nama, harga }) => {
+const OrderModal = ({
+  close,
+  image,
+  menuId,
+  nama,
+  harga,
+  openAlertModalHandler,
+  isKeranjangModalHandler,
+}) => {
   const [jumlah, setJumlah] = useState(1);
   const [catatan, setCatatan] = useState("");
   const { tokoId } = useParams();
   const [detail, setDetail] = useState();
-  const dataToken = DecodeToken();
+  // const dataToken = DecodeToken();
+  const token = DecodeToken();
+  const userId = token._id;
 
   // console.log(nama, menuId);
 
@@ -23,8 +34,34 @@ const OrderModal = ({ id, close, image, menuId, nama, harga }) => {
     };
     console.log({ data });
     try {
-      const response = await addProdukKeranjang(dataToken._id, data);
+      const response = await addProdukKeranjang(userId, data);
       console.log(response);
+      close();
+      openAlertModalHandler();
+
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const orderLangsungHandler = async () => {
+    isKeranjangModalHandler();
+    const data = {
+      produkId: menuId,
+      tokoId: tokoId,
+      jumlah: jumlah,
+      image: image,
+      catatan: catatan,
+    };
+    try {
+      const response = await addProdukKeranjang(userId, data);
+      console.log(response);
+
+      const responseOrder = await addOrder(userId, 1);
+      console.log(responseOrder);
+      close();
+      openAlertModalHandler();
 
       console.log(data);
     } catch (error) {
@@ -98,7 +135,9 @@ const OrderModal = ({ id, close, image, menuId, nama, harga }) => {
               >
                 Tambahkan keranjang
               </button>
-              <button className="btn btn-error w-full text-white">Order Langsung</button>
+              <button className="btn btn-error w-full text-white" onClick={orderLangsungHandler}>
+                Order Langsung
+              </button>
             </div>
           </form>
         </div>
