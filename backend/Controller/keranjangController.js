@@ -206,7 +206,77 @@ const getKeranjang = async (req, res) => {
   }
 };
 
+const deleteProdukKeranjang = async (req, res) => {
+  const { userId, orderIndex, produkIndex } = req.params;
+
+  try {
+    const user = await User.findById(userId);
+    if (!userId) {
+      return res.status(401).json({ msg: "User not found" });
+    }
+    if (orderIndex < 0 || orderIndex >= user.keranjang.list.length) {
+      return res.status(404).json({ error: "Invalid order index" });
+    }
+    const order = user.keranjang.list[orderIndex];
+
+    if (produkIndex < 0 || produkIndex >= order.produk.length) {
+      return res.status(404).json({ error: "Invalid produk index" });
+    }
+
+    // order.produk.splice(produkIndex, 1);
+    order.total_harga -= order.produk[produkIndex].harga;
+    order.produk[produkIndex].jumlah -= 1;
+    order.produk[produkIndex].total -= order.produk[produkIndex].harga;
+    if (order.produk[produkIndex].jumlah === 0) {
+      order.produk.splice(produkIndex, 1);
+    }
+    if (order.produk.length === 0) {
+      user.keranjang.list.splice(orderIndex, 1);
+    }
+
+    await user.save();
+    // console.log(order.produk[produkIndex].jumlah);
+    return res.status(200).json({ message: "Product deleted successfully" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Failed to delete product", error: error });
+  }
+};
+
+const increaseProdukKeranjang = async (req, res) => {
+  const { userId, orderIndex, produkIndex } = req.params;
+
+  try {
+    const user = await User.findById(userId);
+    if (!userId) {
+      return res.status(401).json({ msg: "User not found" });
+    }
+    if (orderIndex < 0 || orderIndex >= user.keranjang.list.length) {
+      return res.status(404).json({ error: "Invalid order index" });
+    }
+    const order = user.keranjang.list[orderIndex];
+
+    if (produkIndex < 0 || produkIndex >= order.produk.length) {
+      return res.status(404).json({ error: "Invalid produk index" });
+    }
+
+    // order.produk.splice(produkIndex, 1);
+    order.total_harga += order.produk[produkIndex].harga;
+    order.produk[produkIndex].jumlah += 1;
+    order.produk[produkIndex].total += order.produk[produkIndex].harga;
+
+    await user.save();
+    // console.log(order.produk[produkIndex].jumlah);
+    return res.status(200).json({ message: "Product increased successfully" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Failed to increase product", error: error });
+  }
+};
+
 module.exports = {
   addProdukKeranjang,
   getKeranjang,
+  deleteProdukKeranjang,
+  increaseProdukKeranjang,
 };

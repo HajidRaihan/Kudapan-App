@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getKeranjang } from "../api/keranjangApi";
+import { deleteProdukKeranjang, getKeranjang, increaseProdukKeranjang } from "../api/keranjangApi";
 import { addOrder } from "../api/orderAPi";
 import AlertModal from "../components/AlertModal";
 import BottomNavigation from "../components/BottomNavigation";
@@ -43,13 +43,47 @@ const Keranjang = () => {
       setAlertModalOpen(true);
       setOpen(false);
       console.log("sukses");
-      setTimeout(() => {
-        setAlertModalOpen(false);
-      }, 2000);
     } catch (error) {
       console.error(error);
     }
   };
+
+  const deleteProdukKeranjangHandler = async (keranjangIndex, produkIndex) => {
+    const res = await deleteProdukKeranjang(keranjangIndex, produkIndex, userId);
+    console.log(res);
+    const updatedKeranjangData = [...keranjangData];
+
+    const keranjang = updatedKeranjangData[keranjangIndex];
+
+    keranjang.produk[produkIndex].jumlah -= 1;
+    keranjang.total_harga -= keranjang.produk[produkIndex].harga;
+    keranjang.produk[produkIndex].total -= keranjang.produk[produkIndex].harga;
+
+    if (keranjang.produk[produkIndex].jumlah === 0) {
+      keranjang.produk.splice(produkIndex, 1);
+    }
+    if (keranjang.produk.length === 0) {
+      updatedKeranjangData.splice(keranjangIndex, 1);
+    }
+
+    setKeranjangData(updatedKeranjangData);
+  };
+
+  const increaseProdukKeranjangHandler = async (keranjangIndex, produkIndex) => {
+    const res = await increaseProdukKeranjang(keranjangIndex, produkIndex, userId);
+    console.log(res);
+    console.log("clicked");
+    const updatedKeranjangData = [...keranjangData];
+
+    const keranjang = updatedKeranjangData[keranjangIndex];
+
+    keranjang.produk[produkIndex].jumlah += 1;
+    keranjang.total_harga += keranjang.produk[produkIndex].harga;
+    keranjang.produk[produkIndex].total += keranjang.produk[produkIndex].harga;
+
+    setKeranjangData(updatedKeranjangData);
+  };
+
   return (
     <div className="mb-36">
       <Header title="Keranjang" />
@@ -61,7 +95,16 @@ const Keranjang = () => {
                 <p className="text-sm">total harga : {keranjang.total_harga}</p>
                 <div className="w-full border border-black my-3" />
                 {keranjang.produk.map((produk) => {
-                  return <KeranjangCard key={produk._id} {...produk} />;
+                  return (
+                    <KeranjangCard
+                      key={produk._id}
+                      produkIndex={keranjang.produk.indexOf(produk)}
+                      keranjangIndex={keranjangData.indexOf(keranjang)}
+                      deleteProdukKeranjangHandler={deleteProdukKeranjangHandler}
+                      increaseProdukKeranjangHandler={increaseProdukKeranjangHandler}
+                      {...produk}
+                    />
+                  );
                 })}
               </div>
             );
@@ -85,7 +128,13 @@ const Keranjang = () => {
       )}
 
       {alertModalOpen && (
-        <AlertModal title={"Berhasil Mengorder"} close={() => setAlertModalOpen(false)} />
+        <AlertModal
+          title={"Berhasil Mengorder"}
+          close={() => {
+            setAlertModalOpen(false);
+            window.location.reload();
+          }}
+        />
       )}
 
       {/* <KonfirmasiModal /> */}

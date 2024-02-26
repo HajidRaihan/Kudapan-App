@@ -7,10 +7,10 @@ import { DecodeToken } from "../helper/DecodeToken";
 
 const History = () => {
   const [historyData, setHistoryData] = useState();
+  const token = DecodeToken();
+  const userId = token._id;
   useEffect(() => {
     const getAllHistory = async () => {
-      const token = DecodeToken();
-      const userId = token._id;
       const res = await getHistory(userId);
       console.log(res);
       setHistoryData(res);
@@ -20,7 +20,7 @@ const History = () => {
   return (
     <>
       <div className="mb-20">
-        <Header title="Riwayat Transaksi" />
+        <Header title="Riwayat Transaksi" userId={userId} />
 
         {historyData
           ? [...historyData].reverse().map((history) => {

@@ -22,4 +22,25 @@ const getHistory = async (userId) => {
   }
 };
 
-export { getHistory };
+const deleteHistory = async (userId) => {
+  const tokken = TokenHandler();
+
+  const headerToken = {
+    Authorization: `${tokken}`,
+  };
+
+  try {
+    const responseData = await RequestApi(
+      "DELETE",
+      `history/delete/${userId}`,
+      {},
+      headerToken,
+      "Menghapus history"
+    );
+    return responseData;
+  } catch (error) {
+    console.error("Terjadi kesalahan saat menghapus history", error);
+  }
+};
+
+export { getHistory, deleteHistory };
