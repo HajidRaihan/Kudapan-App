@@ -30,4 +30,27 @@ const getAllToko = async (search) => {
   }
 };
 
-export { getAllToko };
+const getDetailTokoByUserId = async (userId) => {
+  try {
+    const token = TokenHandler();
+
+    const headerToken = {
+      Authorization: `${token}`,
+    };
+
+    const responseData = await RequestApi(
+      "GET",
+      `store/get/${userId}`,
+      {},
+      headerToken,
+      "Mencoba Menampilkan detail toko"
+    );
+
+    return responseData;
+  } catch (error) {
+    console.error("Terjadi kesalahan saat menampilkan detail toko  ", error);
+    throw error;
+  }
+};
+
+export { getAllToko, getDetailTokoByUserId };

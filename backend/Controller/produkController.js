@@ -124,6 +124,7 @@ const getProduk = async (req, res) => {
 
     // Ambil daftar produk dari toko
     const produk = toko.produk;
+    console.log({ produk });
 
     res.status(200).json({ toko: toko.nama, produk });
   } catch (error) {
@@ -146,5 +147,23 @@ const getProdukById = async (req, res) => {
     return res.status(500).json({ error: "Gagal mendapatkan produk" });
   }
 };
+
+// const getDetailTokoByUserId = async (req, res) => {
+//   const { userId } = req.params;
+
+//   const user = await User.findById(userId);
+
+//   if (!user) {
+//     return res.status(404).json({ error: "User not found" });
+//   }
+
+//   const toko = await Toko.findById(user.toko);
+
+//   if (!toko) {
+//     return res.status(404).json({ error: "Toko not found" });
+//   }
+
+//   return res.status(200).json({ toko: toko });
+// };
 
 module.exports = { addProduk, getProduk, getProdukById };

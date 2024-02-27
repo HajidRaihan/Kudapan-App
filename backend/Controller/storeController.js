@@ -1,4 +1,4 @@
-const { Toko, User } = require("../models");
+const { Toko, User, Produk } = require("../models");
 
 const getAllStore = async (req, res) => {
   const { search } = req.query;
@@ -63,11 +63,13 @@ const getStoreById = async (req, res) => {
       return res.status(404).json({ error: "User atau toko tidak ditemukan" });
     }
 
-    const toko = await Toko.findById(user.toko);
-    return res.json({ toko: toko });
+    const toko = await Toko.findById(user.toko).populate({ path: "produk" });
+
+    return res.status(200).json(toko);
+    // return res.json({ toko: toko });
   } catch (error) {
     console.log("Error getting store data : ", error);
-    return res.status(500).json({ error: "Server Error" });
+    return res.status(500).json({ error: "Server Error", error });
   }
 };
 

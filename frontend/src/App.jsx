@@ -8,6 +8,7 @@ import Login from "./pages/Login";
 import PrivateRoute from "./middleware/PrivateRoute";
 import Keranjang from "./pages/Keranjang";
 import History from "./pages/History";
+import HomeVendor from "./pages/vendor/HomeVendor";
 
 function App() {
   return (
@@ -20,6 +21,8 @@ function App() {
         <Route path="/order" element={<Order />} />
         <Route path="/riwayat" element={<History />} />
         <Route path="/keranjang" element={<Keranjang />} />
+
+        <Route path="/vendor" element={<HomeVendor />} />
       </Routes>
     </Router>
   );

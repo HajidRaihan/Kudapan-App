@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const userRouter = require("./routers/userRouter");
-const storeRouter = require("./routers/storeRouter");
+const tokoRouter = require("./routers/tokoRouter");
 const produkRouter = require("./routers/produkRouter");
 const keranjangRouter = require("./routers/keranjangRouter");
 const orderRouter = require("./routers/orderRouter");
@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 app.use("/api/user", userRouter);
-app.use("/api/store", storeRouter);
+app.use("/api/store", tokoRouter);
 app.use("/api/produk", produkRouter);
 app.use("/api/keranjang", keranjangRouter);
 app.use("/api/order", orderRouter);

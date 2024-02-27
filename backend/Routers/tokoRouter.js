@@ -9,6 +9,7 @@ const {
 const multer = require("multer");
 const path = require("path");
 const upload = require("../middleware/multerMiddleware");
+const { getDetailTokoByUserId } = require("../Controller/produkController");
 
 router.get("/getAll", getAllStore);
 router.get("/get/:userId", getStoreById);

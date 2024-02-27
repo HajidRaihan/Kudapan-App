@@ -27,7 +27,11 @@ const Login = () => {
       const res = await loginUser(credential);
       if (res) {
         alert("login succes");
-        navigate("/");
+        if (res.role === "customer") {
+          navigate("/");
+        } else if (res.role === "vendor") {
+          navigate("/vendor");
+        }
       }
       console.log(res);
     } catch (error) {

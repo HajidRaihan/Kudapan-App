@@ -7,7 +7,7 @@ const CounterCard = ({ nama, deskripsi, image, id }) => {
       <figure className="w-[30%] h-full ">
         <img
           src={`http://localhost:8000/images/${image}`}
-          alt="Movie"
+          alt="menu"
           className="object-cover h-full"
         />
       </figure>
