@@ -6,6 +6,7 @@ const addOrder = async (userId, meja) => {
 
   const headerToken = {
     Authorization: `${tokken}`,
+    "Content-Type": "aplication/json",
   };
 
   try {

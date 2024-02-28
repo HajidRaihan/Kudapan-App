@@ -9,13 +9,13 @@ const handleErrorResponse = (error, action) => {
 };
 
 const RequestApi = async (method, url, data = {}, headers = {}, action) => {
+  console.log(headers);
   try {
     const response = await axios({
       method,
       url: `${API_BASE_URL}/${url}`,
       data,
       headers: {
-        "Content-Type": "application/json",
         ...headers,
       },
     });

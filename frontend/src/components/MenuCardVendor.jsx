@@ -8,7 +8,7 @@ const MenuCardVendor = ({ ...produk }) => {
         <img
           src={`http://localhost:8000/images/${produk.image}`}
           alt="image transaksi"
-          className="object-cover min-w-32 h-full rounded-lg object-center"
+          className="object-cover min-w-32 w-32 h-full rounded-lg object-center"
         />
       </div>
       <div className="flex flex-col justify-center">

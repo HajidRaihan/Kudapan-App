@@ -5,6 +5,7 @@ const addProdukKeranjang = async (userId, data) => {
   const token = TokenHandler();
   const headerToken = {
     Authorization: `${token}`,
+    "Content-Type": "application/json",
   };
   try {
     const responseData = await RequestApi(
