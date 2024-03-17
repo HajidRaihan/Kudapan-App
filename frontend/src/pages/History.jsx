@@ -35,7 +35,7 @@ const History = () => {
 
                   <div className="w-full border border-black my-3" />
 
-                  {history.pesanan[0].list.map((toko) => {
+                  {history.pesanan.map((toko) => {
                     return (
                       <div className="mb-5">
                         <h1 className="text-base font-semibold">{toko.nama_toko}</h1>
@@ -53,8 +53,6 @@ const History = () => {
           : ""}
 
         <BottomNavigation />
-
-        {/* <KonfirmasiModal /> */}
       </div>
     </>
   );

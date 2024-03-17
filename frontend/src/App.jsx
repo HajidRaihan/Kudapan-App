@@ -9,6 +9,7 @@ import PrivateRoute from "./middleware/PrivateRoute";
 import Keranjang from "./pages/Keranjang";
 import History from "./pages/History";
 import HomeVendor from "./pages/vendor/HomeVendor";
+import Tes from "./pages/Tes";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/keranjang" element={<Keranjang />} />
 
         <Route path="/vendor" element={<HomeVendor />} />
+        <Route path="/tes" element={<Tes />} />
       </Routes>
     </Router>
   );

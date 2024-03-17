@@ -29,7 +29,7 @@ const Keranjang = () => {
       const userId = token._id;
       const keranjang = await getKeranjang(userId);
       console.log(keranjang);
-      setKeranjangData(keranjang.list);
+      setKeranjangData(keranjang);
     };
     getKeranjangUser();
   }, []);

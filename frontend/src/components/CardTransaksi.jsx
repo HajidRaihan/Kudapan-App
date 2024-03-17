@@ -24,11 +24,11 @@ const CardTransaksi = ({ ...produk }) => {
           <img
             src={`http://localhost:8000/images/${produk.image}`}
             alt="image transaksi"
-            className="object-cover w-32 h-full rounded-lg object-center"
+            className="object-cover min-w-32 h-full rounded-lg object-center"
           />
         </div>
         <div className="flex flex-col justify-center">
-          <h1 className="text-md font-bold">{produk.nama}</h1>
+          <h1 className="text-md font-bold truncate w-48">{produk.nama}</h1>
           <p className="text-[10px]">Harga : {produk.harga}</p>
           <p className="text-[10px]">Jumlah : {produk.jumlah}</p>
           <p className="text-[10px]">Catatan : {produk.catatan}</p>

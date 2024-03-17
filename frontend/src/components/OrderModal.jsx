@@ -29,7 +29,7 @@ const OrderModal = ({
       produkId: menuId,
       tokoId: tokoId,
       jumlah: jumlah,
-      image: image,
+      // image: image,
       catatan: catatan,
     };
     console.log({ data });
@@ -51,7 +51,7 @@ const OrderModal = ({
       produkId: menuId,
       tokoId: tokoId,
       jumlah: jumlah,
-      image: image,
+      // image: image,
       catatan: catatan,
     };
     try {

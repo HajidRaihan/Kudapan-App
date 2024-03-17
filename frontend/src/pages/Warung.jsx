@@ -11,7 +11,6 @@ import SearchBar from "../components/SearchBar";
 
 const Warung = () => {
   const { tokoId } = useParams();
-  const [produk, setProduk] = useState();
   const [tokoData, setTokoData] = useState();
   const [selectedKategori, setSelectedKategori] = useState("semua");
 
