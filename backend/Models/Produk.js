@@ -16,6 +16,7 @@ const produkSchema = new mongoose.Schema({
   type: {
     type: String,
     enum: ["makanan", "minuman"],
+    default: "makanan",
     require: true,
   },
 });

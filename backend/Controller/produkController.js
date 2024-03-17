@@ -81,6 +81,43 @@ const addProduk = async (req, res) => {
   }
 };
 
+const deleteProduk = async (req, res) => {
+  const { userId, produkId } = req.params;
+
+  try {
+    const user = await User.findById(userId);
+    const toko = await Toko.findById(user.toko);
+    const produk = await Produk.findById(produkId);
+
+    if (!user) {
+      return res.status(404).json({ error: "user tidak ditemukan" });
+    }
+
+    if (!toko) {
+      return res.status(404).json({ error: "toko tidak ditemukan" });
+    }
+    if (!produk) {
+      return res.status(404).json({ error: "produk tidak ditemukan" });
+    }
+
+    const index = toko.produk.indexOf(produkId);
+    if (index > -1) {
+      toko.produk.splice(index, 1);
+    }
+    // const indexUser = user.toko.produk.indexOf(produkId);
+    // if (indexUser > -1) {
+    //   user.toko.produk.splice(indexUser, 1);
+    // }
+    // await user.save();
+    await Produk.findByIdAndDelete(produkId);
+    await toko.save();
+    return res.status(200).json({ message: "Produk di hapus" });
+  } catch (error) {
+    console.error("Gagal menghapus produk:", error);
+    return res.status(500).json({ error: "Gagal menghapus produk" });
+  }
+};
+
 // const getProduk = async (req, res) => {
 //   const { tokoId } = req.params;
 //   try {
@@ -152,6 +189,51 @@ const getProdukById = async (req, res) => {
   }
 };
 
+const editProduk = async (req, res) => {
+  const { userId, produkId } = req.params;
+
+  try {
+    const user = await User.findById(userId);
+    const toko = await Toko.findById(user.toko);
+    const produk = await Produk.findById(produkId);
+
+    if (!user) {
+      return res.status(404).json({ error: "user tidak ditemukan" });
+    }
+
+    if (!toko) {
+      return res.status(404).json({ error: "toko tidak ditemukan" });
+    }
+    if (!produk) {
+      return res.status(404).json({ error: "produk tidak ditemukan" });
+    }
+
+    // const index = toko.produk.indexOf(produkId);
+    // if (index > -1) {
+    //   toko.produk.splice(index, 1);
+    // }
+
+    // const indexUser = user.toko.produk.indexOf(produkId);
+    // if (indexUser > -1) {
+    //   user.toko.produk.splice(indexUser, 1);
+    // }
+    // await user.save();
+    const updatedProduk = {
+      nama: req.body.nama,
+      harga: req.body.harga,
+      type: req.body.type,
+      image: req.file ? req.file.filename : produk.image,
+    };
+
+    await toko.save();
+    await Produk.findByIdAndUpdate(produkId, updatedProduk);
+    return res.status(200).json({ message: "Produk berhasil di edit", data: updatedProduk });
+  } catch (error) {
+    console.error("Gagal edit produk:", error);
+    return res.status(500).json({ message: "Gagal edit produk", error: error });
+  }
+};
+
 // const getDetailTokoByUserId = async (req, res) => {
 //   const { userId } = req.params;
 
@@ -170,4 +252,4 @@ const getProdukById = async (req, res) => {
 //   return res.status(200).json({ toko: toko });
 // };
 
-module.exports = { addProduk, getProduk, getProdukById };
+module.exports = { addProduk, getProduk, getProdukById, deleteProduk, editProduk };
