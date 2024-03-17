@@ -1,7 +1,14 @@
-import DeleteIcon from "../assets/icon/delete-white.svg";
-import EditIcon from "../assets/icon/edit.svg";
+import { useState } from "react";
+import { deleteProduk } from "../../api/produkApi";
+import DeleteIcon from "../../assets/icon/delete-white.svg";
+import EditIcon from "../../assets/icon/edit.svg";
+import EditProdukModal from "../modals/EditProdukModal";
 
-const MenuCardVendor = ({ ...produk }) => {
+const MenuCardVendor = ({ userId, openEditModal, ...produk }) => {
+  const deleteHandler = async () => {
+    const res = await deleteProduk(userId, produk._id);
+    console.log(res);
+  };
   return (
     <div className="w-full h-24 rounded-xl mt-5 border-slate-500 border flex relative gap-2">
       <div className="h-full">
@@ -18,13 +25,13 @@ const MenuCardVendor = ({ ...produk }) => {
       <div className="absolute bottom-1 right-1">
         <div
           className="btn btn-success p-2 w-fit h-fit  rounded-lg  btn-sm mr-1"
-          onClick={() => deleteProdukKeranjangHandler(keranjangIndex, produkIndex)}
+          onClick={openEditModal}
         >
           <img src={EditIcon} alt="" className="h-4 w-4 " />
         </div>
         <div
           className="bg-primary p-2 w-fit h-fit  rounded-lg btn btn-error btn-sm"
-          onClick={() => increaseProdukKeranjangHandler(keranjangIndex, produkIndex)}
+          onClick={deleteHandler}
         >
           <img src={DeleteIcon} alt="" className="h-4 w-4 " />
         </div>

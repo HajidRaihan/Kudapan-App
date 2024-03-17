@@ -1,12 +1,12 @@
 import Banner from "../components/Banner";
-import CounterCard from "../components/CounterCard";
+import CounterCard from "../components/card/CounterCard";
 import Kategori from "../components/Kategori";
-import BottomNavigation from "../components/BottomNavigation";
 import SearchBar from "../components/SearchBar";
 import { useEffect, useState } from "react";
 import { TokenHandler } from "../helper/TokenHandler";
 import { DecodeToken } from "../helper/DecodeToken";
 import { getAllToko } from "../api/tokoApi";
+import BottomNavigation from "../components/navigation/BottomNavigation";
 
 const Home = () => {
   const [counter, setCounter] = useState();

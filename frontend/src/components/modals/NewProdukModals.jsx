@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import { addProdukKeranjang } from "../../api/keranjangApi";
 import { addProduk } from "../../api/produkApi";
 
-const NewProdukModals = ({ close, userId }) => {
+const NewProdukModals = ({ close, userId, produkDetail }) => {
   const [nama, setNama] = useState("");
   const [harga, setHarga] = useState("");
   const [tipe, setTipe] = useState("");
   const [image, setImage] = useState();
+
+  console.log({ produkDetail });
 
   const namaOnChange = (e) => {
     setNama(e.target.value);
@@ -18,6 +20,7 @@ const NewProdukModals = ({ close, userId }) => {
 
   const tipeOnChange = (e) => {
     setTipe(e.target.value);
+    console.log(e.target.value);
   };
 
   const imageOnChange = (e) => {
@@ -30,11 +33,11 @@ const NewProdukModals = ({ close, userId }) => {
     const data = {
       nama: nama,
       harga: harga,
-      tipe: tipe,
+      type: tipe,
       image: image,
     };
 
-    console.log(data);
+    console.log({ data });
     try {
       //   const res = await addProduk(userId, data);
       const res = await addProduk(userId, data);
@@ -71,7 +74,8 @@ const NewProdukModals = ({ close, userId }) => {
               placeholder="Type here"
               className="input input-bordered w-full max-w-xs"
               onChange={namaOnChange}
-              value={nama}
+              value={produkDetail?.nama || nama}
+              // defaultValue={produkDetail?.nama}
             />
           </label>
           <label className="form-control w-full max-w-xs">
@@ -84,6 +88,7 @@ const NewProdukModals = ({ close, userId }) => {
               className="input input-bordered w-full max-w-xs"
               onChange={hargaOnChange}
               value={harga}
+              defaultValue={produkDetail?.harga}
             />
           </label>
           <label className="form-control w-full max-w-xs">

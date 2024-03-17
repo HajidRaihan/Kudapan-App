@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import McdImg from "../assets/mcd.jpg";
 
 const CounterCard = ({ nama, deskripsi, image, id }) => {
   return (

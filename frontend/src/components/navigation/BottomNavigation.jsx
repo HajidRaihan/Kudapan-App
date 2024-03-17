@@ -1,9 +1,9 @@
-import Chart from "../assets/icon/shopping-cart-red.svg";
-import ChartBlack from "../assets/icon/shopping-cart-black.svg";
-import HistoryIcon from "../assets/icon/book-red.svg";
-import HistoryIconBlack from "../assets/icon/book-black.svg";
-import HomeIcon from "../assets/icon/home-red.svg";
-import HomeIconBlack from "../assets/icon/home-black.svg";
+import Chart from "../../assets/icon/shopping-cart-red.svg";
+import ChartBlack from "../../assets/icon/shopping-cart-black.svg";
+import HistoryIcon from "../../assets/icon/book-red.svg";
+import HistoryIconBlack from "../../assets/icon/book-black.svg";
+import HomeIcon from "../../assets/icon/home-red.svg";
+import HomeIconBlack from "../../assets/icon/home-black.svg";
 import { Link, useLocation } from "react-router-dom";
 
 const BottomNavigation = () => {

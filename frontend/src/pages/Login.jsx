@@ -40,13 +40,13 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col gap-3 items-center justify-center h-[500px] min-h-screen max-w-[500px] mx-auto p-10">
+    <form className="flex flex-col gap-3 items-center justify-center h-[500px] min-h-screen max-w-[500px] mx-auto p-10">
       <Input label="Email" type={"email"} onChange={emailOnChange} value={email} />
       <Input label="Password" type={"password"} onChange={passwordOnChange} value={password} />
       <button class="btn btn-error w-full mt-3" onClick={loginHandler}>
         Login
       </button>
-    </div>
+    </form>
   );
 };
 

@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import FormatRupiah from "../helper/FormatRupiah";
-import AlertModal from "./AlertModal";
-import KonfirmasiModal from "./KonfirmasiModal";
-import OrderModal from "./OrderModal";
+import FormatRupiah from "../../helper/FormatRupiah";
+import AlertModal from "../AlertModal";
+import OrderModal from "../OrderModal";
 
 const MenuCard = ({ nama, harga, image, _id }) => {
   const [menuId, setMenuId] = useState("");

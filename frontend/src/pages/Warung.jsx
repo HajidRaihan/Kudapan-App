@@ -1,6 +1,5 @@
 import Banner from "../components/Banner";
-import MenuCard from "../components/MenuCard";
-import BottomNavigation from "../components/BottomNavigation";
+import BottomNavigation from "../components/navigation/BottomNavigation";
 import Kategori from "../components/Kategori";
 import BackButton from "../components/BackButton";
 import { useEffect, useState } from "react";
@@ -8,6 +7,7 @@ import { getProduk } from "../api/api";
 import { useParams } from "react-router-dom";
 import Header from "../components/Header";
 import SearchBar from "../components/SearchBar";
+import MenuCard from "../components/card/MenuCard";
 
 const Warung = () => {
   const { tokoId } = useParams();

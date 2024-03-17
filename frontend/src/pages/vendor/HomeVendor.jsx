@@ -1,19 +1,19 @@
-import CounterCard from "../../components/CounterCard";
-import Kategori from "../../components/Kategori";
-import BottomNavigation from "../../components/BottomNavigation";
-import SearchBar from "../../components/SearchBar";
 import { useEffect, useState } from "react";
 import { TokenHandler } from "../../helper/TokenHandler";
 import { DecodeToken } from "../../helper/DecodeToken";
-import { getAllToko, getDetailTokoByUserId } from "../../api/tokoApi";
-import MenuCardVendor from "../../components/MenuCardVendor";
-import KeranjangCard from "../../components/KeranjangCard";
+import { getDetailTokoByUserId } from "../../api/tokoApi";
 import NewProdukModals from "../../components/modals/NewProdukModals";
+import MenuCardVendor from "../../components/card/MenuCardVendor";
+import EditProdukModal from "../../components/modals/EditProdukModal";
+import { getDetailProduk } from "../../api/produkApi";
 
 const HomeVendor = () => {
   const [detailToko, setDetailToko] = useState();
   const [editProdukOpen, setEditProdukOpen] = useState(false);
   const [newProdukOpen, setNewProdukOpen] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [produkId, setProdukId] = useState("");
+  const [detailProduk, setDetailProduk] = useState();
   const token = TokenHandler();
   const tokenData = DecodeToken();
   const userId = tokenData._id;
@@ -26,6 +26,26 @@ const HomeVendor = () => {
     };
     getDetailToko();
   }, []);
+
+  useEffect(() => {
+    const getProdukById = async () => {
+      const res = await getDetailProduk(produkId);
+      console.log(res);
+      setDetailProduk(res);
+    };
+    getProdukById();
+  }, [produkId]);
+
+  const editProdukOpenHandler = (id) => {
+    setProdukId(id);
+    console.log(id);
+    setEditProdukOpen(true);
+    // setNewProdukOpen(true);
+  };
+
+  const newProdukOpenHandler = () => {
+    setNewProdukOpen(true);
+  };
 
   return (
     <div className="lg:mx-96">
@@ -45,7 +65,14 @@ const HomeVendor = () => {
       <div className="mx-5 pb-20">
         {detailToko
           ? detailToko.produk.map((data) => {
-              return <MenuCardVendor key={data._id} {...data} />;
+              return (
+                <MenuCardVendor
+                  key={data._id}
+                  userId={userId}
+                  {...data}
+                  openEditModal={() => editProdukOpenHandler(data._id)}
+                />
+              );
             })
           : ""}
       </div>
@@ -67,6 +94,15 @@ const HomeVendor = () => {
           // setNewProdukOpen={() => setNewProdukOpen(true)}
           close={() => setNewProdukOpen(false)}
           userId={userId}
+        />
+      )}
+
+      {editProdukOpen && (
+        <EditProdukModal
+          // setNewProdukOpen={() => setNewProdukOpen(true)}
+          close={() => setEditProdukOpen(false)}
+          userId={userId}
+          produkDetail={detailProduk}
         />
       )}
 

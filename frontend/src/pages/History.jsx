@@ -1,5 +1,5 @@
-import CardTransaksi from "../components/CardTransaksi";
-import BottomNavigation from "../components/BottomNavigation";
+import CardTransaksi from "../components/card/CardTransaksi";
+import BottomNavigation from "../components/navigation/BottomNavigation";
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
 import { getHistory } from "../api/historyApi";

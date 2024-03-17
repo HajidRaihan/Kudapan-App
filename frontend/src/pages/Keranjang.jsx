@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { deleteProdukKeranjang, getKeranjang, increaseProdukKeranjang } from "../api/keranjangApi";
 import { addOrder } from "../api/orderAPi";
 import AlertModal from "../components/AlertModal";
-import BottomNavigation from "../components/BottomNavigation";
+import BottomNavigation from "../components/navigation/BottomNavigation";
 import Header from "../components/Header";
 import KeranjangCard from "../components/KeranjangCard";
 import KonfirmasiModal from "../components/KonfirmasiModal";
