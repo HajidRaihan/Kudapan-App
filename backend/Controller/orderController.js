@@ -1,4 +1,4 @@
-const { User, History, Toko, Order } = require("../models");
+const { User, History, Toko, Order, Produk } = require("../models");
 
 const addOrder = async (req, res) => {
   const { userId, meja } = req.params;
@@ -52,6 +52,67 @@ const addOrder = async (req, res) => {
     await user.save();
 
     return res.json({ message: "History berhasil ditambahkan", data: newHistory });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "gagal menambahkan order", error });
+  }
+};
+
+const addSingleOrder = async (req, res) => {
+  const { userId, meja } = req.params;
+  const { tokoId, produkId, jumlah, catatan } = req.body;
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const toko = await Toko.findById(tokoId);
+
+    if (!toko) {
+      return res.status(404).json({ error: "Toko not found" });
+    }
+
+    const produk = await Produk.findById(produkId);
+
+    if (!produk) {
+      return res.status(404).json({ error: "Produk not found" });
+    }
+
+    const produkAda = toko.produk.some((item) => item._id.equals(produkId));
+    if (!produkAda) {
+      return res.status(401).json({ msg: "Produk tidak ada di toko tersebut" });
+    }
+
+    const vendor = await User.findOne({ toko: tokoId });
+    if (!vendor) {
+      return res.status(404).json({ error: "Vendor not found" });
+    }
+
+    const newOrder = new Order({
+      pemesan: user.nama,
+      email_pemesan: user.email,
+      pesanan: {
+        nama: produk.nama,
+        harga: produk.harga,
+        image: produk.image,
+        jumlah: jumlah,
+        catatan: catatan,
+        total: produk.harga * jumlah,
+      },
+      total_harga: produk.harga * jumlah,
+      meja: meja,
+    });
+
+    vendor.orders.push(newOrder);
+    await vendor.save();
+    console.log({ vendor });
+    // user.orders.push(newOrder);
+    // await user.save();
+    console.log(newOrder);
+    return res.json({ message: "orderan berhasil ditambahkan", data: newOrder });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: "gagal menambahkan order", error });
@@ -162,4 +223,5 @@ const getOrderUser = async (req, res) => {
 module.exports = {
   addOrder,
   getOrderUser,
+  addSingleOrder,
 };

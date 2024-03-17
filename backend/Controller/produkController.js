@@ -126,7 +126,11 @@ const getProduk = async (req, res) => {
     const produk = toko.produk;
     console.log({ produk });
 
-    res.status(200).json({ toko: toko.nama, produk });
+    res.status(200).json({
+      toko: toko.nama,
+      tokoId: toko._id,
+      produk,
+    });
   } catch (error) {
     console.error("Gagal mendapatkan produk:", error);
     return res.status(500).json({ error: "Gagal mendapatkan produk" });
