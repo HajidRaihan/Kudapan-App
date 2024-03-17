@@ -25,10 +25,7 @@ const userSchema = new mongoose.Schema({
   }, // Menambah atribut role
   toko: { type: mongoose.Schema.Types.ObjectId, ref: "Toko" },
   order_history: [historySchema], // Order di-embed di dalam User
-  keranjang: {
-    type: keranjangSchema,
-    default: null,
-  },
+  keranjang: [keranjangSchema],
   orders: [orderSchema], // ndk tau kenapa error passnya kukasi ini endpoint anjingg
 });
 

@@ -8,19 +8,19 @@ const addOrder = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    for (const [index, item] of user.keranjang.list.entries()) {
+    for (const [index, item] of user.keranjang.entries()) {
       const tokoId = item.toko;
       try {
         const vendor = await User.findOne({ toko: tokoId });
         if (!vendor) {
-          continue;
+          return res.status(404).json({ error: "Vendor not found" });
         }
 
         const newOrder = new Order({
           pemesan: user.nama,
           email_pemesan: user.email,
-          pesanan: user.keranjang.list[index].produk,
-          total_harga: user.keranjang.list[index].total_harga,
+          pesanan: user.keranjang[index].produk,
+          total_harga: user.keranjang[index].total_harga,
           meja: meja,
         });
         vendor.orders.push(newOrder);
@@ -35,7 +35,7 @@ const addOrder = async (req, res) => {
     const produkToMove = user.keranjang;
 
     // Hitung total harga dari keseluruhan produk di keranjang
-    const totalHarga = hitungTotalHarga(produkToMove.list);
+    const totalHarga = hitungTotalHarga(produkToMove);
     const newHistory = new History({
       pesanan: produkToMove,
       total: totalHarga,
@@ -46,7 +46,7 @@ const addOrder = async (req, res) => {
     user.order_history.push(newHistory);
 
     // Hapus produk dari keranjang
-    user.keranjang.list = [];
+    user.keranjang = [];
 
     // Simpan perubahan ke MongoDB
     await user.save();

@@ -78,22 +78,29 @@ const addProdukKeranjang = async (req, res) => {
 
     let keranjang = user.keranjang;
 
-    if (!keranjang) {
-      const newKeranjang = new Keranjang({ list: [] });
-      await newKeranjang.save();
-      user.keranjang = newKeranjang;
-      await user.save();
-      keranjang = newKeranjang;
-    }
+    // keranjang.push({
+    //   toko: toko._id,
+    //   nama_toko: toko.nama,
+    //   produk: [produkBaru],
+    //   total_harga: produkBaru.total,
+    // });
 
-    const tokoAda = keranjang.list.some((item) => item.toko.equals(tokoId));
+    // if (!keranjang) {
+    //   const newKeranjang = new Keranjang({ list: [] });
+    //   await newKeranjang.save();
+    //   user.keranjang = newKeranjang;
+    //   await user.save();
+    //   keranjang = newKeranjang;
+    // }
+
+    const tokoAda = keranjang.some((item) => item.toko.equals(tokoId));
 
     if (tokoAda) {
-      const tokoIndex = keranjang.list.findIndex((item) => item.toko.equals(tokoId));
-      keranjang.list[tokoIndex].produk.push(produkBaru);
-      keranjang.list[tokoIndex].total_harga += produkBaru.total;
+      const tokoIndex = keranjang.findIndex((item) => item.toko.equals(tokoId));
+      keranjang[tokoIndex].produk.push(produkBaru);
+      keranjang[tokoIndex].total_harga += produkBaru.total;
     } else {
-      keranjang.list.push({
+      keranjang.push({
         toko: toko._id,
         nama_toko: toko.nama,
         produk: [produkBaru],
@@ -101,13 +108,14 @@ const addProdukKeranjang = async (req, res) => {
       });
     }
 
-    await keranjang.save();
+    // await keranjang.save();
     await user.save();
 
     return res.status(201).json({ message: "Keranjang ditambahkan", keranjang });
+    // return res.json({ keranjang });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ message: "keranjang gagal di tambahkan dekkk", error: error });
+    return res.status(500).json({ message: "keranjang gagal di tambahkan", error: error });
   }
 };
 
@@ -214,10 +222,10 @@ const deleteProdukKeranjang = async (req, res) => {
     if (!userId) {
       return res.status(401).json({ msg: "User not found" });
     }
-    if (orderIndex < 0 || orderIndex >= user.keranjang.list.length) {
+    if (orderIndex < 0 || orderIndex >= user.keranjang.length) {
       return res.status(404).json({ error: "Invalid order index" });
     }
-    const order = user.keranjang.list[orderIndex];
+    const order = user.keranjang[orderIndex];
 
     if (produkIndex < 0 || produkIndex >= order.produk.length) {
       return res.status(404).json({ error: "Invalid produk index" });
@@ -231,7 +239,7 @@ const deleteProdukKeranjang = async (req, res) => {
       order.produk.splice(produkIndex, 1);
     }
     if (order.produk.length === 0) {
-      user.keranjang.list.splice(orderIndex, 1);
+      user.keranjang.splice(orderIndex, 1);
     }
 
     await user.save();
@@ -251,10 +259,10 @@ const increaseProdukKeranjang = async (req, res) => {
     if (!userId) {
       return res.status(401).json({ msg: "User not found" });
     }
-    if (orderIndex < 0 || orderIndex >= user.keranjang.list.length) {
+    if (orderIndex < 0 || orderIndex >= user.keranjang.length) {
       return res.status(404).json({ error: "Invalid order index" });
     }
-    const order = user.keranjang.list[orderIndex];
+    const order = user.keranjang[orderIndex];
 
     if (produkIndex < 0 || produkIndex >= order.produk.length) {
       return res.status(404).json({ error: "Invalid produk index" });

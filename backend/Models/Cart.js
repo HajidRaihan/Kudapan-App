@@ -3,23 +3,20 @@ const produkSchema = require("./Produk");
 const pesananSchema = require("./Pesanan");
 
 const keranjangSchema = new mongoose.Schema({
-  list: [
-    {
-      toko: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Store",
-      },
-      nama_toko: {
-        type: String,
-        required: true,
-      },
-      total_harga: {
-        type: Number,
-        require: true,
-      },
-      produk: [pesananSchema],
-    },
-  ],
+  toko: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Store",
+  },
+  nama_toko: {
+    type: String,
+    required: true,
+  },
+  total_harga: {
+    type: Number,
+    require: true,
+  },
+  produk: [pesananSchema],
+
   // produk: [pesananSchema],
 });
 
