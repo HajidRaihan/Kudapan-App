@@ -16,7 +16,8 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
-  const loginHandler = async () => {
+  const loginHandler = async (e) => {
+    e.preventDefault();
     console.log("cliocke");
     const credential = {
       email: email,
@@ -40,12 +41,13 @@ const Login = () => {
   };
 
   return (
-    <form className="flex flex-col gap-3 items-center justify-center h-[500px] min-h-screen max-w-[500px] mx-auto p-10">
+    <form
+      onSubmit={loginHandler}
+      className="flex flex-col gap-3 items-center justify-center h-[500px] min-h-screen max-w-[500px] mx-auto p-10"
+    >
       <Input label="Email" type={"email"} onChange={emailOnChange} value={email} />
       <Input label="Password" type={"password"} onChange={passwordOnChange} value={password} />
-      <button class="btn btn-error w-full mt-3" onClick={loginHandler}>
-        Login
-      </button>
+      <button className="btn btn-error w-full mt-3">Login</button>
     </form>
   );
 };

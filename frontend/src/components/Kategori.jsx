@@ -3,7 +3,7 @@ const Kategori = ({ title, selected, handler }) => {
   return (
     <div>
       <div
-        className={`py-1 text-xs px-2 flex justify-center border rounded-xl ${
+        className={`py-1 text-xs px-2 flex justify-center border rounded-xl cursor-pointer ${
           selected && "bg-primary text-white"
         }`}
         onClick={handler}
