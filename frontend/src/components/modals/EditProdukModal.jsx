@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { addProdukKeranjang } from "../../api/keranjangApi";
-import { editProduk } from "../../api/produkApi";
+import { editProduk, getDetailProduk } from "../../api/produkApi";
 
-const EditProdukModal = ({ close, userId, produkDetail }) => {
-  const [nama, setNama] = useState(produkDetail?.nama);
-  const [harga, setHarga] = useState(produkDetail?.harga);
-  const [tipe, setTipe] = useState(produkDetail?.tipe);
-  const [image, setImage] = useState(produkDetail?.image);
+const EditProdukModal = ({ close, userId, produkId }) => {
+  const [nama, setNama] = useState();
+  const [harga, setHarga] = useState();
+  const [tipe, setTipe] = useState();
+  const [image, setImage] = useState();
+  const [detailProduk, setDetailProduk] = useState();
 
   const namaOnChange = (e) => {
     setNama(e.target.value);
@@ -45,14 +46,31 @@ const EditProdukModal = ({ close, userId, produkDetail }) => {
     }
   };
 
+  // useEffect(() => {
+  //   document.getElementById("ordermodal").showModal();
+  // }, []);
+
   useEffect(() => {
-    document.getElementById("ordermodal").showModal();
-  }, []);
+    const getProdukById = async () => {
+      const res = await getDetailProduk(produkId);
+      console.log(res);
+      if (res) {
+        setDetailProduk(res);
+        document.getElementById("ordermodal").showModal();
+      }
+
+      // setNama(res.nama);
+      // setHarga(res.harga);
+      // setTipe(res.tipe);
+      // setImage(res.image);
+    };
+    getProdukById();
+  }, [produkId]);
 
   return (
-    <dialog id={"ordermodal"} className="modal py-10">
-      {produkDetail && (
-        <>
+    <>
+      {detailProduk ? (
+        <dialog id={"ordermodal"} className="modal py-10">
           <div className="modal-box flex flex-col items-center">
             <form method="dialog">
               <button
@@ -74,7 +92,7 @@ const EditProdukModal = ({ close, userId, produkDetail }) => {
                   placeholder="Type here"
                   className="input input-bordered w-full max-w-xs"
                   onChange={namaOnChange}
-                  value={nama}
+                  value={detailProduk.nama || ""}
                 />
               </label>
               <label className="form-control w-full max-w-xs">
@@ -86,7 +104,7 @@ const EditProdukModal = ({ close, userId, produkDetail }) => {
                   placeholder="Type here"
                   className="input input-bordered w-full max-w-xs"
                   onChange={hargaOnChange}
-                  value={harga}
+                  value={detailProduk.harga || ""}
                 />
               </label>
               <label className="form-control w-full max-w-xs">
@@ -96,7 +114,7 @@ const EditProdukModal = ({ close, userId, produkDetail }) => {
                 <select
                   className="select select-bordered w-full max-w-xs"
                   onChange={tipeOnChange}
-                  value={tipe}
+                  value={detailProduk.tipe || ""}
                 >
                   <option value="makanan">Makanan</option>
                   <option value="minuman">Minuman</option>
@@ -123,9 +141,11 @@ const EditProdukModal = ({ close, userId, produkDetail }) => {
               </div>
             </form>
           </div>
-        </>
+        </dialog>
+      ) : (
+        ""
       )}
-    </dialog>
+    </>
   );
 };
 

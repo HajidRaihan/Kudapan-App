@@ -102,7 +102,7 @@ const HomeVendor = () => {
           // setNewProdukOpen={() => setNewProdukOpen(true)}
           close={() => setEditProdukOpen(false)}
           userId={userId}
-          produkDetail={detailProduk}
+          produkId={produkId}
         />
       )}
 

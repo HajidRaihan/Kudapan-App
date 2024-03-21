@@ -170,7 +170,7 @@ const getProduk = async (req, res) => {
     });
   } catch (error) {
     console.error("Gagal mendapatkan produk:", error);
-    return res.status(500).json({ error: "Gagal mendapatkan produk" });
+    return res.status(500).json({ error: "Gagal mendapatkan produk", error });
   }
 };
 

@@ -15,7 +15,7 @@ const seedDatabase = async () => {
 
     await Promise.all([
       Toko.insertMany(dataToko),
-      Produk.insertMany(dataProduk),
+      Produk.insertMany([...dataProduk.dataProduk1, ...dataProduk.dataProduk2]),
       User.insertMany(dataUser),
     ]);
 
