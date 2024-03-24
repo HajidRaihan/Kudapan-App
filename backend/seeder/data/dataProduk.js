@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const dataProduk1 = [
   {
-    _id: new mongoose.Types.ObjectId(), // Generate a new ObjectId
+    _id: new mongoose.Types.ObjectId(), 
     nama: "Bakso",
     harga: 15000,
     image: "https://example.com/bakso.jpg",
@@ -19,7 +19,7 @@ const dataProduk1 = [
 
 const dataProduk2 = [
   {
-    _id: new mongoose.Types.ObjectId(), // Generate a new ObjectId
+    _id: new mongoose.Types.ObjectId(), 
     nama: "Nasi Goreng",
     harga: 15000,
     image: "https://example.com/bakso.jpg",
