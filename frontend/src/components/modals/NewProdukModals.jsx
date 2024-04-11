@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { addProdukKeranjang } from "../../api/keranjangApi";
 import { addProduk } from "../../api/produkApi";
+import ButtonSubmit from "../ButtonSubmit";
+import { Toaster } from "react-hot-toast";
 
-const NewProdukModals = ({ close, userId, produkDetail }) => {
+const NewProdukModals = ({ close, userId, produkDetail, isSuccess, isError }) => {
   const [nama, setNama] = useState("");
   const [harga, setHarga] = useState("");
-  const [tipe, setTipe] = useState("");
+  const [tipe, setTipe] = useState("makanan");
   const [image, setImage] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   console.log({ produkDetail });
 
@@ -37,14 +40,33 @@ const NewProdukModals = ({ close, userId, produkDetail }) => {
       image: image,
     };
 
+    setIsLoading(true);
+
     console.log({ data });
     try {
       //   const res = await addProduk(userId, data);
       const res = await addProduk(userId, data);
+      setIsLoading(false);
       console.log(res);
+      if (res) {
+        isSuccess();
+        close();
+      }
     } catch (error) {
       console.error(error);
+      // close();
+      isError(error.response.data.error);
+      // console.log(error.response.data.error);
+      // toast.error("gagal menambahkan produk");
+
+      setIsLoading(false);
     }
+  };
+
+  const tes = (e) => {
+    e.preventDefault();
+    isSuccess();
+    // close();
   };
 
   useEffect(() => {
@@ -53,6 +75,7 @@ const NewProdukModals = ({ close, userId, produkDetail }) => {
 
   return (
     <dialog id={"ordermodal"} className="modal py-10">
+      <Toaster />
       <div className="modal-box flex flex-col items-center">
         <form method="dialog">
           <button
@@ -114,12 +137,9 @@ const NewProdukModals = ({ close, userId, produkDetail }) => {
               onChange={(e) => setImage(e.target.files[0])}
             />
           </label>
-          <div className="">
-            <button className="btn btn-success w-full my-2  text-white" onClick={newProdukHandler}>
-              Tambahkan Produk
-            </button>
-            {/* <button className="btn btn-error w-full text-white">Order Langsung</button> */}
-          </div>
+
+          <ButtonSubmit handler={newProdukHandler} isLoading={isLoading} />
+          <button onClick={tes}>asdlasjk</button>
         </form>
       </div>
     </dialog>

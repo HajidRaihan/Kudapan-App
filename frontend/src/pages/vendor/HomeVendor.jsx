@@ -6,11 +6,13 @@ import NewProdukModals from "../../components/modals/NewProdukModals";
 import MenuCardVendor from "../../components/card/MenuCardVendor";
 import EditProdukModal from "../../components/modals/EditProdukModal";
 import { getDetailProduk } from "../../api/produkApi";
+import toast, { Toaster } from "react-hot-toast";
 
 const HomeVendor = () => {
   const [detailToko, setDetailToko] = useState();
   const [editProdukOpen, setEditProdukOpen] = useState(false);
   const [newProdukOpen, setNewProdukOpen] = useState(false);
+  const [hapusModalOpen, setHapusModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [produkId, setProdukId] = useState("");
   const [detailProduk, setDetailProduk] = useState();
@@ -43,12 +45,10 @@ const HomeVendor = () => {
     // setNewProdukOpen(true);
   };
 
-  const newProdukOpenHandler = () => {
-    setNewProdukOpen(true);
-  };
-
   return (
     <div className="lg:mx-96">
+      <Toaster />
+
       <div className="mx-5">
         <h1 className="font-bold text-md mt-5 mb-1">{detailToko?.nama}</h1>
         <div className="w-full h-0.5 bg-black" />
@@ -69,6 +69,7 @@ const HomeVendor = () => {
                 <MenuCardVendor
                   key={data._id}
                   userId={userId}
+                  setDetailToko={setDetailToko}
                   {...data}
                   openEditModal={() => editProdukOpenHandler(data._id)}
                 />
@@ -94,6 +95,8 @@ const HomeVendor = () => {
           // setNewProdukOpen={() => setNewProdukOpen(true)}
           close={() => setNewProdukOpen(false)}
           userId={userId}
+          isSuccess={() => toast.success("Berhasil Menambahkan Produk")}
+          isError={(message) => toast.error(message)}
         />
       )}
 
@@ -103,6 +106,8 @@ const HomeVendor = () => {
           close={() => setEditProdukOpen(false)}
           userId={userId}
           produkId={produkId}
+          isSuccess={() => toast.success("Berhasil Mengedit Produk")}
+          isError={(message) => toast.error(message)}
         />
       )}
 

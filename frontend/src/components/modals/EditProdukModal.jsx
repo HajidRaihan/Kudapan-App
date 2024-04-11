@@ -41,8 +41,10 @@ const EditProdukModal = ({ close, userId, produkId }) => {
       //   const res = await addProduk(userId, data);
       const res = await editProduk(userId, produkDetail._id, data);
       console.log(res);
+      close();
     } catch (error) {
       console.error(error);
+      close();
     }
   };
 

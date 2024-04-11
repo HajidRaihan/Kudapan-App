@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import { getDetailProduk } from "../api/api";
 import { addProdukKeranjang } from "../api/keranjangApi";
 import { DecodeToken } from "../helper/DecodeToken";
 
-const KonfirmasiModal = ({ close, title, handler }) => {
+const KonfirmasiModal = ({ close, title, handler, action, isSuccess, isError }) => {
   useEffect(() => {
     document.getElementById("my_modal_1").showModal();
   }, []);
 
   return (
     <>
+      <Toaster />
       {/* Open the modal using document.getElementById('ID').showModal() method */}
       <dialog id="my_modal_1" className="modal">
         <div className="modal-box">
@@ -22,7 +24,7 @@ const KonfirmasiModal = ({ close, title, handler }) => {
               Batalkan
             </button>
             <button className="btn bg-primary btn-error w-32 text-white" onClick={handler}>
-              Order
+              {action}
             </button>
           </div>
         </div>
