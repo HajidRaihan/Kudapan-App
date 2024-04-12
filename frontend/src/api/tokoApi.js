@@ -53,4 +53,28 @@ const getDetailTokoByUserId = async (userId) => {
   }
 };
 
-export { getAllToko, getDetailTokoByUserId };
+const createToko = async (data, userId) => {
+  try {
+    const token = TokenHandler();
+
+    const headerToken = {
+      Authorization: `${token}`,
+      "Content-Type": "multipart/form-data",
+    };
+
+    const responseData = await RequestApi(
+      "POST",
+      `store/add/${userId}`,
+      data,
+      headerToken,
+      "Mencoba membuat toko"
+    );
+
+    return responseData;
+  } catch (error) {
+    console.error("Terjadi kesalahan saat membuat toko  ", error);
+    throw error;
+  }
+};
+
+export { getAllToko, getDetailTokoByUserId, createToko };

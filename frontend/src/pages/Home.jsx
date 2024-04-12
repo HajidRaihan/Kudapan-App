@@ -17,7 +17,7 @@ const Home = () => {
     const token = TokenHandler();
     console.log(token);
     const tokenData = DecodeToken();
-    console.log(tokenData.nama);
+    console.log({ tokenData });
     setUser(tokenData.nama);
   }, []);
 
@@ -37,7 +37,14 @@ const Home = () => {
 
   return (
     <div className="lg:mx-96">
-      <h1 className="mx-5 font-bold text-md mt-5">Hi, {user}.</h1>
+      <div className="flex justify-between items-center mt-3 mx-5 ">
+        <h1 className="font-bold text-md">Hi, {user}.</h1>
+        <div className="avatar">
+          <div className="w-8 h-8 rounded-full">
+            <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+          </div>
+        </div>
+      </div>
       <SearchBar handler={searchHandler} value={search} />
       {/* <Banner title="KUDAPAN APP" /> */}
       <div className="flex gap-1 my-5 mx-5">

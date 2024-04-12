@@ -10,6 +10,8 @@ import Keranjang from "./pages/Keranjang";
 import History from "./pages/History";
 import HomeVendor from "./pages/vendor/HomeVendor";
 import Tes from "./pages/Tes";
+import CreateToko from "./pages/CreateToko";
+import Pesanan from "./pages/vendor/Pesanan";
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
         <Route path="/keranjang" element={<Keranjang />} />
 
         <Route path="/vendor" element={<HomeVendor />} />
+        <Route path="/create-toko" element={<CreateToko />} />
+        <Route path="/vendor/pesanan" element={<Pesanan />} />
         {/* <Route path="/tes" element={<Tes />} /> */}
       </Routes>
     </Router>
