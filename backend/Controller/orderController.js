@@ -220,8 +220,33 @@ const getOrderUser = async (req, res) => {
   }
 };
 
+const changeStatusOrder = async (req, res) => {
+  const { userId, orderId } = req.params;
+  const { status } = req.body;
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const index = user.orders.findIndex((order) => order._id === orderId);
+    // user.orders[index + 1].status = "diproses";
+    console.log({ index });
+
+    await user.save();
+
+    return res.json({ message: "Status order updated successfully" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Failed to update order status", error });
+  }
+};
+
 module.exports = {
   addOrder,
   getOrderUser,
   addSingleOrder,
+  changeStatusOrder,
 };

@@ -19,7 +19,7 @@ const orderSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  waktu_Pemesanan: {
+  waktu_pemesanan: {
     type: Date,
     default: Date.now,
   },

@@ -1,5 +1,7 @@
 const { query } = require("express");
 const { Toko, Produk, User } = require("../models");
+const fs = require("fs");
+const path = require("path");
 
 // const addProduk = async (req, res) => {
 //   const { nama, harga } = req.body;
@@ -109,6 +111,10 @@ const deleteProduk = async (req, res) => {
     //   user.toko.produk.splice(indexUser, 1);
     // }
     // await user.save();
+    const imagePath = path.join(__dirname, "..", "images", produk.image);
+    console.log({ imagePath });
+    fs.unlinkSync(imagePath);
+
     await Produk.findByIdAndDelete(produkId);
     await toko.save();
     return res.status(200).json({ message: "Produk di hapus" });

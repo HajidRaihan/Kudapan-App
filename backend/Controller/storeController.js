@@ -42,8 +42,12 @@ const addStore = async (req, res) => {
     // Simpan toko ke dalam database
     await newToko.save();
 
+    console.log(newToko._id);
+
     // Tambahkan referensi toko ke pengguna
-    user.toko = newToko;
+    user.toko = newToko._id;
+
+    console.log({ user });
 
     // Simpan perubahan pada pengguna
     await user.save();
