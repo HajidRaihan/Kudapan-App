@@ -231,13 +231,17 @@ const changeStatusOrder = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    const index = user.orders.findIndex((order) => order._id === orderId);
-    // user.orders[index + 1].status = "diproses";
-    console.log({ index });
+    const index = user.orders.findIndex((order) => order._id.toString() === orderId);
+
+    if (index === -1) {
+      return res.status(404).json({ error: "Order not found" });
+    }
+
+    user.orders[index].status = status;
 
     await user.save();
 
-    return res.json({ message: "Status order updated successfully" });
+    return res.json({ message: "Status order updated successfully", data: user.orders[index] });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: "Failed to update order status", error });

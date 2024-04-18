@@ -25,7 +25,7 @@ const orderSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ["diterima", "diproses", "Selesai"],
+    enum: ["diterima", "diproses", "selesai"],
     default: "diterima",
   },
 });
