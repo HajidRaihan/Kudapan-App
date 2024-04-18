@@ -25,4 +25,28 @@ const getPesanan = async (userId) => {
   }
 };
 
-export { getPesanan };
+const changeStatusOrder = async (userId, orderId, data) => {
+  try {
+    const token = TokenHandler();
+    console.log({ userId });
+
+    const headerToken = {
+      Authorization: `${token}`,
+    };
+
+    const responseData = await RequestApi(
+      "POST",
+      `order/status/${userId}/${orderId}`,
+      data,
+      headerToken,
+      "Mencoba mengubah status pesanan"
+    );
+
+    return responseData;
+  } catch (error) {
+    console.error("Terjadi kesalahan saat mengubah status pesanan", error);
+    throw error;
+  }
+};
+
+export { getPesanan, changeStatusOrder };

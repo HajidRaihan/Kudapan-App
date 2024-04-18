@@ -41,14 +41,17 @@ const Login = () => {
   };
 
   return (
-    <form
-      onSubmit={loginHandler}
-      className="flex flex-col gap-3 items-center justify-center h-[500px] min-h-screen max-w-[500px] mx-auto p-10"
-    >
-      <Input label="Email" type={"email"} onChange={emailOnChange} value={email} />
-      <Input label="Password" type={"password"} onChange={passwordOnChange} value={password} />
-      <button className="btn btn-error w-full mt-3">Login</button>
-    </form>
+    <div className="w-screen h-screen flex items-center">
+      <form
+        onSubmit={loginHandler}
+        className="flex flex-col gap-3 items-center justify-center border border-black h-[600px] w-[400px] rounded-xl mx-auto p-10"
+      >
+        <h className="text-3xl font-semibold mb-10">Welcome</h>
+        <Input label="Email" type={"email"} onChange={emailOnChange} value={email} />
+        <Input label="Password" type={"password"} onChange={passwordOnChange} value={password} />
+        <button className="btn btn-error w-full mt-3 text-white">Login</button>
+      </form>
+    </div>
   );
 };
 

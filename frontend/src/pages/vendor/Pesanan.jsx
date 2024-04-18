@@ -1,22 +1,51 @@
 import React, { useEffect, useState } from "react";
-import { getPesanan } from "../../api/pesananApi";
+import { changeStatusOrder, getPesanan } from "../../api/pesananApi";
 import CardTransaksi from "../../components/card/CardTransaksi";
 import { DecodeToken } from "../../helper/DecodeToken";
 import { formatDistanceToNow } from "date-fns";
 import TimeAgo from "../../helper/TimeAgo";
+import ChangeStatusOrderModal from "../../components/modals/ChangeStatusOrderModal";
 
 const Pesanan = () => {
   const [userId, setUserId] = useState();
+  const [orderId, setOrderId] = useState();
   const [pesananData, setPesananData] = useState();
+  const [open, setOpen] = useState(false);
+  const [status, setStatus] = useState();
+
+  useState(() => {
+    const token = DecodeToken();
+    setUserId(token._id);
+  }, []);
 
   useEffect(() => {
-    const token = DecodeToken();
-    console.log(token._id);
-    getPesanan(token._id).then((res) => {
+    getPesanan(userId).then((res) => {
       console.log(res);
       setPesananData(res);
     });
   }, []);
+
+  const changeStatusOrderHandler = async () => {
+    console.log({ status });
+    const data = {
+      status: status,
+    };
+    const res = await changeStatusOrder(userId, orderId, data);
+    console.log({ res });
+  };
+
+  const openHandler = (id) => {
+    setOpen(true);
+    setOrderId(id);
+  };
+  const closeHandler = () => {
+    setOpen(false);
+  };
+
+  const statusOnChange = (e) => {
+    setStatus(e.target.value);
+    console.log(e.target.value);
+  };
 
   return (
     <div className="mb-20">
@@ -25,7 +54,18 @@ const Pesanan = () => {
             return (
               <div className="mb-10 mx-5 mt-5" key={pesanan._id}>
                 <div className="flex justify-between items-denter">
-                  <button className="w-24 h-8 bg-primary text-white text-sm flex justify-center items-center rounded-xl">
+                  <button
+                    className={`w-24 h-8 text-white text-sm flex justify-center items-center rounded-xl
+                    ${
+                      pesanan.status === "diterima"
+                        ? "bg-primary"
+                        : pesanan.status === "diproses"
+                        ? "bg-yellow-500"
+                        : "bg-green-500"
+                    }
+                    `}
+                    onClick={() => openHandler(pesanan._id)}
+                  >
                     {pesanan.status}
                   </button>
                   <p className="text-sm font-bold">Meja {pesanan.meja}</p>
@@ -61,6 +101,15 @@ const Pesanan = () => {
             );
           })
         : ""}
+
+      {open && (
+        <ChangeStatusOrderModal
+          close={closeHandler}
+          handler={changeStatusOrderHandler}
+          value={status}
+          onChange={statusOnChange}
+        />
+      )}
     </div>
   );
 };

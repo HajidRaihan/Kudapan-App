@@ -29,6 +29,8 @@ function App() {
         <Route path="/create-toko" element={<CreateToko />} />
         <Route path="/vendor/pesanan" element={<Pesanan />} />
         {/* <Route path="/tes" element={<Tes />} /> */}
+
+        <Route path="*" element={<p>Not found.</p>} />
       </Routes>
     </Router>
   );

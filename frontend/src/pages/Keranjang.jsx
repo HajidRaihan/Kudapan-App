@@ -124,6 +124,7 @@ const Keranjang = () => {
           close={closeHandler}
           title="Apakah anda ingin order pesanan yang ada di keranjang?"
           handler={addOrderHandler}
+          action="Order"
         />
       )}
 

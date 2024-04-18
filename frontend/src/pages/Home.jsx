@@ -37,11 +37,14 @@ const Home = () => {
 
   return (
     <div className="lg:mx-96">
+      {/* <StyledIcon /> */}
+      {/* <Lock /> */}
       <div className="flex justify-between items-center mt-3 mx-5 ">
         <h1 className="font-bold text-md">Hi, {user}.</h1>
         <div className="avatar">
           <div className="w-8 h-8 rounded-full">
-            <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+            {/* <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" /> */}
+            <img src="https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg" />
           </div>
         </div>
       </div>
