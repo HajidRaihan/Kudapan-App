@@ -24,9 +24,13 @@ const userSchema = new mongoose.Schema({
     default: "customer",
   }, // Menambah atribut role
   toko: { type: mongoose.Schema.Types.ObjectId, ref: "Toko" },
-  order_history: [historySchema], // Order di-embed di dalam User
+  order_history: [historySchema],
   keranjang: [keranjangSchema],
-  orders: [orderSchema], // ndk tau kenapa error passnya kukasi ini endpoint anjingg
+  orders: [orderSchema],
+  saldo: {
+    type: Number,
+    default: 0,
+  },
 });
 
 module.exports = userSchema;
