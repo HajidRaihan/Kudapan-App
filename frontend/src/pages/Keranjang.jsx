@@ -7,6 +7,7 @@ import Header from "../components/Header";
 import KeranjangCard from "../components/KeranjangCard";
 import KonfirmasiModal from "../components/KonfirmasiModal";
 import { DecodeToken } from "../helper/DecodeToken";
+import MainLayout from "../components/layout/MainLayout";
 
 const Keranjang = () => {
   const [keranjangData, setKeranjangData] = useState();
@@ -86,31 +87,34 @@ const Keranjang = () => {
 
   return (
     <div className="mb-36">
-      <Header title="Keranjang" />
-      {keranjangData
-        ? keranjangData.map((keranjang) => {
-            return (
-              <div key={keranjang._id} className="mx-5 mb-8">
-                <h1 className="text-lg font-semibold">{keranjang.nama_toko}</h1>
-                <p className="text-sm">total harga : {keranjang.total_harga}</p>
-                <div className="w-full border border-black my-3" />
-                {keranjang.produk.map((produk) => {
-                  return (
-                    <KeranjangCard
-                      key={produk._id}
-                      produkIndex={keranjang.produk.indexOf(produk)}
-                      keranjangIndex={keranjangData.indexOf(keranjang)}
-                      deleteProdukKeranjangHandler={deleteProdukKeranjangHandler}
-                      increaseProdukKeranjangHandler={increaseProdukKeranjangHandler}
-                      {...produk}
-                    />
-                  );
-                })}
-              </div>
-            );
-          })
-        : null}
+      <MainLayout>
+        <Header title="Keranjang" />
+        {keranjangData
+          ? keranjangData.map((keranjang) => {
+              return (
+                <div key={keranjang._id} className="mx-5 mb-8">
+                  <h1 className="text-lg font-semibold">{keranjang.nama_toko}</h1>
+                  <p className="text-sm">total harga : {keranjang.total_harga}</p>
+                  <div className="w-full border border-black my-3" />
+                  {keranjang.produk.map((produk) => {
+                    return (
+                      <KeranjangCard
+                        key={produk._id}
+                        produkIndex={keranjang.produk.indexOf(produk)}
+                        keranjangIndex={keranjangData.indexOf(keranjang)}
+                        deleteProdukKeranjangHandler={deleteProdukKeranjangHandler}
+                        increaseProdukKeranjangHandler={increaseProdukKeranjangHandler}
+                        {...produk}
+                      />
+                    );
+                  })}
+                </div>
+              );
+            })
+          : null}
 
+        {/* <KonfirmasiModal /> */}
+      </MainLayout>
       {keranjangData?.length !== 0 ? (
         <div className="fixed bottom-16 w-full flex justify-center">
           <button className="btn bg-primary w-[350px] text-white btn-error " onClick={openHandler}>
@@ -137,9 +141,6 @@ const Keranjang = () => {
           }}
         />
       )}
-
-      {/* <KonfirmasiModal /> */}
-      <BottomNavigation />
     </div>
   );
 };

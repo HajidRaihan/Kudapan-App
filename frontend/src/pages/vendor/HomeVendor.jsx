@@ -46,74 +46,90 @@ const HomeVendor = () => {
   };
 
   return (
-    <div className="lg:mx-96">
-      <Toaster />
+    <div className="lg:flex flex-col items-center relative">
+      <div className="lg:w-[500px]">
+        <Toaster />
 
-      <div className="mx-5">
-        <h1 className="font-bold text-md mt-5 mb-1">{detailToko?.nama}</h1>
-        <div className="w-full h-0.5 bg-black" />
-      </div>
-      {/* <SearchBar /> */}
-      {/* <Banner title="KUDAPAN APP" /> */}
+        <div className="mx-5">
+          <h1 className="font-bold text-md mt-5 mb-1">{detailToko?.nama}</h1>
+          <div className="w-full h-0.5 bg-black" />
+        </div>
+        {/* <SearchBar /> */}
+        {/* <Banner title="KUDAPAN APP" /> */}
 
-      {/* <div className="flex gap-1 my-5 mx-5">
+        {/* <div className="flex gap-1 my-5 mx-5">
         <Kategori title="All" selected={true} />
         <Kategori title="Makanan" />
         <Kategori title="Minuman" />
         <Kategori title="Dessert" />
       </div> */}
-      <div className="mx-5 pb-20">
-        {detailToko
-          ? detailToko.produk.map((data) => {
-              return (
-                <MenuCardVendor
-                  key={data._id}
-                  userId={userId}
-                  setDetailToko={setDetailToko}
-                  {...data}
-                  openEditModal={() => editProdukOpenHandler(data._id)}
-                />
-              );
-            })
-          : ""}
-      </div>
+        <div className="mx-5 pb-20">
+          {detailToko
+            ? detailToko.produk.map((data) => {
+                return (
+                  <MenuCardVendor
+                    key={data._id}
+                    userId={userId}
+                    setDetailToko={setDetailToko}
+                    {...data}
+                    openEditModal={() => editProdukOpenHandler(data._id)}
+                  />
+                );
+              })
+            : ""}
+        </div>
 
-      <div className="fixed bottom-3 w-full flex justify-center">
-        <button
-          className="btn btn-info text-white"
+        {/* <div className=""> */}
+        {/* <button
+          className="btn btn-info text-white fixed bottom-3"
           onClick={() => {
             setNewProdukOpen(true);
             console.log(newProdukOpen);
           }}
         >
           Tambah Produk
-        </button>
-      </div>
+        </button> */}
+        {/* </div> */}
 
-      {newProdukOpen && (
-        <NewProdukModals
-          // setNewProdukOpen={() => setNewProdukOpen(true)}
-          close={() => setNewProdukOpen(false)}
-          userId={userId}
-          isSuccess={() => toast.success("Berhasil Menambahkan Produk")}
-          isError={(message) => toast.error(message)}
-        />
-      )}
+        <div className="fixed bottom-3 left-1/2 transform -translate-x-1/2">
+          {" "}
+          {/* Updated line */}
+          <button
+            className="btn btn-info text-white"
+            onClick={() => {
+              setNewProdukOpen(true);
+              console.log(newProdukOpen);
+            }}
+          >
+            Tambah Produk
+          </button>
+        </div>
 
-      {editProdukOpen && (
-        <EditProdukModal
-          // setNewProdukOpen={() => setNewProdukOpen(true)}
-          close={() => setEditProdukOpen(false)}
-          userId={userId}
-          produkId={produkId}
-          isSuccess={() => toast.success("Berhasil Mengedit Produk")}
-          isError={(message) => toast.error(message)}
-        />
-      )}
+        {newProdukOpen && (
+          <NewProdukModals
+            // setNewProdukOpen={() => setNewProdukOpen(true)}
+            close={() => setNewProdukOpen(false)}
+            userId={userId}
+            isSuccess={() => toast.success("Berhasil Menambahkan Produk")}
+            isError={(message) => toast.error(message)}
+          />
+        )}
 
-      {/* <div className="flex justify-center">
+        {editProdukOpen && (
+          <EditProdukModal
+            // setNewProdukOpen={() => setNewProdukOpen(true)}
+            close={() => setEditProdukOpen(false)}
+            userId={userId}
+            produkId={produkId}
+            isSuccess={() => toast.success("Berhasil Mengedit Produk")}
+            isError={(message) => toast.error(message)}
+          />
+        )}
+
+        {/* <div className="flex justify-center">
         <BottomNavigation />
       </div> */}
+      </div>
     </div>
   );
 };

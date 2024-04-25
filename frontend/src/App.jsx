@@ -12,6 +12,8 @@ import HomeVendor from "./pages/vendor/HomeVendor";
 import Tes from "./pages/Tes";
 import CreateToko from "./pages/CreateToko";
 import Pesanan from "./pages/vendor/Pesanan";
+import QrTransaksi from "./pages/QrTransaksi";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -20,10 +22,12 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/warung/:tokoId" element={<Warung />} />
         <Route path="/order" element={<Order />} />
         <Route path="/riwayat" element={<History />} />
         <Route path="/keranjang" element={<Keranjang />} />
+        <Route path="/transaksi" element={<QrTransaksi />} />
 
         <Route path="/vendor" element={<HomeVendor />} />
         <Route path="/create-toko" element={<CreateToko />} />

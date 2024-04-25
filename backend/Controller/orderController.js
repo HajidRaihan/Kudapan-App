@@ -43,6 +43,14 @@ const addOrder = async (req, res) => {
       status: "diproses",
     });
 
+    const saldo = user.saldo;
+
+    if (saldo < totalHarga) {
+      return res.status(400).json({ error: "Saldo tidak mencukupi" });
+    }
+
+    user.saldo = user.saldo - totalHarga;
+
     user.order_history.push(newHistory);
 
     // Hapus produk dari keranjang
@@ -246,6 +254,10 @@ const changeStatusOrder = async (req, res) => {
     console.log(error);
     return res.status(500).json({ error: "Failed to update order status", error });
   }
+};
+
+const payment = async (req, res) => {
+  const { userId, orderId } = req.params;
 };
 
 module.exports = {

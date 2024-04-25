@@ -8,7 +8,7 @@ const getUserById = async (userId) => {
     Authorization: `${tokken}`,
   };
 
-  console.log({ asldkjaslkj: userId });
+  console.log({ userId });
 
   try {
     const responseData = await RequestApi(

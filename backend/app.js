@@ -8,6 +8,7 @@ const keranjangRouter = require("./routers/keranjangRouter");
 const orderRouter = require("./routers/orderRouter");
 const historyRouter = require("./routers/historyRouter");
 const walletRouter = require("./routers/walletRouter");
+const bodyParser = require("body-parser");
 
 require("./db/mongoose");
 const morgan = require("morgan");
@@ -21,6 +22,8 @@ const { Server } = require("socket.io");
 const io = new Server(server);
 const port = process.env.PORT || 6000;
 
+app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
