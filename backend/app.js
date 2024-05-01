@@ -8,6 +8,7 @@ const keranjangRouter = require("./routers/keranjangRouter");
 const orderRouter = require("./routers/orderRouter");
 const historyRouter = require("./routers/historyRouter");
 const walletRouter = require("./routers/walletRouter");
+const pesananRouter = require("./routers/pesananRouter");
 const bodyParser = require("body-parser");
 
 require("./db/mongoose");
@@ -19,7 +20,33 @@ const app = express();
 const http = require("http");
 const server = http.createServer(app);
 const { Server } = require("socket.io");
-const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+  },
+});
+
+// socket io setup
+// const io = require("socket.io")(8080, {
+//   cors: {
+//     origin: "*",
+//   },
+// });
+
+io.on("connection", (socket) => {
+  // console.log("a user connected");
+  socket.on("message", (msg) => {
+    io.emit("message", "hello juga mamakmu");
+    console.log(msg);
+  });
+  socket.on("newOrder", (data) => {
+    console.log(data);
+  });
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+  });
+});
+
 const port = process.env.PORT || 6000;
 
 app.use(bodyParser.json());
@@ -35,6 +62,7 @@ app.use("/api/keranjang", keranjangRouter);
 app.use("/api/order", orderRouter);
 app.use("/api/history", historyRouter);
 app.use("/api/wallet", walletRouter);
+app.use("/api/pesanan", pesananRouter);
 app.use("/images", express.static("images"));
 // Handling all the unknown endpoints
 
@@ -54,6 +82,6 @@ app.use((error, req, res, next) => {
   console.log(error);
 });
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`server running at http://localhost:${port}`);
 });

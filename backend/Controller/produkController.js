@@ -111,9 +111,14 @@ const deleteProduk = async (req, res) => {
     //   user.toko.produk.splice(indexUser, 1);
     // }
     // await user.save();
-    const imagePath = path.join(__dirname, "..", "images", produk.image);
-    console.log({ imagePath });
-    fs.unlinkSync(imagePath);
+    if (produk.image) {
+      const imagePath = path.join(__dirname, "..", "images", produk.image);
+      if (fs.existsSync(imagePath)) {
+        fs.unlinkSync(imagePath);
+      } else {
+        console.warn("Gambar produk tidak ditemukan:", imagePath);
+      }
+    }
 
     await Produk.findByIdAndDelete(produkId);
     await toko.save();

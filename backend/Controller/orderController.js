@@ -2,11 +2,14 @@ const { User, History, Toko, Order, Produk } = require("../models");
 
 const addOrder = async (req, res) => {
   const { userId, meja } = req.params;
+
   try {
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
+
+    let listOrder = [];
 
     for (const [index, item] of user.keranjang.entries()) {
       const tokoId = item.toko;
@@ -16,7 +19,7 @@ const addOrder = async (req, res) => {
           return res.status(404).json({ error: "Vendor not found" });
         }
 
-        const newOrder = new Order({
+        newOrder = new Order({
           pemesan: user.nama,
           email_pemesan: user.email,
           pesanan: user.keranjang[index].produk,
@@ -24,7 +27,12 @@ const addOrder = async (req, res) => {
           meja: meja,
         });
         vendor.orders.push(newOrder);
+        vendor.saldo += user.keranjang[index].total_harga;
+
+        listOrder.push({ tokoId: tokoId, order: newOrder });
+
         await vendor.save();
+
         console.log(newOrder);
         // return res.json({ message: "orderan berhasil ditambahkan", data: newOrder });
       } catch (error) {
@@ -59,7 +67,7 @@ const addOrder = async (req, res) => {
     // Simpan perubahan ke MongoDB
     await user.save();
 
-    return res.json({ message: "History berhasil ditambahkan", data: newHistory });
+    return res.json({ message: "order berhasil ditambahkan", data: listOrder });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: "gagal menambahkan order", error });
