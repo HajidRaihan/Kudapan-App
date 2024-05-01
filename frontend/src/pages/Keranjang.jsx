@@ -9,12 +9,15 @@ import KonfirmasiModal from "../components/KonfirmasiModal";
 import { DecodeToken } from "../helper/DecodeToken";
 import MainLayout from "../components/layout/MainLayout";
 
+import { io } from "socket.io-client";
+
 const Keranjang = () => {
   const [keranjangData, setKeranjangData] = useState();
   const [totalHarga, setTotalHarga] = useState();
   const [open, setOpen] = useState(false);
   const [alertModalOpen, setAlertModalOpen] = useState(false);
   const token = DecodeToken();
+  const socket = io("http://localhost:8000");
   const userId = token._id;
 
   const openHandler = () => {
@@ -40,6 +43,8 @@ const Keranjang = () => {
     try {
       const res = await addOrder(userId, 1);
       console.log(res);
+
+      socket.emit("newOrder", res);
 
       setAlertModalOpen(true);
       setOpen(false);

@@ -12,6 +12,8 @@ import { Edit } from "@styled-icons/boxicons-solid/Edit";
 import { LogOut } from "@styled-icons/boxicons-regular/LogOut";
 import Header from "../components/Header";
 import BackButton from "../components/BackButton";
+import { addBalance } from "../api/walletApi";
+import TopUpModal from "../components/modals/TopUpModal";
 
 const MoneyIcon = styled(Money)`
   color: #105a37;
@@ -36,6 +38,8 @@ const MoneyWithDrawIcon = styled(MoneyWithdraw)`
 const Profile = () => {
   const [userId, setUserId] = useState();
   const [userData, setUserData] = useState();
+  const [topUpModalOpen, setTopUpModalOpen] = useState(false);
+  const [balance, setBalance] = useState(0);
 
   useEffect(() => {
     const token = TokenHandler();
@@ -49,8 +53,16 @@ const Profile = () => {
       console.log(res);
       setUserData(res);
     };
-    fetchUser();
+    if (userId) {
+      fetchUser();
+    }
   }, [userId]);
+
+  const topUpHandler = async () => {
+    const res = await addBalance(userId, { saldo: parseInt(balance) });
+    console.log(res);
+    window.location.reload();
+  };
 
   const logoutHanlder = () => {
     Cookies.remove("access_token_kudapan");
@@ -95,7 +107,10 @@ const Profile = () => {
               </div>
             </div>
           </div>
-          <div className="flex items-center gap-1 mt-14 pt-3 pb-3  -t border-b border-[#4c4c4c] hover:bg-slate-100">
+          <div
+            className="flex items-center gap-1 mt-14 pt-3 pb-3  -t border-b border-[#4c4c4c] hover:bg-slate-100"
+            onClick={() => setTopUpModalOpen(true)}
+          >
             <MoneyWithDrawIcon />
             <p>Top up Saldo</p>
           </div>
@@ -113,6 +128,15 @@ const Profile = () => {
         </div>
       ) : (
         <p>loading ...</p>
+      )}
+
+      {topUpModalOpen && (
+        <TopUpModal
+          value={balance}
+          onChange={(e) => setBalance(e.target.value)}
+          handler={topUpHandler}
+          close={() => setTopUpModalOpen(false)}
+        />
       )}
     </MainLayout>
   );

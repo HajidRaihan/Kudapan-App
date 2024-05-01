@@ -39,8 +39,9 @@ const EditProdukModal = ({ close, userId, produkId }) => {
     console.log(data);
     try {
       //   const res = await addProduk(userId, data);
-      const res = await editProduk(userId, produkDetail._id, data);
+      const res = await editProduk(userId, detailProduk._id, data);
       console.log(res);
+      window.location.reload();
       close();
     } catch (error) {
       console.error(error);
@@ -61,10 +62,10 @@ const EditProdukModal = ({ close, userId, produkId }) => {
         document.getElementById("ordermodal").showModal();
       }
 
-      // setNama(res.nama);
-      // setHarga(res.harga);
-      // setTipe(res.tipe);
-      // setImage(res.image);
+      setNama(res.nama);
+      setHarga(res.harga);
+      setTipe(res.tipe);
+      setImage(res.image);
     };
     getProdukById();
   }, [produkId]);
@@ -94,7 +95,7 @@ const EditProdukModal = ({ close, userId, produkId }) => {
                   placeholder="Type here"
                   className="input input-bordered w-full max-w-xs"
                   onChange={namaOnChange}
-                  value={detailProduk.nama || ""}
+                  value={nama}
                 />
               </label>
               <label className="form-control w-full max-w-xs">
@@ -106,7 +107,7 @@ const EditProdukModal = ({ close, userId, produkId }) => {
                   placeholder="Type here"
                   className="input input-bordered w-full max-w-xs"
                   onChange={hargaOnChange}
-                  value={detailProduk.harga || ""}
+                  value={harga}
                 />
               </label>
               <label className="form-control w-full max-w-xs">
@@ -116,7 +117,7 @@ const EditProdukModal = ({ close, userId, produkId }) => {
                 <select
                   className="select select-bordered w-full max-w-xs"
                   onChange={tipeOnChange}
-                  value={detailProduk.tipe || ""}
+                  value={tipe}
                 >
                   <option value="makanan">Makanan</option>
                   <option value="minuman">Minuman</option>

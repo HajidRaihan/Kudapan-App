@@ -51,6 +51,7 @@ const NewProdukModals = ({ close, userId, produkDetail, isSuccess, isError }) =>
       if (res) {
         isSuccess();
         close();
+        window.location.reload();
       }
     } catch (error) {
       console.error(error);

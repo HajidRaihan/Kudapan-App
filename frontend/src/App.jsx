@@ -14,6 +14,8 @@ import CreateToko from "./pages/CreateToko";
 import Pesanan from "./pages/vendor/Pesanan";
 import QrTransaksi from "./pages/QrTransaksi";
 import Profile from "./pages/Profile";
+import SocketTest from "./pages/SocketTest";
+import EditProfile from "./pages/EditProfile";
 
 function App() {
   return (
@@ -28,10 +30,12 @@ function App() {
         <Route path="/riwayat" element={<History />} />
         <Route path="/keranjang" element={<Keranjang />} />
         <Route path="/transaksi" element={<QrTransaksi />} />
+        <Route path="/edit/profile" element={<EditProfile />} />
 
         <Route path="/vendor" element={<HomeVendor />} />
         <Route path="/create-toko" element={<CreateToko />} />
         <Route path="/vendor/pesanan" element={<Pesanan />} />
+        <Route path="/socket" element={<SocketTest />} />
         {/* <Route path="/tes" element={<Tes />} /> */}
 
         <Route path="*" element={<p>Not found.</p>} />

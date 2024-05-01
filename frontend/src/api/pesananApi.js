@@ -49,4 +49,28 @@ const changeStatusOrder = async (userId, orderId, data) => {
   }
 };
 
-export { getPesanan, changeStatusOrder };
+const deleteRiwayatPesanan = async (userId) => {
+  try {
+    const token = TokenHandler();
+    console.log({ userId });
+
+    const headerToken = {
+      Authorization: `${token}`,
+    };
+
+    const responseData = await RequestApi(
+      "DELETE",
+      `pesanan/delete/${userId}`,
+      {},
+      headerToken,
+      "Mencoba menghapus riwayat pesanan"
+    );
+
+    return responseData;
+  } catch (error) {
+    console.error("Terjadi kesalahan saat menghapus riwayat pesanan", error);
+    throw error;
+  }
+};
+
+export { getPesanan, changeStatusOrder, deleteRiwayatPesanan };

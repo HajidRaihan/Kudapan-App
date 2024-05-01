@@ -24,4 +24,28 @@ const getUserById = async (userId) => {
   }
 };
 
-export { getUserById };
+const editProfile = async (userId, data) => {
+  const tokken = TokenHandler();
+
+  const headerToken = {
+    Authorization: `${tokken}`,
+    "Content-Type": "multipart/form-data",
+  };
+
+  console.log({ userId });
+
+  try {
+    const responseData = await RequestApi(
+      "PUT",
+      `user/edit/${userId}`,
+      data,
+      headerToken,
+      "edit user"
+    );
+    return responseData;
+  } catch (error) {
+    console.error("Terjadi kesalahan saat edit user", error);
+  }
+};
+
+export { getUserById, editProfile };

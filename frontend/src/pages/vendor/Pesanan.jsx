@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { changeStatusOrder, getPesanan } from "../../api/pesananApi";
+import { changeStatusOrder, deleteRiwayatPesanan, getPesanan } from "../../api/pesananApi";
 import CardTransaksi from "../../components/card/CardTransaksi";
 import { DecodeToken } from "../../helper/DecodeToken";
 import { formatDistanceToNow } from "date-fns";
 import TimeAgo from "../../helper/TimeAgo";
 import ChangeStatusOrderModal from "../../components/modals/ChangeStatusOrderModal";
+import VendorLayout from "../../components/layout/VendorLayout";
+import Header from "../../components/Header";
 
 const Pesanan = () => {
   const [userId, setUserId] = useState();
@@ -19,10 +21,32 @@ const Pesanan = () => {
   }, []);
 
   useEffect(() => {
-    getPesanan(userId).then((res) => {
-      console.log(res);
-      setPesananData(res);
-    });
+    const fetchData = async () => {
+      try {
+        // Panggil getPesanan sekali saat komponen dimount
+        const initialPesanan = await getPesanan(userId);
+        setPesananData(initialPesanan);
+      } catch (error) {
+        console.error("Gagal memuat data pesanan:", error);
+      }
+
+      // Set interval untuk pemanggilan berikutnya setelah 5 detik
+      const interval = setInterval(async () => {
+        try {
+          const res = await getPesanan(userId);
+          console.log(res);
+          setPesananData(res);
+        } catch (error) {
+          console.error("Gagal memuat data pesanan:", error);
+        }
+      }, 5000); // 5000 milidetik = 5 detik
+
+      // Membersihkan interval setelah komponen unmount
+      return () => clearInterval(interval);
+    };
+
+    // Panggil fetchData sekali saat komponen dimount
+    fetchData();
   }, []);
 
   const changeStatusOrderHandler = async () => {
@@ -32,6 +56,15 @@ const Pesanan = () => {
     };
     const res = await changeStatusOrder(userId, orderId, data);
     console.log({ res });
+  };
+
+  const deleteRiwayatHandler = async () => {
+    try {
+      const res = await deleteRiwayatPesanan(userId);
+      console.log({ res });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const openHandler = (id) => {
@@ -49,8 +82,10 @@ const Pesanan = () => {
 
   return (
     <div className="mb-20">
-      {pesananData
-        ? [...pesananData].reverse().map((pesanan) => {
+      <VendorLayout>
+        <Header title="Pesanan" handler={deleteRiwayatHandler} />
+        {pesananData ? (
+          [...pesananData].reverse().map((pesanan) => {
             return (
               <div className="mb-10 mx-5 mt-5" key={pesanan._id}>
                 <div className="flex justify-between items-denter">
@@ -100,16 +135,19 @@ const Pesanan = () => {
               </div>
             );
           })
-        : ""}
+        ) : (
+          <p>loading...</p>
+        )}
 
-      {open && (
-        <ChangeStatusOrderModal
-          close={closeHandler}
-          handler={changeStatusOrderHandler}
-          value={status}
-          onChange={statusOnChange}
-        />
-      )}
+        {open && (
+          <ChangeStatusOrderModal
+            close={closeHandler}
+            handler={changeStatusOrderHandler}
+            value={status}
+            onChange={statusOnChange}
+          />
+        )}
+      </VendorLayout>
     </div>
   );
 };

@@ -5,7 +5,7 @@ import BottomNavigation from "../navigation/BottomNavigation";
 
 const MainLayout = ({ children }) => {
   return (
-    <div className="lg:mx-96">
+    <div className="xl:mx-96 lg:mx-32">
       {children}
       <div className="flex justify-center">
         <BottomNavigation />

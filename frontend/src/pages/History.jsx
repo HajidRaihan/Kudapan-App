@@ -2,7 +2,7 @@ import CardTransaksi from "../components/card/CardTransaksi";
 import BottomNavigation from "../components/navigation/BottomNavigation";
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
-import { getHistory } from "../api/historyApi";
+import { deleteHistory, getHistory } from "../api/historyApi";
 import { DecodeToken } from "../helper/DecodeToken";
 import MainLayout from "../components/layout/MainLayout";
 
@@ -18,11 +18,20 @@ const History = () => {
     };
     getAllHistory();
   }, []);
+
+  const deleteHistoryHandler = async () => {
+    const response = await deleteHistory(userId);
+    if (response) {
+      setOpenModal(true);
+      //   window.location.reload();
+    }
+    console.log(response);
+  };
   return (
     <>
       <div className="mb-20">
         <MainLayout>
-          <Header title="Riwayat Transaksi" userId={userId} />
+          <Header title="Riwayat Transaksi" userId={userId} handler={deleteHistoryHandler} />
 
           {historyData
             ? [...historyData].reverse().map((history) => {
