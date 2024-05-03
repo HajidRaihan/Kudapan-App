@@ -69,7 +69,7 @@ const EditProfile = () => {
   };
 
   return (
-    <div>
+    <div className="xl:mx-96 lg:mx-32">
       <Header title="Edit Profile" />
       <div className="mt-10">
         <div>

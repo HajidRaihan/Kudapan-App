@@ -75,7 +75,7 @@ const HomeVendor = () => {
     if (produkId) {
       getProdukById();
     }
-  }, [produkId]);
+   }, [produkId]);
 
   const editProdukOpenHandler = (id) => {
     setProdukId(id);

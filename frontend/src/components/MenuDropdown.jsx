@@ -4,16 +4,8 @@ import DeleteIcon from "../assets/icon/delete.svg";
 import { deleteHistory } from "../api/historyApi";
 import AlertModal from "./AlertModal";
 
-const MenuDropdown = ({ userId, handler }) => {
+const MenuDropdown = ({ userId, handler, action }) => {
   const [openModal, setOpenModal] = useState(false);
-  const deleteHistoryHandler = async () => {
-    const response = await deleteHistory(userId);
-    if (response) {
-      setOpenModal(true);
-      //   window.location.reload();
-    }
-    console.log(response);
-  };
 
   return (
     <>
@@ -28,7 +20,7 @@ const MenuDropdown = ({ userId, handler }) => {
           <li>
             <div className="hover:bg-red-200" onClick={handler}>
               <img src={DeleteIcon} alt="" className="w-5 h-5" />
-              <p>Hapus Riwayat</p>
+              <p>{action}</p>
             </div>
           </li>
         </ul>

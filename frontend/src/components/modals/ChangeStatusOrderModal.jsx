@@ -15,7 +15,7 @@ const ChangeStatusOrderModal = ({ close, handler, status, onChange }) => {
             ✕
           </button>
         </form>
-        <label className="form-control w-full max-w-xs">
+        {/* <label className="form-control w-full max-w-xs">
           <div className="label">
             <span className="label-text">Nama Produk</span>
           </div>
@@ -27,6 +27,21 @@ const ChangeStatusOrderModal = ({ close, handler, status, onChange }) => {
             onChange={onChange}
             // defaultValue={produkDetail?.nama}
           />
+        </label> */}
+
+        <label className="form-control w-full max-w-xs">
+          <div className="label">
+            <span className="label-text">Pilih Status</span>
+          </div>
+          <select
+            className="select select-bordered w-full max-w-xs"
+            onChange={onChange}
+            value={status}
+          >
+            <option value="diterima">diterima</option>
+            <option value="diproses">diproses</option>
+            <option value="selesai">selesai</option>
+          </select>
         </label>
 
         <div className="flex justify-center mt-5 gap-3">

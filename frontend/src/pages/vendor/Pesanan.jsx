@@ -7,6 +7,7 @@ import TimeAgo from "../../helper/TimeAgo";
 import ChangeStatusOrderModal from "../../components/modals/ChangeStatusOrderModal";
 import VendorLayout from "../../components/layout/VendorLayout";
 import Header from "../../components/Header";
+import toast, { Toaster } from "react-hot-toast";
 
 const Pesanan = () => {
   const [userId, setUserId] = useState();
@@ -34,7 +35,7 @@ const Pesanan = () => {
       const interval = setInterval(async () => {
         try {
           const res = await getPesanan(userId);
-          console.log(res);
+          // console.log(res);
           setPesananData(res);
         } catch (error) {
           console.error("Gagal memuat data pesanan:", error);
@@ -54,8 +55,31 @@ const Pesanan = () => {
     const data = {
       status: status,
     };
-    const res = await changeStatusOrder(userId, orderId, data);
-    console.log({ res });
+    try {
+      const res = await changeStatusOrder(userId, orderId, data);
+      console.log({ res });
+      setOpen(false);
+      toast.success("berhasil mengubah status pesanan");
+      if (res) {
+        setPesananData((prevPesananData) => {
+          // Buat salinan baru dari pesananData
+          const updatedPesananData = [...prevPesananData];
+
+          // Temukan pesanan yang sesuai berdasarkan orderId
+          const pesananToUpdate = updatedPesananData.find((pesanan) => pesanan._id === orderId);
+
+          // Jika pesanan ditemukan, perbarui statusnya
+          if (pesananToUpdate) {
+            pesananToUpdate.status = status;
+          }
+
+          return updatedPesananData;
+        });
+      }
+    } catch (error) {
+      console.error("Gagal mengubah status pesanan:", error);
+      toast.error("Gagal mengubah status pesanan");
+    }
   };
 
   const deleteRiwayatHandler = async () => {
@@ -83,6 +107,7 @@ const Pesanan = () => {
   return (
     <div className="mb-20">
       <VendorLayout>
+        <Toaster />
         <Header title="Pesanan" handler={deleteRiwayatHandler} />
         {pesananData ? (
           [...pesananData].reverse().map((pesanan) => {

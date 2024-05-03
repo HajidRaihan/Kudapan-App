@@ -4,7 +4,7 @@ import FormatRupiah from "../../helper/FormatRupiah";
 import AlertModal from "../AlertModal";
 import OrderModal from "../OrderModal";
 
-const MenuCard = ({ nama, harga, image, _id }) => {
+const MenuCard = ({ nama, harga, image, _id, isSuccess, isError }) => {
   const [menuId, setMenuId] = useState("");
   const [detail, setDetail] = useState();
   const [alertModalOpen, setAlertModalOpen] = useState(false);
@@ -66,6 +66,8 @@ const MenuCard = ({ nama, harga, image, _id }) => {
           menuId={_id}
           openAlertModalHandler={openAlertModalHandler}
           isKeranjangModalHandler={isKeranjangModalHandler}
+          isSuccess={isSuccess}
+          isError={isError}
         />
       )}
 

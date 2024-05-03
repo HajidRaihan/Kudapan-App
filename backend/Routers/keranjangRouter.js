@@ -5,6 +5,7 @@ const {
   getKeranjang,
   deleteProdukKeranjang,
   increaseProdukKeranjang,
+  clearKeranjang,
 } = require("../Controller/keranjangController");
 const { verifyUser } = require("../middleware/verifyAccessToken");
 
@@ -15,6 +16,7 @@ router.delete(
   verifyUser("customer"),
   deleteProdukKeranjang
 );
+router.delete("/clear/:userId", verifyUser("customer"), clearKeranjang);
 router.put(
   "/increase/:orderIndex/:produkIndex/:userId",
   verifyUser("customer"),

@@ -86,4 +86,31 @@ const increaseProdukKeranjang = async (keranjangIndex, produkIndex, userId) => {
   }
 };
 
-export { addProdukKeranjang, getKeranjang, deleteProdukKeranjang, increaseProdukKeranjang };
+const clearKeranjang = async (userId) => {
+  const token = TokenHandler();
+  const headerToken = {
+    Authorization: `${token}`,
+  };
+
+  try {
+    const responseData = await RequestApi(
+      "DELETE",
+      `keranjang/clear/${userId}`,
+      {},
+      headerToken,
+      "clear keranjang"
+    );
+    return responseData;
+  } catch (error) {
+    console.error("Terjadi kesalahan saat clear keranjang", error);
+    throw error;
+  }
+};
+
+export {
+  addProdukKeranjang,
+  getKeranjang,
+  deleteProdukKeranjang,
+  increaseProdukKeranjang,
+  clearKeranjang,
+};

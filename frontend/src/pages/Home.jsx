@@ -13,6 +13,7 @@ import FormatRupiah from "../helper/FormatRupiah";
 import { Money } from "@styled-icons/boxicons-regular/Money";
 import { styled } from "styled-components";
 import { getUserById } from "../api/userApi";
+import { useLocation } from "react-router-dom";
 
 const StyledMoney = styled(Money)`
   color: #105a37;
@@ -24,6 +25,17 @@ const Home = () => {
   const [userId, setUserId] = useState("");
   const [search, setSearch] = useState("");
   const [profile, setProfile] = useState("");
+  const location = useLocation();
+
+  // Get the value of 'meja' from the query string and save it in cookies when the component mounts
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const mejaValue = searchParams.get("meja");
+    if (mejaValue) {
+      // Save 'meja' value in cookies
+      document.cookie = `meja=${mejaValue}; path=/`;
+    }
+  }, [location.search]);
 
   const navigate = useNavigate();
 

@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { deleteProdukKeranjang, getKeranjang, increaseProdukKeranjang } from "../api/keranjangApi";
+import {
+  clearKeranjang,
+  deleteProdukKeranjang,
+  getKeranjang,
+  increaseProdukKeranjang,
+} from "../api/keranjangApi";
 import { addOrder } from "../api/orderAPi";
 import AlertModal from "../components/AlertModal";
 import BottomNavigation from "../components/navigation/BottomNavigation";
@@ -8,6 +13,7 @@ import KeranjangCard from "../components/KeranjangCard";
 import KonfirmasiModal from "../components/KonfirmasiModal";
 import { DecodeToken } from "../helper/DecodeToken";
 import MainLayout from "../components/layout/MainLayout";
+import toast, { Toaster } from "react-hot-toast";
 
 import { io } from "socket.io-client";
 
@@ -43,14 +49,15 @@ const Keranjang = () => {
     try {
       const res = await addOrder(userId, 1);
       console.log(res);
+      toast.success("Berhasil Melakukan Order");
 
-      socket.emit("newOrder", res);
-
-      setAlertModalOpen(true);
+      // setAlertModalOpen(true);
+      setKeranjangData([]);
       setOpen(false);
       console.log("sukses");
     } catch (error) {
       console.error(error);
+      toast.error("gagal melakukan order");
     }
   };
 
@@ -90,10 +97,18 @@ const Keranjang = () => {
     setKeranjangData(updatedKeranjangData);
   };
 
+  const clearKeranjangHandler = async () => {
+    const res = await clearKeranjang(userId);
+    console.log(res);
+    toast.success("Keranjang Berhasil dihapus");
+    setKeranjangData([]);
+  };
+
   return (
     <div className="mb-36">
       <MainLayout>
-        <Header title="Keranjang" />
+        <Toaster />
+        <Header title="Keranjang" action="Hapus Keranjang" handler={clearKeranjangHandler} />
         {keranjangData
           ? keranjangData.map((keranjang) => {
               return (
@@ -142,7 +157,6 @@ const Keranjang = () => {
           title={"Berhasil Mengorder"}
           close={() => {
             setAlertModalOpen(false);
-            window.location.reload();
           }}
         />
       )}

@@ -282,9 +282,26 @@ const increaseProdukKeranjang = async (req, res) => {
   }
 };
 
+const clearKeranjang = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const user = await User.findById(userId);
+    if (!userId) {
+      return res.status(401).json({ msg: "User not found" });
+    }
+    user.keranjang = [];
+    await user.save();
+    return res.status(200).json({ message: "Keranjang berhasil dihapus" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Keranjang gagal di hapus", error: error });
+  }
+};
+
 module.exports = {
   addProdukKeranjang,
   getKeranjang,
   deleteProdukKeranjang,
   increaseProdukKeranjang,
+  clearKeranjang,
 };

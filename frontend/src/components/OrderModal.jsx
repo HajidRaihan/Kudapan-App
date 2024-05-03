@@ -4,6 +4,7 @@ import { getDetailProduk } from "../api/api";
 import { addProdukKeranjang } from "../api/keranjangApi";
 import { addOrder } from "../api/orderAPi";
 import { DecodeToken } from "../helper/DecodeToken";
+import toast, { Toaster } from "react-hot-toast";
 
 const OrderModal = ({
   close,
@@ -13,6 +14,8 @@ const OrderModal = ({
   harga,
   openAlertModalHandler,
   isKeranjangModalHandler,
+  isSuccess,
+  isError,
 }) => {
   const [jumlah, setJumlah] = useState(1);
   const [catatan, setCatatan] = useState("");
@@ -37,11 +40,12 @@ const OrderModal = ({
       const response = await addProdukKeranjang(userId, data);
       console.log(response);
       close();
-      openAlertModalHandler();
-
+      // openAlertModalHandler();
+      isSuccess();
       console.log(data);
     } catch (error) {
       console.log(error);
+      isError();
     }
   };
 
@@ -104,40 +108,40 @@ const OrderModal = ({
           <p className="py-4">Rp. {harga * jumlah}</p>
 
           <form action="">
-            <label className="form-control w-full max-w-xs">
+            <label className="form-control w-full">
               <div className="label">
                 <span className="label-text">Jumlah</span>
               </div>
               <input
                 type="number"
                 placeholder="Type here"
-                className="input input-bordered w-full max-w-xs"
+                className="input input-bordered w-full"
                 onChange={(e) => setJumlah(e.target.value)}
                 value={jumlah}
               />
             </label>
-            <label className="form-control w-full max-w-xs">
+            <label className="form-control w-full">
               <div className="label">
                 <span className="label-text">Catatan</span>
               </div>
               <input
                 type="text"
                 placeholder="Type here"
-                className="input input-bordered w-full max-w-xs"
+                className="input input-bordered w-full"
                 onChange={(e) => setCatatan(e.target.value)}
                 value={catatan}
               />
             </label>
-            <div className="">
+            <div className="mt-2">
               <button
                 className="btn btn-success w-full my-2  text-white"
                 onClick={handleAddKeranjang}
               >
                 Tambahkan keranjang
               </button>
-              <button className="btn btn-error w-full text-white" onClick={orderLangsungHandler}>
+              {/* <button className="btn btn-error w-full text-white" onClick={orderLangsungHandler}>
                 Order Langsung
-              </button>
+              </button> */}
             </div>
           </form>
         </div>

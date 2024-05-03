@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { deleteHistory, getHistory } from "../api/historyApi";
 import { DecodeToken } from "../helper/DecodeToken";
 import MainLayout from "../components/layout/MainLayout";
+import toast, { Toaster } from "react-hot-toast";
 
 const History = () => {
   const [historyData, setHistoryData] = useState();
@@ -22,7 +23,9 @@ const History = () => {
   const deleteHistoryHandler = async () => {
     const response = await deleteHistory(userId);
     if (response) {
-      setOpenModal(true);
+      // setOpenModal(true);
+      toast.success("Riwayat Berhasil dihapus");
+      setHistoryData([]);
       //   window.location.reload();
     }
     console.log(response);
@@ -31,7 +34,13 @@ const History = () => {
     <>
       <div className="mb-20">
         <MainLayout>
-          <Header title="Riwayat Transaksi" userId={userId} handler={deleteHistoryHandler} />
+          <Toaster />
+          <Header
+            title="Riwayat Transaksi"
+            action="Hapus Riwayat"
+            userId={userId}
+            handler={deleteHistoryHandler}
+          />
 
           {historyData
             ? [...historyData].reverse().map((history) => {

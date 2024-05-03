@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import Header from "../components/Header";
 import SearchBar from "../components/SearchBar";
 import MenuCard from "../components/card/MenuCard";
+import toast, { Toaster } from "react-hot-toast";
 
 const Warung = () => {
   const { tokoId } = useParams();
@@ -32,6 +33,7 @@ const Warung = () => {
       {tokoData ? (
         <>
           <Header title={tokoData.toko} />
+          <Toaster />
           <SearchBar />
           <div className="flex gap-1 mt-2 mx-5 ">
             {listKategori.map((data) => {
@@ -47,7 +49,12 @@ const Warung = () => {
           <div className="flex flex-wrap gap-5 justify-center mt-5 mb-20 ">
             {tokoData.produk.map((item) => (
               <>
-                <MenuCard key={item._id} {...item} />
+                <MenuCard
+                  key={item._id}
+                  {...item}
+                  isSuccess={() => toast.success("berhasil menambahkan ke keranjang")}
+                  isError={() => toast.error("gagal menambahkan ke keranjang")}
+                />
               </>
             ))}
           </div>

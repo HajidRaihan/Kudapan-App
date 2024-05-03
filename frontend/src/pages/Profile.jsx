@@ -14,6 +14,7 @@ import Header from "../components/Header";
 import BackButton from "../components/BackButton";
 import { addBalance } from "../api/walletApi";
 import TopUpModal from "../components/modals/TopUpModal";
+import { useNavigate } from "react-router-dom";
 
 const MoneyIcon = styled(Money)`
   color: #105a37;
@@ -40,6 +41,7 @@ const Profile = () => {
   const [userData, setUserData] = useState();
   const [topUpModalOpen, setTopUpModalOpen] = useState(false);
   const [balance, setBalance] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = TokenHandler();
@@ -114,7 +116,10 @@ const Profile = () => {
             <MoneyWithDrawIcon />
             <p>Top up Saldo</p>
           </div>
-          <div className="flex items-center gap-1 pt-3 pb-3 border-b border-[#4c4c4c] hover:bg-slate-100">
+          <div
+            className="flex items-center gap-1 pt-3 pb-3 border-b border-[#4c4c4c] hover:bg-slate-100"
+            onClick={() => navigate("/edit/profile")}
+          >
             <EditIcon />
             <p>Edit Profile</p>
           </div>

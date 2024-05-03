@@ -8,12 +8,10 @@ function TimeAgo({ timestamp }) {
 
   // // Hitung jarak waktu antara tanggal sekarang dan timestamp
   // const timeAgo = formatDistanceToNow(date);
-  console.log(timestamp);
 
   // const timeAgo = moment("2024-04-12T06:24:44.647Z").fromNow(true);
   const currentTime = moment(); // Waktu saat ini
   const uploadTime = moment(timestamp); // Waktu upload
-  console.log({ uploadTime });
 
   const duration = moment.duration(currentTime.diff(uploadTime));
   const hoursAgo = duration.asHours(); // Selisih waktu dalam jam
