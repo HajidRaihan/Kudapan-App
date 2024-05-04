@@ -151,13 +151,16 @@ const deleteProduk = async (req, res) => {
 
 const getProduk = async (req, res) => {
   const { tokoId } = req.params;
-  const { type } = req.query;
+  const { type, search } = req.query;
 
   try {
     // Temukan toko berdasarkan ID
-    let query;
+    let query = {};
     if (type) {
-      query = { type: type };
+      query.type = type;
+    }
+    if (search) {
+      query.nama = { $regex: search, $options: "i" }; // Menambahkan pencarian berdasarkan nama produk dengan case insensitive
     }
 
     const toko = await Toko.findById(tokoId).populate({

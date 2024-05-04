@@ -6,11 +6,13 @@ const {
   deleteProdukKeranjang,
   increaseProdukKeranjang,
   clearKeranjang,
-} = require("../Controller/keranjangController");
+  getJumlahKeranjang,
+} = require("../controller/keranjangController");
 const { verifyUser } = require("../middleware/verifyAccessToken");
 
 router.post("/add/:userId", verifyUser("customer"), addProdukKeranjang);
 router.get("/get/:userId", verifyUser("customer"), getKeranjang);
+router.get("/get/jumlah/:userId", verifyUser("customer"), getJumlahKeranjang);
 router.delete(
   "/delete/:orderIndex/:produkIndex/:userId",
   verifyUser("customer"),

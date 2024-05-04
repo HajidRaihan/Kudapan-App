@@ -298,10 +298,31 @@ const clearKeranjang = async (req, res) => {
   }
 };
 
+const getJumlahKeranjang = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const jumlahKeranjang = user.keranjang.reduce((total, order) => {
+      return total + order.produk.reduce((sum, produk) => sum + produk.jumlah, 0);
+    }, 0);
+
+    return res.status(200).json({ jumlahKeranjang });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Gagal menampilkan jumlah keranjang", detail: error });
+  }
+};
+
 module.exports = {
   addProdukKeranjang,
   getKeranjang,
   deleteProdukKeranjang,
   increaseProdukKeranjang,
   clearKeranjang,
+  getJumlahKeranjang,
 };
