@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Input from "../components/Input";
 import Header from "../components/Header";
 import { TokenHandler } from "../helper/TokenHandler";
@@ -6,6 +6,7 @@ import { DecodeToken } from "../helper/DecodeToken";
 import { editProfile, getUserById } from "../api/userApi";
 import { Edit } from "@styled-icons/boxicons-solid/Edit";
 import { styled } from "styled-components";
+import toast, { Toaster } from "react-hot-toast";
 
 const EditIcon = styled(Edit)`
   color: #fff;
@@ -56,9 +57,11 @@ const EditProfile = () => {
     // return console.log({ data });
     try {
       const res = await editProfile(userId, data);
+      toast.success("Profile berhasil diubah");
       console.log(res);
     } catch (error) {
       console.error(error);
+      toast.error("Profile gagal diubah");
     }
   };
 
@@ -70,6 +73,7 @@ const EditProfile = () => {
 
   return (
     <div className="xl:mx-96 lg:mx-32">
+      <Toaster />
       <Header title="Edit Profile" />
       <div className="mt-10">
         <div>

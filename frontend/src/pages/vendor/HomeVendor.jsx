@@ -24,8 +24,7 @@ const HomeVendor = () => {
   const [userDetail, setUserDetail] = useState();
   const [editProdukOpen, setEditProdukOpen] = useState(false);
   const [newProdukOpen, setNewProdukOpen] = useState(false);
-  const [hapusModalOpen, setHapusModalOpen] = useState(false);
-  const [editModalOpen, setEditModalOpen] = useState(false);
+
   const [produkId, setProdukId] = useState("");
   const [detailProduk, setDetailProduk] = useState();
   const token = TokenHandler();
@@ -75,7 +74,7 @@ const HomeVendor = () => {
     if (produkId) {
       getProdukById();
     }
-   }, [produkId]);
+  }, [produkId]);
 
   const editProdukOpenHandler = (id) => {
     setProdukId(id);

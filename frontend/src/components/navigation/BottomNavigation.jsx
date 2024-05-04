@@ -17,6 +17,8 @@ import styled from "styled-components";
 import { TokenHandler } from "../../helper/TokenHandler";
 import { DecodeToken } from "../../helper/DecodeToken";
 import { useEffect, useState } from "react";
+import { getJumlahKeranjang } from "../../api/keranjangApi";
+import PropTypes from "prop-types";
 
 const HomeIconBlack = styled(HomeIcon)`
   color: #4c4c4c;
@@ -58,8 +60,26 @@ const PersonIconRed = styled(PersonFill)`
   width: 24px;
 `;
 
-const BottomNavigation = ({ userImage }) => {
+const BottomNavigation = ({ orderCount }) => {
   const location = useLocation().pathname;
+
+  const [jumlahKeranjang, setJumlahKeranjang] = useState(0);
+
+  const userId = DecodeToken()._id;
+  console.log({ userId });
+
+  useEffect(() => {
+    const fetchJumlahKeranjang = async () => {
+      const response = await getJumlahKeranjang(userId);
+      if (response.jumlahKeranjang !== undefined) {
+        setJumlahKeranjang(response.jumlahKeranjang);
+      }
+      console.log(response);
+    };
+    if (userId) {
+      fetchJumlahKeranjang();
+    }
+  }, [userId, orderCount]);
 
   return (
     <div className="w-full h-12 bg-white fixed m-0 bottom-0 flex items-center justify-center shadow-2xl shadow-black z-50">
@@ -84,7 +104,7 @@ const BottomNavigation = ({ userImage }) => {
             riwayat
           </p>
         </Link>
-        <Link to={"/keranjang"} className="flex flex-col items-center justify-center">
+        <Link to={"/keranjang"} className="relative flex flex-col items-center justify-center">
           {location === "/keranjang" ? <CartIconRed /> : <CartIconBlack />}
           <p
             className={`text-center text-[10px] ${
@@ -93,6 +113,11 @@ const BottomNavigation = ({ userImage }) => {
           >
             keranjang
           </p>
+          {jumlahKeranjang !== 0 && (
+            <div className="absolute top-0 left-2 w-4 h-4 bg-primary rounded-full flex items-center justify-center">
+              <p className="text-[10px] text-white">{jumlahKeranjang}</p>
+            </div>
+          )}
         </Link>
 
         <Link to={"/profile"} className="flex flex-col items-center justify-center">
@@ -108,6 +133,10 @@ const BottomNavigation = ({ userImage }) => {
       </div>
     </div>
   );
+};
+
+BottomNavigation.propTypes = {
+  orderCount: PropTypes.number,
 };
 
 export default BottomNavigation;

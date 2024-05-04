@@ -24,20 +24,16 @@ const Login = () => {
       password: password,
     };
     console.log(credential);
-    try {
-      const res = await loginUser(credential);
-      if (res) {
-        alert("login succes");
-        if (res.role === "customer") {
-          navigate("/");
-        } else if (res.role === "vendor") {
-          navigate("/vendor");
-        }
+    const res = await loginUser(credential);
+    if (res) {
+      alert("login sukses");
+      if (res.role === "customer") {
+        navigate("/");
+      } else if (res.role === "vendor") {
+        navigate("/vendor");
       }
-      console.log(res);
-    } catch (error) {
-      throw error;
     }
+    console.log(res);
   };
 
   return (

@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getDetailProduk } from "../api/api";
 import { addProdukKeranjang } from "../api/keranjangApi";
 import { addOrder } from "../api/orderAPi";
 import { DecodeToken } from "../helper/DecodeToken";
-import toast, { Toaster } from "react-hot-toast";
+import FormatRupiah from "../helper/FormatRupiah";
+import PropTypes from "prop-types";
 
 const OrderModal = ({
   close,
-  image,
   menuId,
   nama,
   harga,
@@ -16,6 +16,7 @@ const OrderModal = ({
   isKeranjangModalHandler,
   isSuccess,
   isError,
+  setOrderCount,
 }) => {
   const [jumlah, setJumlah] = useState(1);
   const [catatan, setCatatan] = useState("");
@@ -42,6 +43,8 @@ const OrderModal = ({
       close();
       // openAlertModalHandler();
       isSuccess();
+      setOrderCount((prev) => prev + parseInt(jumlah));
+      // setOrderCount((prev) => prev - parseInt(jumlah));
       console.log(data);
     } catch (error) {
       console.log(error);
@@ -105,8 +108,9 @@ const OrderModal = ({
             </button>
           </form>
           <h3 className="font-bold text-lg">{nama}</h3>
-          <p className="py-4">Rp. {harga * jumlah}</p>
-
+          <p className="py-4">
+            <FormatRupiah value={harga * jumlah} />
+          </p>
           <form action="">
             <label className="form-control w-full">
               <div className="label">
@@ -179,6 +183,19 @@ const OrderModal = ({
     //   </dialog>
     // </div>
   );
+};
+
+OrderModal.propTypes = {
+  close: PropTypes.func.isRequired,
+  image: PropTypes.string,
+  menuId: PropTypes.string.isRequired,
+  nama: PropTypes.string.isRequired,
+  harga: PropTypes.number.isRequired,
+  openAlertModalHandler: PropTypes.func.isRequired,
+  isKeranjangModalHandler: PropTypes.func.isRequired,
+  isSuccess: PropTypes.func.isRequired,
+  isError: PropTypes.func.isRequired,
+  setOrderCount: PropTypes.func.isRequired,
 };
 
 export default OrderModal;

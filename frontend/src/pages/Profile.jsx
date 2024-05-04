@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getUserById } from "../api/userApi";
 import { DecodeToken } from "../helper/DecodeToken";
 import { TokenHandler } from "../helper/TokenHandler";
@@ -10,11 +10,11 @@ import MainLayout from "../components/layout/MainLayout";
 import { MoneyWithdraw } from "@styled-icons/boxicons-regular/MoneyWithdraw";
 import { Edit } from "@styled-icons/boxicons-solid/Edit";
 import { LogOut } from "@styled-icons/boxicons-regular/LogOut";
-import Header from "../components/Header";
 import BackButton from "../components/BackButton";
 import { addBalance } from "../api/walletApi";
 import TopUpModal from "../components/modals/TopUpModal";
 import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 
 const MoneyIcon = styled(Money)`
   color: #105a37;
@@ -61,9 +61,21 @@ const Profile = () => {
   }, [userId]);
 
   const topUpHandler = async () => {
-    const res = await addBalance(userId, { saldo: parseInt(balance) });
-    console.log(res);
-    window.location.reload();
+    try {
+      const res = await addBalance(userId, { saldo: parseInt(balance) });
+      console.log(res);
+      toast.success("Top up saldo berhasil");
+      setUserData((prevState) => ({
+        ...prevState,
+        saldo: prevState.saldo + parseInt(balance),
+      }));
+      setTopUpModalOpen(false);
+    } catch (error) {
+      toast.error("Top up saldo gagal");
+      console.error(error);
+    }
+
+    // window.location.reload();
   };
 
   const logoutHanlder = () => {
@@ -73,6 +85,7 @@ const Profile = () => {
 
   return (
     <MainLayout>
+      <Toaster />
       <div>
         <div className="relative">
           <div className="mx-5 absolute z-50 mt-1">
@@ -92,11 +105,11 @@ const Profile = () => {
           <div className="flex items-center gap-5">
             <div className="avatar">
               <div className="w-24 rounded-full">
-                <img
-                  src={`http://localhost:8000/images/${userData.image}`}
-                  alt=""
-                  // className="w-20 h-20"
-                />
+                {userData?.image !== null ? (
+                  <img src={`http://localhost:8000/images/${userData?.image}`} />
+                ) : (
+                  <img src="https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg" />
+                )}
               </div>
             </div>
             <div>
@@ -138,7 +151,7 @@ const Profile = () => {
       {topUpModalOpen && (
         <TopUpModal
           value={balance}
-          onChange={(e) => setBalance(e.target.value)}
+          onChange={(e) => setBalance(e.target.value.replace(/\D/g, ""))}
           handler={topUpHandler}
           close={() => setTopUpModalOpen(false)}
         />

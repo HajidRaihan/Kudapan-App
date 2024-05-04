@@ -1,3 +1,5 @@
+import FormatRupiah from "../../helper/FormatRupiah";
+
 const CardTransaksi = ({ ...produk }) => {
   return (
     <>
@@ -29,10 +31,14 @@ const CardTransaksi = ({ ...produk }) => {
         </div>
         <div className="flex flex-col justify-center">
           <h1 className="text-md font-bold truncate w-48">{produk.nama}</h1>
-          <p className="text-[10px]">Harga : {produk.harga}</p>
+          <p className="text-[10px]">
+            Harga : <FormatRupiah value={produk.harga} />
+          </p>
           <p className="text-[10px]">Jumlah : {produk.jumlah}</p>
           <p className="text-[10px]">Catatan : {produk.catatan}</p>
-          <p className="text-xs font-semibold">Total : {produk.total}</p>
+          <p className="text-xs font-semibold">
+            Total : <FormatRupiah value={produk.total} />
+          </p>
         </div>
       </div>
     </>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { createToko } from "../api/tokoApi";
 import Input from "../components/Input";
 import { DecodeToken } from "../helper/DecodeToken";

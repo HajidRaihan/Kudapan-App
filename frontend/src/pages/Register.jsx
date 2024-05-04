@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { registerUser } from "../api/authApi";
 
 const Register = () => {
@@ -81,8 +81,8 @@ const Register = () => {
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
       </div>
-      <button class="btn btn-accent" onClick={handleRegister}>
-        Accent
+      <button className="btn bg-primary text-white w-full" onClick={handleRegister}>
+        Register
       </button>
     </div>
   );

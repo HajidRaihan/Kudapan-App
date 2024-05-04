@@ -1,4 +1,3 @@
-import Banner from "../components/Banner";
 import CounterCard from "../components/card/CounterCard";
 import Kategori from "../components/Kategori";
 import SearchBar from "../components/SearchBar";
@@ -6,7 +5,6 @@ import { useEffect, useState } from "react";
 import { TokenHandler } from "../helper/TokenHandler";
 import { DecodeToken } from "../helper/DecodeToken";
 import { getAllToko } from "../api/tokoApi";
-import BottomNavigation from "../components/navigation/BottomNavigation";
 import { useNavigate } from "react-router-dom";
 import MainLayout from "../components/layout/MainLayout";
 import FormatRupiah from "../helper/FormatRupiah";
@@ -24,7 +22,6 @@ const Home = () => {
   const [userDetail, setUserDetail] = useState();
   const [userId, setUserId] = useState("");
   const [search, setSearch] = useState("");
-  const [profile, setProfile] = useState("");
   const location = useLocation();
 
   // Get the value of 'meja' from the query string and save it in cookies when the component mounts
@@ -100,12 +97,12 @@ const Home = () => {
       </div>
       <SearchBar handler={searchHandler} value={search} />
       {/* <Banner title="KUDAPAN APP" /> */}
-      <div className="flex gap-1 my-5 mx-5">
+      {/* <div className="flex gap-1 my-5 mx-5">
         <Kategori title="All" selected={true} />
         <Kategori title="Makanan" />
         <Kategori title="Minuman" />
         <Kategori title="Dessert" />
-      </div>
+      </div> */}
 
       <div className="mx-5 pb-20">
         {counter?.map((data, index) => {

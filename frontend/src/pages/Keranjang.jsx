@@ -7,23 +7,19 @@ import {
 } from "../api/keranjangApi";
 import { addOrder } from "../api/orderAPi";
 import AlertModal from "../components/AlertModal";
-import BottomNavigation from "../components/navigation/BottomNavigation";
 import Header from "../components/Header";
 import KeranjangCard from "../components/KeranjangCard";
 import KonfirmasiModal from "../components/KonfirmasiModal";
 import { DecodeToken } from "../helper/DecodeToken";
 import MainLayout from "../components/layout/MainLayout";
 import toast, { Toaster } from "react-hot-toast";
-
-import { io } from "socket.io-client";
+import FormatRupiah from "../helper/FormatRupiah";
 
 const Keranjang = () => {
   const [keranjangData, setKeranjangData] = useState();
-  const [totalHarga, setTotalHarga] = useState();
   const [open, setOpen] = useState(false);
   const [alertModalOpen, setAlertModalOpen] = useState(false);
   const token = DecodeToken();
-  const socket = io("http://localhost:8000");
   const userId = token._id;
 
   const openHandler = () => {
@@ -48,16 +44,21 @@ const Keranjang = () => {
     console.log("testes");
     try {
       const res = await addOrder(userId, 1);
-      console.log(res);
-      toast.success("Berhasil Melakukan Order");
+      if (res) {
+        console.log("sukses kokk");
+        console.log(res);
+        toast.success("Berhasil Melakukan Order");
 
-      // setAlertModalOpen(true);
-      setKeranjangData([]);
-      setOpen(false);
-      console.log("sukses");
+        // setAlertModalOpen(true);
+        setKeranjangData([]);
+        setOpen(false);
+        console.log("sukses");
+      }
+      // toast.error("gagal melakukan order");
     } catch (error) {
-      console.error(error);
-      toast.error("gagal melakukan order");
+      toast.error("gagal melakukan order " + error.response.data.error);
+      console.error("error", error);
+      setOpen(false);
     }
   };
 
@@ -114,7 +115,9 @@ const Keranjang = () => {
               return (
                 <div key={keranjang._id} className="mx-5 mb-8">
                   <h1 className="text-lg font-semibold">{keranjang.nama_toko}</h1>
-                  <p className="text-sm">total harga : {keranjang.total_harga}</p>
+                  <p className="text-sm">
+                    total harga : <FormatRupiah value={keranjang.total_harga} />
+                  </p>
                   <div className="w-full border border-black my-3" />
                   {keranjang.produk.map((produk) => {
                     return (

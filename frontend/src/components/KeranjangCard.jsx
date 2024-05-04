@@ -1,6 +1,7 @@
 import DeleteIcon from "../assets/icon/delete-white.svg";
 import PlusIcon from "../assets/icon/plus.svg";
 import MinusIcon from "../assets/icon/minus.svg";
+import FormatRupiah from "../helper/FormatRupiah";
 
 const KeranjangCard = ({
   keranjangIndex,
@@ -22,10 +23,14 @@ const KeranjangCard = ({
       </div>
       <div className="flex flex-col justify-center">
         <h1 className="text-md font-bold">{produk.nama}</h1>
-        <p className="text-[10px]">Harga : {produk.harga}</p>
+        <p className="text-[10px]">
+          Harga : <FormatRupiah value={produk.harga} />
+        </p>
         <p className="text-[10px]">Jumlah : {produk.jumlah}</p>
         <p className="text-[10px]">Catatan : {produk.catatan}</p>
-        <p className="text-xs font-semibold">Total : {produk.total}</p>
+        <p className="text-xs font-semibold">
+          Total : <FormatRupiah value={produk.total} />
+        </p>
       </div>
       <div className="absolute bottom-1 right-1">
         <div

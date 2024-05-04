@@ -1,11 +1,11 @@
 import CardTransaksi from "../components/card/CardTransaksi";
-import BottomNavigation from "../components/navigation/BottomNavigation";
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
 import { deleteHistory, getHistory } from "../api/historyApi";
 import { DecodeToken } from "../helper/DecodeToken";
 import MainLayout from "../components/layout/MainLayout";
 import toast, { Toaster } from "react-hot-toast";
+import FormatRupiah from "../helper/FormatRupiah";
 
 const History = () => {
   const [historyData, setHistoryData] = useState();
@@ -18,7 +18,7 @@ const History = () => {
       setHistoryData(res);
     };
     getAllHistory();
-  }, []);
+  }, [userId]);
 
   const deleteHistoryHandler = async () => {
     const response = await deleteHistory(userId);
@@ -55,11 +55,13 @@ const History = () => {
 
                     <div className="w-full border border-black my-3" />
 
-                    {history.pesanan.map((toko) => {
+                    {history.pesanan.map((toko, index) => {
                       return (
-                        <div className="mb-5">
+                        <div className="mb-5" key={index}>
                           <h1 className="text-base font-semibold">{toko.nama_toko}</h1>
-                          <p className="text-xs">total harga : {toko.total_harga}</p>
+                          <p className="text-xs">
+                            total harga : <FormatRupiah value={toko.total_harga} />
+                          </p>
 
                           {toko.produk.map((produk) => {
                             return <CardTransaksi key={produk._id} {...produk} />;

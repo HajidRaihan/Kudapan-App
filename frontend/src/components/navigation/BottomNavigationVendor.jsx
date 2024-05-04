@@ -1,22 +1,10 @@
-// import Chart from "../../assets/icon/shopping-cart-red.svg";
-import ChartBlack from "../../assets/icon/shopping-cart-black.svg";
-import HistoryIcon from "../../assets/icon/book-red.svg";
-import HistoryIconBlack from "../../assets/icon/book-black.svg";
-// import HomeIcon from "../../assets/icon/home-red.svg";
-// import HomeIconBlack from "../../assets/icon/home-black.svg";
 import { Link, useLocation } from "react-router-dom";
 import { Home as HomeIcon } from "@styled-icons/boxicons-regular";
 import { Home as HomeIconSolid } from "@styled-icons/boxicons-solid";
-import { Cart } from "@styled-icons/fluentui-system-regular/Cart";
-import { Cart as CartSolid } from "@styled-icons/fluentui-system-filled/Cart";
 import { Book } from "@styled-icons/boxicons-regular/Book";
 import { Book as BookSolid } from "@styled-icons/boxicons-solid/Book";
-import { Person } from "@styled-icons/bootstrap/Person";
-import { PersonFill } from "@styled-icons/bootstrap/PersonFill";
+
 import styled from "styled-components";
-import { TokenHandler } from "../../helper/TokenHandler";
-import { DecodeToken } from "../../helper/DecodeToken";
-import { useEffect, useState } from "react";
 
 const HomeIconBlack = styled(HomeIcon)`
   color: #4c4c4c;
@@ -24,16 +12,6 @@ const HomeIconBlack = styled(HomeIcon)`
 `;
 
 const HomeIconSolidRed = styled(HomeIconSolid)`
-  color: #f40027;
-  width: 24px;
-`;
-
-const CartIconBlack = styled(Cart)`
-  color: #4c4c4c;
-  width: 24px;
-`;
-
-const CartIconRed = styled(CartSolid)`
   color: #f40027;
   width: 24px;
 `;
@@ -48,17 +26,7 @@ const BookSolidRed = styled(BookSolid)`
   width: 24px;
 `;
 
-const PersonIconBlack = styled(Person)`
-  color: #4c4c4c;
-  width: 24px;
-`;
-
-const PersonIconRed = styled(PersonFill)`
-  color: #f40027;
-  width: 24px;
-`;
-
-const BottomNavigationVendor = ({ userImage }) => {
+const BottomNavigationVendor = () => {
   const location = useLocation().pathname;
 
   return (

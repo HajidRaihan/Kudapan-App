@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { changeStatusOrder, deleteRiwayatPesanan, getPesanan } from "../../api/pesananApi";
 import CardTransaksi from "../../components/card/CardTransaksi";
 import { DecodeToken } from "../../helper/DecodeToken";
-import { formatDistanceToNow } from "date-fns";
 import TimeAgo from "../../helper/TimeAgo";
 import ChangeStatusOrderModal from "../../components/modals/ChangeStatusOrderModal";
 import VendorLayout from "../../components/layout/VendorLayout";
@@ -48,7 +47,7 @@ const Pesanan = () => {
 
     // Panggil fetchData sekali saat komponen dimount
     fetchData();
-  }, []);
+  }, [userId]);
 
   const changeStatusOrderHandler = async () => {
     console.log({ status });

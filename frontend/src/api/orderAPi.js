@@ -20,6 +20,7 @@ const addOrder = async (userId, meja) => {
     return responseData;
   } catch (error) {
     console.error("Terjadi kesalahan saat membuat order", error);
+    throw error;
   }
 };
 

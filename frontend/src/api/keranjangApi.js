@@ -107,10 +107,32 @@ const clearKeranjang = async (userId) => {
   }
 };
 
+const getJumlahKeranjang = async (userId) => {
+  const token = TokenHandler();
+  const headerToken = {
+    Authorization: `${token}`,
+  };
+
+  try {
+    const responseData = await RequestApi(
+      "GET",
+      `keranjang/get/jumlah/${userId}`,
+      {},
+      headerToken,
+      "mengambil jumlah keranjang"
+    );
+    return responseData;
+  } catch (error) {
+    console.error("Terjadi kesalahan saat mengambil jumlah keranjang", error);
+    throw error;
+  }
+};
+
 export {
   addProdukKeranjang,
   getKeranjang,
   deleteProdukKeranjang,
   increaseProdukKeranjang,
   clearKeranjang,
+  getJumlahKeranjang,
 };
