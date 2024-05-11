@@ -28,9 +28,14 @@ const userSchema = new mongoose.Schema({
     default: "customer",
   }, // Menambah atribut role
   toko: { type: mongoose.Schema.Types.ObjectId, ref: "Toko" },
-  order_history: [historySchema],
+  // order_history: [historySchema],
   keranjang: [keranjangSchema],
-  orders: [orderSchema],
+  // orders: [
+  //   {
+  //     type: mongoose.Schema.Types.ObjectId,
+  //     ref: "Order",
+  //   },
+  // ],
   saldo: {
     type: Number,
     default: 0,

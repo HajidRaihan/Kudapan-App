@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const keranjangSchema = require("./Cart");
+const orderSchema = require("./Order");
 
 const historySchema = new mongoose.Schema({
   pesanan: [keranjangSchema],
@@ -15,11 +16,11 @@ const historySchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  status: {
-    type: String,
-    enum: ["diterima", "diproses", "Selesai"],
-    default: "diterima",
-  },
+  // status: {
+  //   type: String,
+  //   enum: ["diterima", "diproses", "Selesai"],
+  //   default: "diterima",
+  // },
 });
 
 module.exports = historySchema;

@@ -56,7 +56,7 @@
 // }
 
 const dotenv = require("dotenv");
-const { Produk, Toko, User } = require("../models");
+const { Produk, Toko, User, Order } = require("../models");
 const dataProduk = require("./data/dataProduk");
 const dataToko = require("./data/dataToko");
 const dataUser = require("./data/dataUser");
@@ -66,7 +66,12 @@ require("../db/mongoose");
 
 const seedDatabase = async () => {
   try {
-    await Promise.all([Toko.deleteMany(), Produk.deleteMany(), User.deleteMany()]);
+    await Promise.all([
+      Toko.deleteMany(),
+      Produk.deleteMany(),
+      User.deleteMany(),
+      Order.deleteMany(),
+    ]);
 
     await Promise.all([
       Toko.insertMany(dataToko),
@@ -84,7 +89,12 @@ const seedDatabase = async () => {
 
 const deleteDatabase = async () => {
   try {
-    await Promise.all([Produk.deleteMany(), Toko.deleteMany(), User.deleteMany()]);
+    await Promise.all([
+      Produk.deleteMany(),
+      Toko.deleteMany(),
+      User.deleteMany(),
+      Order.deleteMany(),
+    ]);
     console.log("Data destroyed");
     process.exit();
   } catch (err) {

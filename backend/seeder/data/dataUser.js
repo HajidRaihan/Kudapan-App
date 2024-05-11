@@ -58,15 +58,29 @@
 const bcrypt = require("bcrypt");
 const dataToko = require("./dataToko");
 
-const dataUser = Array.from({ length: 10 }).map((_, index) => ({
-  nama: `Vendor ${index + 1}`,
-  email: `vendor${index + 1}@example.com`,
-  password: bcrypt.hashSync("password123", 10),
-  role: "vendor",
-  toko: dataToko[index]._id,
+const customerUser = {
+  nama: "Hajid Raihan",
+  email: "hajidraihan@gmail.com",
+  password: bcrypt.hashSync("password", 10),
+  role: "customer",
+  toko: null,
   order_history: [],
   keranjang: [],
   orders: [],
-}));
+};
 
+// Menggabungkan pengguna pelanggan dengan data pengguna yang sudah ada
+const dataUser = [
+  ...Array.from({ length: 10 }).map((_, index) => ({
+    nama: `Vendor ${index + 1}`,
+    email: `vendor${index + 1}@example.com`,
+    password: bcrypt.hashSync("password", 10),
+    role: "vendor",
+    toko: dataToko[index]._id,
+    order_history: [],
+    keranjang: [],
+    orders: [],
+  })),
+  customerUser, // Menambahkan pengguna pelanggan ke array data pengguna
+];
 module.exports = dataUser;
