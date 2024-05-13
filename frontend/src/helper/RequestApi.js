@@ -4,12 +4,12 @@ import axios from "axios";
 const API_BASE_URL = "http://localhost:8000/api";
 
 const handleErrorResponse = (error, action) => {
-  console.error(`Error: saat ${action}`, error);
+  // console.error(`Error: saat ${action}`, error);
   throw error;
 };
 
 const RequestApi = async (method, url, data = {}, headers = {}, action) => {
-  console.log(headers);
+  // console.log(headers);
   try {
     const response = await axios({
       method,

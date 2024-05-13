@@ -7,6 +7,7 @@ import Header from "../components/Header";
 import SearchBar from "../components/SearchBar";
 import MenuCard from "../components/card/MenuCard";
 import toast, { Toaster } from "react-hot-toast";
+import MainLayout from "../components/layout/MainLayout";
 
 const Warung = () => {
   const { tokoId } = useParams();
@@ -29,7 +30,7 @@ const Warung = () => {
   const listKategori = ["semua", "makanan", "minuman"];
 
   return (
-    <>
+    <MainLayout>
       {tokoData ? (
         <>
           <Header title={tokoData.toko} />
@@ -67,7 +68,7 @@ const Warung = () => {
       ) : (
         ""
       )}
-    </>
+    </MainLayout>
   );
 };
 

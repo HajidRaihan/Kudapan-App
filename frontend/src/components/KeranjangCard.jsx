@@ -1,7 +1,7 @@
-import DeleteIcon from "../assets/icon/delete-white.svg";
 import PlusIcon from "../assets/icon/plus.svg";
 import MinusIcon from "../assets/icon/minus.svg";
 import FormatRupiah from "../helper/FormatRupiah";
+import PropTypes from "prop-types";
 
 const KeranjangCard = ({
   keranjangIndex,
@@ -48,6 +48,13 @@ const KeranjangCard = ({
       </div>
     </div>
   );
+};
+KeranjangCard.propTypes = {
+  keranjangIndex: PropTypes.number.isRequired,
+  produkIndex: PropTypes.number.isRequired,
+  deleteProdukKeranjangHandler: PropTypes.func.isRequired,
+  increaseProdukKeranjangHandler: PropTypes.func.isRequired,
+  produk: PropTypes.object.isRequired,
 };
 
 export default KeranjangCard;

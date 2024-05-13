@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types"; // Pastikan untuk mengimpor PropTypes
 
 const CounterCard = ({ nama, deskripsi, image, id }) => {
   return (
@@ -16,6 +17,13 @@ const CounterCard = ({ nama, deskripsi, image, id }) => {
       </div>
     </Link>
   );
+};
+
+CounterCard.propTypes = {
+  nama: PropTypes.string.isRequired,
+  deskripsi: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
 };
 
 export default CounterCard;

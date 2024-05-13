@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import FormatRupiah from "../../helper/FormatRupiah";
 import AlertModal from "../AlertModal";
 import OrderModal from "../OrderModal";
+import PropTypes from "prop-types";
 
 const MenuCard = ({ nama, harga, image, _id, isSuccess, isError, setOrderCount }) => {
   const [menuId, setMenuId] = useState("");
@@ -30,24 +31,23 @@ const MenuCard = ({ nama, harga, image, _id, isSuccess, isError, setOrderCount }
   };
 
   return (
-    <Link className="card bg-base-100 shadow-xl w-40 h-60" onClick={() => console.log("nama".nama)}>
+    <Link className="card bg-base-100 shadow-md w-32 h-50" onClick={() => console.log("nama".nama)}>
       <figure>
         <img
           src={`http://localhost:8000/images/${image}`}
           alt="Shoes"
-          className="h-28 w-full object-cover object-center"
+          className="h-28 w-full object-cover object-center rounded-xl"
         />
       </figure>
       <div className="p-3">
-        <h2 className="text-md font-semibold">{nama}</h2>
-        <p className="text-xs "></p>
+        <h2 className="text-xs font-semibold">{nama}</h2>
         <p className="text-[10px] font-semibold">
           <FormatRupiah value={harga} />
         </p>
         {/* <p>+</p> */}
         <div className="absolute bottom-3  right-3">
           <button
-            className="btn bg-primary btn-sm text-white hover:bg-secondary w-16"
+            className=" flex items-center justify-center  rounded-full bg-primary text-white hover:bg-secondary h-5 w-5"
             onClick={() => openHandler(_id)}
             // onClick={openHandler}
           >
@@ -79,6 +79,16 @@ const MenuCard = ({ nama, harga, image, _id, isSuccess, isError, setOrderCount }
       )}
     </Link>
   );
+};
+
+MenuCard.propTypes = {
+  nama: PropTypes.string.isRequired,
+  harga: PropTypes.number.isRequired,
+  image: PropTypes.string.isRequired,
+  _id: PropTypes.string.isRequired,
+  isSuccess: PropTypes.bool,
+  isError: PropTypes.bool,
+  setOrderCount: PropTypes.func.isRequired,
 };
 
 export default MenuCard;

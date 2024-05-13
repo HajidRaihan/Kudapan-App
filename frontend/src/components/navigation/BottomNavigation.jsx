@@ -1,9 +1,3 @@
-// import Chart from "../../assets/icon/shopping-cart-red.svg";
-import ChartBlack from "../../assets/icon/shopping-cart-black.svg";
-import HistoryIcon from "../../assets/icon/book-red.svg";
-import HistoryIconBlack from "../../assets/icon/book-black.svg";
-// import HomeIcon from "../../assets/icon/home-red.svg";
-// import HomeIconBlack from "../../assets/icon/home-black.svg";
 import { Link, useLocation } from "react-router-dom";
 import { Home as HomeIcon } from "@styled-icons/boxicons-regular";
 import { Home as HomeIconSolid } from "@styled-icons/boxicons-solid";
@@ -14,7 +8,6 @@ import { Book as BookSolid } from "@styled-icons/boxicons-solid/Book";
 import { Person } from "@styled-icons/bootstrap/Person";
 import { PersonFill } from "@styled-icons/bootstrap/PersonFill";
 import styled from "styled-components";
-import { TokenHandler } from "../../helper/TokenHandler";
 import { DecodeToken } from "../../helper/DecodeToken";
 import { useEffect, useState } from "react";
 import { getJumlahKeranjang } from "../../api/keranjangApi";

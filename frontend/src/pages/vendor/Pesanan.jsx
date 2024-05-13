@@ -8,6 +8,7 @@ import VendorLayout from "../../components/layout/VendorLayout";
 import Header from "../../components/Header";
 import toast, { Toaster } from "react-hot-toast";
 
+const token = DecodeToken();
 const Pesanan = () => {
   const [userId, setUserId] = useState();
   const [orderId, setOrderId] = useState();
@@ -16,7 +17,6 @@ const Pesanan = () => {
   const [status, setStatus] = useState();
 
   useState(() => {
-    const token = DecodeToken();
     setUserId(token._id);
   }, []);
 
@@ -25,7 +25,8 @@ const Pesanan = () => {
       try {
         // Panggil getPesanan sekali saat komponen dimount
         const initialPesanan = await getPesanan(userId);
-        setPesananData(initialPesanan);
+        // console.log({ initialPesanan });
+        setPesananData(initialPesanan.data);
       } catch (error) {
         console.error("Gagal memuat data pesanan:", error);
       }
@@ -34,8 +35,8 @@ const Pesanan = () => {
       const interval = setInterval(async () => {
         try {
           const res = await getPesanan(userId);
-          // console.log(res);
-          setPesananData(res);
+          console.log(res.data);
+          setPesananData(res.data);
         } catch (error) {
           console.error("Gagal memuat data pesanan:", error);
         }
@@ -67,6 +68,8 @@ const Pesanan = () => {
           // Temukan pesanan yang sesuai berdasarkan orderId
           const pesananToUpdate = updatedPesananData.find((pesanan) => pesanan._id === orderId);
 
+          console.log({ pesananToUpdate });
+
           // Jika pesanan ditemukan, perbarui statusnya
           if (pesananToUpdate) {
             pesananToUpdate.status = status;
@@ -93,6 +96,7 @@ const Pesanan = () => {
   const openHandler = (id) => {
     setOpen(true);
     setOrderId(id);
+    console.log(id);
   };
   const closeHandler = () => {
     setOpen(false);
@@ -145,8 +149,8 @@ const Pesanan = () => {
                   );
                 })} */}
 
-                <p className="text-xs">Pemesan : {pesanan.pemesan}</p>
-                <p className="text-xs">Email pemesan : {pesanan.email_pemesan}</p>
+                <p className="text-xs">Pemesan : {pesanan.user_pemesan.nama}</p>
+                <p className="text-xs">Email pemesan : {pesanan.user_pemesan.email}</p>
                 {/* <p className="text-xs">Waktu pemesanan : {pesanan.waktu_pemesanan}</p> */}
                 <p className="text-xs">Total harga : {pesanan.total_harga}</p>
                 <p className="text-xs">
