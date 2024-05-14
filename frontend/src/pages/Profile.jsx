@@ -123,21 +123,21 @@ const Profile = () => {
             </div>
           </div>
           <div
-            className="flex items-center gap-1 mt-14 pt-3 pb-3  -t border-b border-[#4c4c4c] hover:bg-slate-100"
+            className="flex items-center gap-1 mt-14 pt-3 pb-3  -t border-b border-[#4c4c4c] hover:bg-slate-100 cursor-pointer"
             onClick={() => setTopUpModalOpen(true)}
           >
             <MoneyWithDrawIcon />
             <p>Top up Saldo</p>
           </div>
           <div
-            className="flex items-center gap-1 pt-3 pb-3 border-b border-[#4c4c4c] hover:bg-slate-100"
+            className="flex items-center gap-1 pt-3 pb-3 border-b border-[#4c4c4c] hover:bg-slate-100 cursor-pointer"
             onClick={() => navigate("/edit/profile")}
           >
             <EditIcon />
             <p>Edit Profile</p>
           </div>
           <div
-            className="flex items-center gap-1 pt-3 pb-3 border-b border-[#4c4c4c] hover:bg-slate-100"
+            className="flex items-center gap-1 pt-3 pb-3 border-b border-[#4c4c4c] hover:bg-slate-100 cursor-pointer"
             onClick={logoutHanlder}
           >
             <LogOutIcon />

@@ -8,8 +8,8 @@ import VendorLayout from "../../components/layout/VendorLayout";
 import Header from "../../components/Header";
 import toast, { Toaster } from "react-hot-toast";
 
-const token = DecodeToken();
 const Pesanan = () => {
+  const token = DecodeToken();
   const [userId, setUserId] = useState();
   const [orderId, setOrderId] = useState();
   const [pesananData, setPesananData] = useState();

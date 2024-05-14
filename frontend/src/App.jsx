@@ -14,8 +14,20 @@ import QrTransaksi from "./pages/QrTransaksi";
 import Profile from "./pages/Profile";
 import SocketTest from "./pages/SocketTest";
 import EditProfile from "./pages/EditProfile";
+import Tes from "./pages/Tes";
+import { useEffect } from "react";
 
 function App() {
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const mejaValue = searchParams.get("meja");
+
+    if (mejaValue) {
+      // Save 'meja' value in cookies
+      document.cookie = `meja=${mejaValue}; path=/`;
+    }
+  }, [location.search]);
+
   return (
     <Router>
       <Routes>
@@ -34,7 +46,7 @@ function App() {
         <Route path="/create-toko" element={<CreateToko />} />
         <Route path="/vendor/pesanan" element={<Pesanan />} />
         <Route path="/socket" element={<SocketTest />} />
-        {/* <Route path="/tes" element={<Tes />} /> */}
+        <Route path="/tes" element={<Tes />} />
 
         <Route path="*" element={<p>Not found.</p>} />
       </Routes>

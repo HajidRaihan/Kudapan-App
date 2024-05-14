@@ -31,23 +31,23 @@ const MenuCard = ({ nama, harga, image, _id, isSuccess, isError, setOrderCount }
   };
 
   return (
-    <Link className="card bg-base-100 shadow-md w-32 h-50" onClick={() => console.log("nama".nama)}>
+    <Link className="card bg-base-100 shadow-md w-32 h-42">
       <figure>
         <img
           src={`http://localhost:8000/images/${image}`}
           alt="Shoes"
-          className="h-28 w-full object-cover object-center rounded-xl"
+          className="min-h-28 w-full object-cover object-center rounded-xl"
         />
       </figure>
       <div className="p-3">
-        <h2 className="text-xs font-semibold">{nama}</h2>
-        <p className="text-[10px] font-semibold">
+        <h2 className="text-xs font-medium text-ellipsis truncate">{nama}</h2>
+        <p className="text-[10px] font-medium">
           <FormatRupiah value={harga} />
         </p>
         {/* <p>+</p> */}
         <div className="absolute bottom-3  right-3">
           <button
-            className=" flex items-center justify-center  rounded-full bg-primary text-white hover:bg-secondary h-5 w-5"
+            className=" flex items-center justify-center  rounded-full bg-primary text-white hover:bg-secondary h-4 w-4"
             onClick={() => openHandler(_id)}
             // onClick={openHandler}
           >

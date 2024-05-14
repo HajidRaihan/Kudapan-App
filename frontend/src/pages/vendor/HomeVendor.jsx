@@ -86,7 +86,7 @@ const HomeVendor = () => {
   return (
     <div className="lg:flex flex-col items-center relative">
       <VendorLayout>
-        <div className="lg:w-[500px]">
+        <div className="lg:w-[700px]">
           <Toaster />
 
           <div className="mx-5 mt-3">

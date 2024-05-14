@@ -14,11 +14,14 @@ import { DecodeToken } from "../helper/DecodeToken";
 import MainLayout from "../components/layout/MainLayout";
 import toast, { Toaster } from "react-hot-toast";
 import FormatRupiah from "../helper/FormatRupiah";
+import { decrypt } from "../helper/Encrypt";
+import Cookies from "js-cookie";
 
 const Keranjang = () => {
   const [keranjangData, setKeranjangData] = useState();
   const [open, setOpen] = useState(false);
   const [alertModalOpen, setAlertModalOpen] = useState(false);
+  const [meja, setMeja] = useState("");
   const token = DecodeToken();
   const userId = token._id;
 
@@ -42,8 +45,18 @@ const Keranjang = () => {
 
   const addOrderHandler = async () => {
     console.log("testes");
+    const dataMeja = Cookies.get("meja");
+
+    const mejaDecrypt = decrypt(dataMeja);
+
+    console.log({ mejaDecrypt });
+
+    if (mejaDecrypt === "") {
+      return alert("Nomor Meja tidak valid, silahkan scan ulang QR Code");
+    }
+
     try {
-      const res = await addOrder(userId, 1);
+      const res = await addOrder(userId, mejaDecrypt);
       if (res) {
         console.log("sukses kokk");
         console.log(res);
