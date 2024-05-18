@@ -10,8 +10,9 @@ const multer = require("multer");
 const path = require("path");
 const upload = require("../middleware/multerMiddleware");
 const { getDetailTokoByUserId } = require("../Controller/produkController");
+const { verifyUser } = require("../middleware/verifyAccessToken");
 
-router.get("/getAll", getAllStore);
+router.get("/getAll", verifyUser("customer"), getAllStore);
 router.get("/get/:userId", getStoreById);
 
 router.post("/add/:userId", upload.single("image"), addStore);

@@ -29,6 +29,11 @@ const orderSchema = new mongoose.Schema(
       enum: ["diterima", "diproses", "selesai"],
       default: "diterima",
     },
+    status_pembayaran: {
+      type: String,
+      enum: ["lunas", "belum lunas"],
+      default: "belum lunas",
+    },
   },
   { timestamp: true }
 );

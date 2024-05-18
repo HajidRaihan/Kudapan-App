@@ -16,6 +16,8 @@ import SocketTest from "./pages/SocketTest";
 import EditProfile from "./pages/EditProfile";
 import Tes from "./pages/Tes";
 import { useEffect } from "react";
+import DetailPesanan from "./pages/vendor/DetailPesanan";
+import Payment from "./pages/Payment";
 
 function App() {
   useEffect(() => {
@@ -39,12 +41,13 @@ function App() {
         <Route path="/order" element={<Order />} />
         <Route path="/riwayat" element={<History />} />
         <Route path="/keranjang" element={<Keranjang />} />
-        <Route path="/transaksi" element={<QrTransaksi />} />
+        <Route path="/payment/:orderId/:userId" element={<Payment />} />
         <Route path="/edit/profile" element={<EditProfile />} />
 
         <Route path="/vendor" element={<HomeVendor />} />
         <Route path="/create-toko" element={<CreateToko />} />
         <Route path="/vendor/pesanan" element={<Pesanan />} />
+        <Route path="/vendor/pesanan/:orderId" element={<DetailPesanan />} />
         <Route path="/socket" element={<SocketTest />} />
         <Route path="/tes" element={<Tes />} />
 

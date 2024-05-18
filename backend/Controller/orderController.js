@@ -1,3 +1,4 @@
+const { response } = require("express");
 const { User, History, Toko, Order, Produk } = require("../models");
 
 const addOrder = async (req, res) => {
@@ -285,6 +286,46 @@ const getOrderUser = async (req, res) => {
   }
 };
 
+const getOrderById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const detailOrder = await Order.findById(id);
+
+    // Array to hold orders with userPemesan
+    const ordersWithUserPemesan = [];
+
+    const user_pemesan = await User.findById(detailOrder.pemesan);
+    const response = { ...detailOrder.toObject(), user_pemesan };
+    return res.status(200).json({ message: "Order berhasil didapatkan", data: response });
+
+    // console.log(ordersWithUserPemesan);
+    return res
+      .status(200)
+      .json({ message: "Order berhasil didapatkan", data: ordersWithUserPemesan });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: "Gagal menampilkan order", error: err });
+  }
+};
+
+// const getOrderById = async (req, res) => {
+//   const { id } = req.params;
+
+//   try {
+//     const order = await Order.findById(id);
+
+//     if (!order) {
+//       return res.status(404).json({ error: "Order not found" });
+//     }
+
+//     return res.status(200).json({ message: "Order found", data: order });
+//   } catch (error) {
+//     console.log(error);
+//     return res.status(500).json({ error: "Failed to get order", error });
+//   }
+// };
+
 // const changeStatusOrder = async (req, res) => {
 //   const { userId, orderId } = req.params;
 //   const { status } = req.body;
@@ -345,8 +386,39 @@ const changeStatusOrder = async (req, res) => {
   }
 };
 
-const payment = async (req, res) => {
+const orderPayment = async (req, res) => {
   const { userId, orderId } = req.params;
+  const { nominal } = req.body;
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const order = await Order.findById(orderId);
+
+    if (!order) {
+      return res.status(404).json({ error: "Order not found" });
+    }
+
+    if (order.total_harga > nominal) {
+      return res.status(400).json({ error: "Nominal kurang" });
+    }
+
+    // return console.log({ nominal });
+    user.saldo = user.saldo - parseInt(nominal);
+
+    order.status_pembayaran = "lunas";
+    await order.save();
+    await user.save();
+
+    return res.json({ message: "berhasil membayar", data: order });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Failed to pay", error });
+  }
 };
 
 module.exports = {
@@ -354,4 +426,6 @@ module.exports = {
   getOrderUser,
   addSingleOrder,
   changeStatusOrder,
+  getOrderById,
+  orderPayment,
 };

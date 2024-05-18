@@ -80,6 +80,8 @@ const OrderModal = ({
     document.getElementById("ordermodal").showModal();
   }, []);
 
+
+
   useEffect(() => {
     const getMenuById = async () => {
       if (menuId) {
@@ -94,6 +96,9 @@ const OrderModal = ({
       }
     };
   }, [menuId]);
+
+
+  
 
   return (
     <>

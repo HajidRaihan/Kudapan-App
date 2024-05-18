@@ -47,16 +47,16 @@ const Keranjang = () => {
     console.log("testes");
     const dataMeja = Cookies.get("meja");
 
-    const mejaDecrypt = decrypt(dataMeja);
+    // const mejaDecrypt = decrypt(dataMeja);
 
-    console.log({ mejaDecrypt });
+    // console.log({ mejaDecrypt });
 
-    if (mejaDecrypt === "") {
-      return alert("Nomor Meja tidak valid, silahkan scan ulang QR Code");
-    }
+    // if (mejaDecrypt === "") {
+    //   return alert("Nomor Meja tidak valid, silahkan scan ulang QR Code");
+    // }
 
     try {
-      const res = await addOrder(userId, mejaDecrypt);
+      const res = await addOrder(userId, 1);
       if (res) {
         console.log("sukses kokk");
         console.log(res);

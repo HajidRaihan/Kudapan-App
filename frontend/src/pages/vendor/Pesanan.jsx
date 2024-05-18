@@ -7,6 +7,8 @@ import ChangeStatusOrderModal from "../../components/modals/ChangeStatusOrderMod
 import VendorLayout from "../../components/layout/VendorLayout";
 import Header from "../../components/Header";
 import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import ArroRightIcon from "../../assets/icon/arrow-right.svg";
 
 const Pesanan = () => {
   const token = DecodeToken();
@@ -15,6 +17,8 @@ const Pesanan = () => {
   const [pesananData, setPesananData] = useState();
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState();
+
+  const navigate = useNavigate();
 
   useState(() => {
     setUserId(token._id);
@@ -116,9 +120,10 @@ const Pesanan = () => {
           [...pesananData].reverse().map((pesanan) => {
             return (
               <div className="mb-10 mx-5 mt-5" key={pesanan._id}>
-                <div className="flex justify-between items-denter">
-                  <button
-                    className={`w-24 h-8 text-white text-sm flex justify-center items-center rounded-xl
+                <div className="flex justify-between items-center">
+                  <div className="flex gap-3">
+                    <button
+                      className={`w-24 h-8 text-white text-sm flex justify-center items-center rounded-xl
                     ${
                       pesanan.status === "diterima"
                         ? "bg-primary"
@@ -127,11 +132,25 @@ const Pesanan = () => {
                         : "bg-green-500"
                     }
                     `}
-                    onClick={() => openHandler(pesanan._id)}
+                      onClick={() => openHandler(pesanan._id)}
+                    >
+                      {pesanan.status}
+                    </button>
+                    <div
+                      className={`w-24 h-8 text-white text-sm flex justify-center items-center rounded-xl
+                    ${pesanan.status_pembayaran === "belum lunas" ? "bg-primary" : "bg-green-500"}
+                    `}
+                    >
+                      {pesanan.status_pembayaran}
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => navigate(`${pesanan._id}/${pesanan.pemesan}`)}
+                    className="w-24 h-8 bg-slate-400 text-sm flex justify-center gap-3 items-center rounded-xl"
                   >
-                    {pesanan.status}
+                    <p>Detail</p>
+                    <img src={ArroRightIcon} alt="" className="w-4 h-4" />
                   </button>
-                  <p className="text-sm font-bold">Meja {pesanan.meja}</p>
                 </div>
 
                 <div className="w-full border border-black my-3" />
@@ -153,6 +172,8 @@ const Pesanan = () => {
                 <p className="text-xs">Email pemesan : {pesanan.user_pemesan.email}</p>
                 {/* <p className="text-xs">Waktu pemesanan : {pesanan.waktu_pemesanan}</p> */}
                 <p className="text-xs">Total harga : {pesanan.total_harga}</p>
+                <p className="text-xs">Meja : {pesanan.meja}</p>
+
                 <p className="text-xs">
                   <TimeAgo timestamp={pesanan.waktu_pemesanan} />
                 </p>

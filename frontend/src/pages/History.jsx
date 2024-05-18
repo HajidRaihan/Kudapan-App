@@ -48,8 +48,9 @@ const History = () => {
                   <div className="mb-10 mx-5 mt-5" key={history._id}>
                     <div className="flex justify-between items-end">
                       <h1 className="text-base font-semibold">{history.nama_toko}</h1>
-                      <div
-                        className={`w-24 h-8 text-white text-sm flex justify-center items-center rounded-xl
+                      <div className="flex gap-3">
+                        <div
+                          className={`w-24 h-8 text-white text-sm flex justify-center items-center rounded-xl
                     ${
                       history.status === "diterima"
                         ? "bg-primary"
@@ -58,9 +59,18 @@ const History = () => {
                         : "bg-green-500"
                     }
                     `}
-                        onClick={() => openHandler(history._id)}
-                      >
-                        {history.status}
+                          onClick={() => openHandler(history._id)}
+                        >
+                          {history.status}
+                        </div>
+                        <div
+                          className={`w-24 h-8 text-white text-sm flex justify-center items-center rounded-xl
+                    ${history.status_pembayaran === "belum lunas" ? "bg-primary" : "bg-green-500"}
+                    `}
+                          onClick={() => openHandler(history._id)}
+                        >
+                          {history.status_pembayaran}
+                        </div>
                       </div>
                     </div>
 
