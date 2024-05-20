@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getDetailOrder, orderPayment } from "../api/orderAPi";
+import AlertModal from "../components/AlertModal";
 import CardTransaksi from "../components/card/CardTransaksi";
 
 const Payment = () => {
@@ -8,6 +9,7 @@ const Payment = () => {
   const { orderId, userId } = useParams();
   const [detailOrder, setDetailOrder] = useState();
   const [nominal, setNominal] = useState();
+  const [open, setOpen] = useState(false);
 
   const nominalOnChange = (e) => {
     setNominal(e.target.value);
@@ -22,6 +24,8 @@ const Payment = () => {
     try {
       console.log(data);
       const res = await orderPayment(data, userId, orderId);
+
+      document.getElementById("my_modal_1").showModal();
 
       console.log(res);
     } catch (error) {
@@ -70,6 +74,22 @@ const Payment = () => {
       <button className="btn btn-error w-full mt-3 text-white rounded-2xl" onClick={paymentHandler}>
         Konfirmasi Pembayaran
       </button>
+
+      <dialog id="my_modal_1" className="modal">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg text-center">Berhasil melakukan pembayaran</h3>
+          {/* <p className="py-4">{title}</p> */}
+          <div className="modal-action flex justify-center">
+            <form method="dialog">
+              {/* if there is a button in form, it will close the modal */}
+              <button className="btn" onClick={() => navigate("/")}>
+                {" "}
+                Kembali Ke Home
+              </button>
+            </form>
+          </div>
+        </div>
+      </dialog>
     </div>
   );
 };

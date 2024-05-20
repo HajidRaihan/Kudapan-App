@@ -47,7 +47,7 @@ function App() {
         <Route path="/vendor" element={<HomeVendor />} />
         <Route path="/create-toko" element={<CreateToko />} />
         <Route path="/vendor/pesanan" element={<Pesanan />} />
-        <Route path="/vendor/pesanan/:orderId" element={<DetailPesanan />} />
+        <Route path="/vendor/pesanan/:orderId/:userId" element={<DetailPesanan />} />
         <Route path="/socket" element={<SocketTest />} />
         <Route path="/tes" element={<Tes />} />
 

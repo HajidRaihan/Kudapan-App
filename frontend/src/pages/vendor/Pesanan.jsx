@@ -146,9 +146,9 @@ const Pesanan = () => {
                   </div>
                   <button
                     onClick={() => navigate(`${pesanan._id}/${pesanan.pemesan}`)}
-                    className="w-24 h-8 bg-slate-400 text-sm flex justify-center gap-3 items-center rounded-xl"
+                    className="w-24 h-8  text-sm flex justify-center gap-3 items-center rounded-xl"
                   >
-                    <p>Detail</p>
+                    <p>Get QR</p>
                     <img src={ArroRightIcon} alt="" className="w-4 h-4" />
                   </button>
                 </div>

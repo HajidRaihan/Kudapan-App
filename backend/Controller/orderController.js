@@ -30,7 +30,7 @@ const addOrder = async (req, res) => {
 
         newOrder.save();
         // vendor.orders.push(newOrder);
-        vendor.saldo += user.keranjang[index].total_harga;
+        // vendor.saldo += user.keranjang[index].total_harga;
 
         listOrder.push({ tokoId: tokoId, order: newOrder });
 
@@ -46,7 +46,7 @@ const addOrder = async (req, res) => {
     const produkToMove = user.keranjang;
 
     // Hitung total harga dari keseluruhan produk di keranjang
-    const totalHarga = hitungTotalHarga(produkToMove);
+    // const totalHarga = hitungTotalHarga(produkToMove);
     // const newHistory = new History({
     //   pesanan: produkToMove,
     //   total: totalHarga,
@@ -54,13 +54,13 @@ const addOrder = async (req, res) => {
     //   status: "diproses",
     // });
 
-    const saldo = user.saldo;
+    // const saldo = user.saldo;
 
-    if (saldo < totalHarga) {
-      return res.status(400).json({ error: "Saldo tidak mencukupi" });
-    }
+    // if (saldo < totalHarga) {
+    //   return res.status(400).json({ error: "Saldo tidak mencukupi" });
+    // }
 
-    user.saldo = user.saldo - totalHarga;
+    // user.saldo = user.saldo - totalHarga;
 
     // user.order_history.push(newHistory);
 
@@ -403,9 +403,13 @@ const orderPayment = async (req, res) => {
       return res.status(404).json({ error: "Order not found" });
     }
 
+    const vendor = await User.findOne({ toko: order.toko_id });
+
     if (order.total_harga > nominal) {
       return res.status(400).json({ error: "Nominal kurang" });
     }
+
+    vendor.saldo += nominal;
 
     // return console.log({ nominal });
     user.saldo = user.saldo - parseInt(nominal);
@@ -413,6 +417,7 @@ const orderPayment = async (req, res) => {
     order.status_pembayaran = "lunas";
     await order.save();
     await user.save();
+    await vendor.save();
 
     return res.json({ message: "berhasil membayar", data: order });
   } catch (error) {
