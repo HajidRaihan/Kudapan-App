@@ -1,21 +1,22 @@
 import { RequestApi } from "../helper/RequestApi";
 import { TokenHandler } from "../helper/TokenHandler";
 
-const getHistory = async (userId) => {
+const getHistory = async (userId, status) => {
   const tokken = TokenHandler();
 
   const headerToken = {
     Authorization: `${tokken}`,
   };
+  let route;
+
+  if (status) {
+    route = `history/get/${userId}?status=${status}`;
+  } else {
+    route = `history/get/${userId}`;
+  }
 
   try {
-    const responseData = await RequestApi(
-      "GET",
-      `history/get/${userId}`,
-      {},
-      headerToken,
-      "Menampilkan history"
-    );
+    const responseData = await RequestApi("GET", route, {}, headerToken, "Menampilkan history");
     return responseData;
   } catch (error) {
     console.error("Terjadi kesalahan saat menampilkan history", error);

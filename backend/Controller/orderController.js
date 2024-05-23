@@ -293,16 +293,10 @@ const getOrderById = async (req, res) => {
     const detailOrder = await Order.findById(id);
 
     // Array to hold orders with userPemesan
-    const ordersWithUserPemesan = [];
 
     const user_pemesan = await User.findById(detailOrder.pemesan);
     const response = { ...detailOrder.toObject(), user_pemesan };
     return res.status(200).json({ message: "Order berhasil didapatkan", data: response });
-
-    // console.log(ordersWithUserPemesan);
-    return res
-      .status(200)
-      .json({ message: "Order berhasil didapatkan", data: ordersWithUserPemesan });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ error: "Gagal menampilkan order", error: err });

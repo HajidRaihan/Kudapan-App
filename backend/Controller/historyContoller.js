@@ -43,14 +43,21 @@ const { User, Order, Toko } = require("../models");
 
 const getHistory = async (req, res) => {
   const { userId } = req.params;
+  const { status } = req.query;
 
   try {
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
+    // const status = "diproses";
 
-    const history = await Order.find({ pemesan: userId });
+    const query = { pemesan: userId };
+    if (status) {
+      query.status = status;
+    }
+
+    const history = await Order.find(query);
 
     // Membuat array untuk menampung hasil penambahan nama toko
     const enhancedHistory = await Promise.all(
@@ -64,7 +71,9 @@ const getHistory = async (req, res) => {
 
     console.log(enhancedHistory);
 
-    return res.status(200).json({ message: "history berhasil di dapatkan", data: enhancedHistory });
+    return res
+      .status(200)
+      .json({ message: "history berhasil di dapatkan bla bla", data: enhancedHistory });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: "gagal menenerima history", error });

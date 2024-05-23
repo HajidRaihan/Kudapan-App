@@ -59,16 +59,20 @@ const BottomNavigation = ({ orderCount }) => {
   const [jumlahKeranjang, setJumlahKeranjang] = useState(0);
 
   const userId = DecodeToken()._id;
-  console.log({ userId });
 
   useEffect(() => {
     const fetchJumlahKeranjang = async () => {
-      const response = await getJumlahKeranjang(userId);
-      if (response.jumlahKeranjang !== undefined) {
-        setJumlahKeranjang(response.jumlahKeranjang);
+      try {
+        const response = await getJumlahKeranjang(userId);
+        if (response.jumlahKeranjang !== undefined) {
+          setJumlahKeranjang(response.jumlahKeranjang);
+        }
+        console.log("ini response jumlah keranjang ", response);
+      } catch (error) {
+        console.error("Error fetching jumlah keranjang:", error);
       }
-      console.log(response);
     };
+
     if (userId) {
       fetchJumlahKeranjang();
     }
@@ -87,6 +91,7 @@ const BottomNavigation = ({ orderCount }) => {
             home
           </p>
         </Link>
+
         <Link to={"/riwayat"} className="flex flex-col items-center justify-center">
           {location === "/riwayat" ? <BookSolidRed /> : <BookBlack />}
           <p
@@ -126,10 +131,6 @@ const BottomNavigation = ({ orderCount }) => {
       </div>
     </div>
   );
-};
-
-BottomNavigation.propTypes = {
-  orderCount: PropTypes.number,
 };
 
 export default BottomNavigation;

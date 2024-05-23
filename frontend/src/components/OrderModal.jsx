@@ -43,7 +43,7 @@ const OrderModal = ({
       close();
       // openAlertModalHandler();
       isSuccess();
-      setOrderCount((prev) => prev + parseInt(jumlah));
+      setOrderCount((prev) => !prev);
       // setOrderCount((prev) => prev - parseInt(jumlah));
       console.log(data);
     } catch (error) {
@@ -80,8 +80,6 @@ const OrderModal = ({
     document.getElementById("ordermodal").showModal();
   }, []);
 
-
-
   useEffect(() => {
     const getMenuById = async () => {
       if (menuId) {
@@ -96,9 +94,6 @@ const OrderModal = ({
       }
     };
   }, [menuId]);
-
-
-  
 
   return (
     <>

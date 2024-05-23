@@ -14,7 +14,7 @@ const Warung = () => {
   const [tokoData, setTokoData] = useState();
   const [selectedKategori, setSelectedKategori] = useState("semua");
   const [search, setSearch] = useState("");
-  const [orderCount, setOrderCount] = useState(0);
+  const [orderCount, setOrderCount] = useState(true);
 
   useEffect(() => {
     getProduk(tokoId, selectedKategori, search).then((res) => {
