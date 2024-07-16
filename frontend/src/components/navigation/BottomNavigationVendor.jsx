@@ -3,6 +3,8 @@ import { Home as HomeIcon } from "@styled-icons/boxicons-regular";
 import { Home as HomeIconSolid } from "@styled-icons/boxicons-solid";
 import { Book } from "@styled-icons/boxicons-regular/Book";
 import { Book as BookSolid } from "@styled-icons/boxicons-solid/Book";
+import { Person } from "@styled-icons/bootstrap/Person";
+import { PersonFill } from "@styled-icons/bootstrap/PersonFill";
 
 import styled from "styled-components";
 
@@ -22,6 +24,16 @@ const BookBlack = styled(Book)`
 `;
 
 const BookSolidRed = styled(BookSolid)`
+  color: #f40027;
+  width: 24px;
+`;
+
+const PersonIconBlack = styled(Person)`
+  color: #4c4c4c;
+  width: 24px;
+`;
+
+const PersonIconRed = styled(PersonFill)`
   color: #f40027;
   width: 24px;
 `;
@@ -50,6 +62,16 @@ const BottomNavigationVendor = () => {
             } `}
           >
             pesanan
+          </p>
+        </Link>
+        <Link to={"/vendor/profile"} className="flex flex-col items-center justify-center">
+          {location === "/vendor/profile" ? <PersonIconRed /> : <PersonIconBlack />}
+          <p
+            className={`text-center text-[10px] ${
+              location === "/vendor/profile" ? "text-primary" : "text-[#4C4C4C]"
+            } `}
+          >
+            Profile
           </p>
         </Link>
         {/* <Link to={"/keranjang"} className="flex flex-col items-center justify-center">

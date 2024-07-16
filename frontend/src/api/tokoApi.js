@@ -77,4 +77,28 @@ const createToko = async (data, userId) => {
   }
 };
 
-export { getAllToko, getDetailTokoByUserId, createToko };
+const editToko = async (data, tokoId) => {
+  try {
+    const token = TokenHandler();
+
+    const headerToken = {
+      Authorization: `${token}`,
+      "Content-Type": "multipart/form-data",
+    };
+
+    const responseData = await RequestApi(
+      "PUT",
+      `store/update/${tokoId}`,
+      data,
+      headerToken,
+      "Mencoba edit toko"
+    );
+
+    return responseData;
+  } catch (error) {
+    console.error("Terjadi kesalahan saat edit toko  ", error);
+    throw error;
+  }
+};
+
+export { getAllToko, getDetailTokoByUserId, createToko, editToko };

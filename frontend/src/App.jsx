@@ -18,6 +18,7 @@ import Tes from "./pages/Tes";
 import { useEffect } from "react";
 import DetailPesanan from "./pages/vendor/DetailPesanan";
 import Payment from "./pages/Payment";
+import ProfileVendor from "./pages/vendor/ProfileVendor";
 
 function App() {
   useEffect(() => {
@@ -47,6 +48,7 @@ function App() {
         <Route path="/vendor" element={<HomeVendor />} />
         <Route path="/create-toko" element={<CreateToko />} />
         <Route path="/vendor/pesanan" element={<Pesanan />} />
+        <Route path="/vendor/profile" element={<ProfileVendor />} />
         <Route path="/vendor/pesanan/:orderId/:userId" element={<DetailPesanan />} />
         <Route path="/socket" element={<SocketTest />} />
         <Route path="/tes" element={<Tes />} />
