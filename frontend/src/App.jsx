@@ -19,6 +19,7 @@ import { useEffect } from "react";
 import DetailPesanan from "./pages/vendor/DetailPesanan";
 import Payment from "./pages/Payment";
 import ProfileVendor from "./pages/vendor/ProfileVendor";
+import VendorRegister from "./pages/VendorRegister";
 
 function App() {
   useEffect(() => {
@@ -46,6 +47,7 @@ function App() {
         <Route path="/edit/profile" element={<EditProfile />} />
 
         <Route path="/vendor" element={<HomeVendor />} />
+        <Route path="/vendor/register" element={<VendorRegister />} />
         <Route path="/create-toko" element={<CreateToko />} />
         <Route path="/vendor/pesanan" element={<Pesanan />} />
         <Route path="/vendor/profile" element={<ProfileVendor />} />

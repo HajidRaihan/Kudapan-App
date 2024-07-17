@@ -58,7 +58,7 @@ const EditTokoModal = ({ close, detailToko, isSuccess, isError }) => {
             <h3 className="font-bold text-lg mb-3">Edit Toko</h3>
 
             <form action="" className="flex flex-col gap-3">
-              <label className="form-control w-full max-w-xs">
+              <label className="form-control w-full ">
                 <div className="label">
                   <span className="label-text">Nama Toko</span>
                 </div>
@@ -70,25 +70,25 @@ const EditTokoModal = ({ close, detailToko, isSuccess, isError }) => {
                   value={nama}
                 />
               </label>
-              <label className="form-control w-full max-w-xs">
+              <label className="form-control w-full ">
                 <div className="label">
                   <span className="label-text">Deskripsi Toko</span>
                 </div>
                 <input
                   type="text"
                   placeholder="Type here"
-                  className="input input-bordered w-full max-w-xs"
+                  className="input input-bordered w-full "
                   onChange={deskripsiOnChange}
                   value={deskripsi}
                 />
               </label>
-              <label className="form-control w-full max-w-xs">
+              <label className="form-control w-full ">
                 <div className="label">
                   <span className="label-text">Gambar Toko</span>
                 </div>
                 <input
                   type="file"
-                  className="file-input file-input-bordered w-full max-w-xs file-input-sm file-input-success"
+                  className="file-input file-input-bordered w-full  file-input-sm file-input-success"
                   onChange={(e) => setImage(e.target.files[0])}
                 />
               </label>

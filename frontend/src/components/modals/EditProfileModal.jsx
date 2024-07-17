@@ -55,7 +55,7 @@ const EditProfileModal = ({ close, detailProfile, userId, isSuccess, isError }) 
             <h3 className="font-bold text-lg mb-3">Edit Profile</h3>
 
             <form action="" className="flex flex-col gap-3">
-              <label className="form-control w-full max-w-xs">
+              <label className="form-control w-full">
                 <div className="label">
                   <span className="label-text">Username</span>
                 </div>
@@ -67,14 +67,14 @@ const EditProfileModal = ({ close, detailProfile, userId, isSuccess, isError }) 
                   value={nama}
                 />
               </label>
-              <label className="form-control w-full max-w-xs">
+              <label className="form-control w-full">
                 <div className="label">
                   <span className="label-text">Email</span>
                 </div>
                 <input
                   type="text"
                   placeholder="Type here"
-                  className="input input-bordered w-full max-w-xs"
+                  className="input input-bordered w-full"
                   onChange={emailOnChange}
                   value={email}
                 />
