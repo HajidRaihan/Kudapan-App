@@ -23,6 +23,7 @@ const loginUser = async (credential) => {
     return response;
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };
 

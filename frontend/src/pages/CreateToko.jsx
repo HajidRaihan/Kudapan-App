@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import { createToko } from "../api/tokoApi";
+import ButtonSubmit from "../components/ButtonSubmit";
 import Input from "../components/Input";
 import { DecodeToken } from "../helper/DecodeToken";
 import { TokenHandler } from "../helper/TokenHandler";
@@ -10,6 +12,8 @@ const CreateToko = () => {
   const [deskripsi, setDeskripsi] = useState("");
   const [image, setImage] = useState("");
   const [userId, setUserId] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const token = TokenHandler();
@@ -20,6 +24,7 @@ const CreateToko = () => {
   }, []);
   const createTokoHandler = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     const data = {
       nama: nama,
@@ -28,18 +33,21 @@ const CreateToko = () => {
     };
 
     try {
-      const res = await createToko(data, userId);
-      console.log(res);
+      // const res = await createToko(data, userId);
+      // console.log(res);
+      setIsLoading(false);
+      setOpen(true);
     } catch (error) {
       console.error(error);
       toast.error("terjadi kesalahan saat membuat toko");
+      setIsLoading(false);
     }
   };
   return (
     <div className="w-screen h-screen flex items-center">
       <Toaster />
       <form
-        onSubmit={createTokoHandler}
+        // onSubmit={createTokoHandler}
         className="flex flex-col gap-4 items-center justify-center md:shadow-xl drop-shadow-md md:border border-slate-500 h-[550px] w-[400px] rounded-xl mx-auto p-10"
       >
         <h className="text-4xl font-semibold mb-10 text-primary">Buat Toko</h>
@@ -74,9 +82,12 @@ const CreateToko = () => {
             onChange={(e) => setImage(e.target.files[0])}
           />
         </label>
-        <button className="btn btn-error w-full mt-3 text-white rounded-2xl">Submit</button>
+        {/* <button className="btn btn-error w-full mt-3 text-white rounded-2xl">Submit</button> */}
+        <ButtonSubmit title={"Submit"} isLoading={isLoading} handler={createTokoHandler} />
       </form>
+      {open && <SuksesTokoModal />}
     </div>
+
     // <form
     //   onSubmit={createTokoHandler}
     //   className="flex flex-col gap-3 items-center justify-center h-[500px] min-h-screen max-w-[500px] mx-auto p-10"
@@ -91,6 +102,30 @@ const CreateToko = () => {
     //   <Input label="Image" type={"file"} onChange={(e) => setImage(e.target.files[0])} />
     //   <button className="btn btn-error w-full mt-3">Login</button>
     // </form>
+  );
+};
+
+const SuksesTokoModal = () => {
+  useEffect(() => {
+    document.getElementById("my_modal_1").showModal();
+  }, []);
+
+  const navigate = useNavigate();
+  return (
+    <dialog id="my_modal_1" className="modal">
+      <div className="modal-box">
+        <h3 className="font-bold text-lg text-center">Berhasil Membuat toko</h3>
+        {/* <p className="py-4">Press ESC key or click the button below to close</p> */}
+        <div className="modal-action flex justify-center">
+          <form method="dialog">
+            {/* if there is a button in form, it will close the modal */}
+            <button className="btn" onClick={() => navigate("/vendor")}>
+              Home
+            </button>
+          </form>
+        </div>
+      </div>
+    </dialog>
   );
 };
 

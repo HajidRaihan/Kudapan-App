@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../api/authApi";
+import toast, { Toaster } from "react-hot-toast";
 
 const Register = () => {
   const [nama, setNama] = useState("");
@@ -26,9 +27,14 @@ const Register = () => {
     try {
       const res = await registerUser(data);
       console.log(res);
-      alert("berhasil register");
+      setNama("");
+      setEmail("");
+      setPassword("");
+      // alert("berhasil register");
+      toast.success("berhasil register");
     } catch (error) {
       console.log(error);
+      toast.error("Gagal Register");
       throw error;
     }
   };
@@ -36,6 +42,7 @@ const Register = () => {
   return (
     <>
       <div className="w-screen h-screen flex items-center">
+        <Toaster />
         <form
           onSubmit={handleRegister}
           className="flex flex-col gap-4 items-center justify-center md:shadow-xl drop-shadow-md md:border border-slate-500 h-[550px] w-[400px] rounded-xl mx-auto p-10"

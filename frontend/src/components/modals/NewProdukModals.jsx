@@ -139,7 +139,7 @@ const NewProdukModals = ({ close, userId, produkDetail, isSuccess, isError }) =>
             />
           </label>
 
-          <ButtonSubmit handler={newProdukHandler} isLoading={isLoading} />
+          <ButtonSubmit title={"Tambah Produk"} handler={newProdukHandler} isLoading={isLoading} />
           {/* <button onClick={tes}>asdlasjk</button> */}
         </form>
       </div>

@@ -127,7 +127,7 @@ const ProfileVendor = () => {
             </div>
           </div>
           <button
-            className="btn bg-primary w-[350px] mt-3 text-white btn-error"
+            className="btn bg-primary md:w-full w-[350px] mt-3 text-white btn-error"
             onClick={logoutHanlder}
           >
             Logout

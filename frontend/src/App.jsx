@@ -20,6 +20,8 @@ import DetailPesanan from "./pages/vendor/DetailPesanan";
 import Payment from "./pages/Payment";
 import ProfileVendor from "./pages/vendor/ProfileVendor";
 import VendorRegister from "./pages/VendorRegister";
+import VendorRoute from "./middleware/VendorRoute";
+import CustomerRoute from "./middleware/CustomerRoute";
 
 function App() {
   useEffect(() => {
@@ -35,23 +37,114 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/warung/:tokoId" element={<Warung />} />
-        <Route path="/order" element={<Order />} />
-        <Route path="/riwayat" element={<History />} />
-        <Route path="/keranjang" element={<Keranjang />} />
-        <Route path="/payment/:orderId/:userId" element={<Payment />} />
-        <Route path="/edit/profile" element={<EditProfile />} />
+        <Route
+          path="/"
+          element={
+            <CustomerRoute>
+              <Home />
+            </CustomerRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <CustomerRoute>
+              <Profile />
+            </CustomerRoute>
+          }
+        />
+        <Route
+          path="/warung/:tokoId"
+          element={
+            <CustomerRoute>
+              <Warung />
+            </CustomerRoute>
+          }
+        />
+        <Route
+          path="/order"
+          element={
+            <CustomerRoute>
+              <Order />
+            </CustomerRoute>
+          }
+        />
+        <Route
+          path="/riwayat"
+          element={
+            <CustomerRoute>
+              <History />
+            </CustomerRoute>
+          }
+        />
+        <Route
+          path="/keranjang"
+          element={
+            <CustomerRoute>
+              <Keranjang />
+            </CustomerRoute>
+          }
+        />
+        <Route
+          path="/payment/:orderId/:userId"
+          element={
+            <CustomerRoute>
+              <Payment />
+            </CustomerRoute>
+          }
+        />
+        <Route
+          path="/edit/profile"
+          element={
+            <CustomerRoute>
+              <EditProfile />
+            </CustomerRoute>
+          }
+        />
 
-        <Route path="/vendor" element={<HomeVendor />} />
+        <Route
+          path="/vendor"
+          element={
+            <VendorRoute>
+              <HomeVendor />
+            </VendorRoute>
+          }
+        />
         <Route path="/vendor/register" element={<VendorRegister />} />
-        <Route path="/create-toko" element={<CreateToko />} />
-        <Route path="/vendor/pesanan" element={<Pesanan />} />
-        <Route path="/vendor/profile" element={<ProfileVendor />} />
-        <Route path="/vendor/pesanan/:orderId/:userId" element={<DetailPesanan />} />
+        <Route
+          path="/create-toko"
+          element={
+            <VendorRoute>
+              <CreateToko />
+            </VendorRoute>
+          }
+        />
+        <Route
+          path="/vendor/pesanan"
+          element={
+            <VendorRoute>
+              <Pesanan />
+            </VendorRoute>
+          }
+        />
+        <Route
+          path="/vendor/profile"
+          element={
+            <VendorRoute>
+              <ProfileVendor />
+            </VendorRoute>
+          }
+        />
+        <Route
+          path="/vendor/pesanan/:orderId/:userId"
+          element={
+            <VendorRoute>
+              <DetailPesanan />
+            </VendorRoute>
+          }
+        />
         <Route path="/socket" element={<SocketTest />} />
         <Route path="/tes" element={<Tes />} />
 

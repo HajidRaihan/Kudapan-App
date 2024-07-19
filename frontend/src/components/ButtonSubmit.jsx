@@ -1,14 +1,11 @@
 import React from "react";
 
-const ButtonSubmit = ({ handler, isLoading }) => {
+const ButtonSubmit = ({ handler, isLoading, title }) => {
   return (
-    <div className="">
-      <button className="btn btn-success w-full my-2  text-white" onClick={handler}>
-        {isLoading && <span className="loading loading-spinner loading-sm"></span>}
-        <p>Tambahkan Produk</p>
-      </button>
-      {/* <button className="btn btn-error w-full text-white">Order Langsung</button> */}
-    </div>
+    <button className="btn btn-error w-full mt-3 text-white rounded-2xl" onClick={handler}>
+      {isLoading && <span className="loading loading-spinner loading-sm"></span>}
+      <p>{title}</p>
+    </button>
   );
 };
 

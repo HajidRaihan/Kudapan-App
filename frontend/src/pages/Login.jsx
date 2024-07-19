@@ -1,11 +1,15 @@
 import { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
+
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../api/authApi";
+import ButtonSubmit from "../components/ButtonSubmit";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   const emailOnChange = (e) => {
     setEmail(e.target.value);
@@ -17,30 +21,35 @@ const Login = () => {
 
   const loginHandler = async (e) => {
     e.preventDefault();
-    console.log("cliocke");
+    setIsLoading(true);
     const credential = {
       email: email,
       password: password,
     };
-    console.log(credential);
-    const res = await loginUser(credential);
-    if (res) {
-      alert("login sukses");
-      if (res.role === "customer") {
-        navigate("/");
-      } else if (res.role === "vendor") {
-        navigate("/vendor");
+
+    try {
+      console.log(credential);
+      const res = await loginUser(credential);
+      if (res) {
+        toast.success("Login Success");
+        setIsLoading(false);
+        if (res.role === "customer") {
+          navigate("/");
+        } else if (res.role === "vendor") {
+          navigate("/vendor");
+        }
       }
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+      toast.error("Login Failed");
     }
-    console.log(res);
   };
 
   return (
     <div className="w-screen h-screen flex items-center">
-      <form
-        onSubmit={loginHandler}
-        className="flex flex-col gap-5 items-center justify-center md:shadow-xl drop-shadow-md md:border border-gray-500 h-[500px] w-[400px] rounded-xl mx-auto p-10"
-      >
+      <Toaster />
+      <form className="flex flex-col gap-5 items-center justify-center md:shadow-xl drop-shadow-md md:border border-gray-500 h-[500px] w-[400px] rounded-xl mx-auto p-10">
         <h className="text-4xl font-semibold mb-10 text-primary">Login</h>
         {/* <Input label="Email" type={"email"} onChange={emailOnChange} value={email} /> */}
         {/* <Input label="Password" type={"password"} onChange={passwordOnChange} value={password} /> */}
@@ -85,7 +94,8 @@ const Login = () => {
             value={password}
           />
         </label>
-        <button className="btn btn-error w-full mt-3 text-white rounded-2xl">Login</button>
+        {/* <button className="btn btn-error w-full mt-3 text-white rounded-2xl">Login</button> */}
+        <ButtonSubmit title={"Login"} handler={loginHandler} isLoading={isLoading} />
         <p className="text-xs">
           Don't have account?{" "}
           <span className="text-blue-500 cursor-pointer" onClick={() => navigate("/register")}>
