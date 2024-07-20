@@ -39,23 +39,25 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
-    if (user) {
-      if (bcrypt.compare(req.body.password, user.password)) {
-        res.send({
-          _id: user._id,
-          nama: user.nama,
-          email: user.email,
-          password: user.password,
-          role: user.role,
-          token: generateLogToken(user),
-        });
-      }
-    } else {
-      res.status(404).json("Pengguna tidak ditemukan");
+    if (!user) {
+      return res.status(404).send("Pengguna tidak ditemukan");
     }
+
+    const isPasswordValid = await bcrypt.compare(req.body.password, user.password);
+    if (!isPasswordValid) {
+      return res.status(401).send("Password salah");
+    }
+
+    res.send({
+      _id: user._id,
+      nama: user.nama,
+      email: user.email,
+      role: user.role,
+      token: generateLogToken(user),
+    });
   } catch (error) {
-    console.error("Error registering user:", error);
     res.status(500).json("Internal server error");
+    console.error("Error logging in user:", error);
   }
 };
 

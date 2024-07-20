@@ -127,10 +127,11 @@ const updateStore = async (req, res) => {
     }
     existingStore.nama = nama;
     existingStore.deskripsi = deskripsi;
-    existingStore.image = req.file.filename;
-    console.log(req.file.filename);
+    // existingStore.image = req.file.filename;
+    existingStore.image = req.file ? req.file.filename : existingStore.image;
+    // console.log("ini", req.file.filename);
 
-    // await existingStore.save();
+    await existingStore.save();
     return res.json({ toko: existingStore });
   } catch (error) {
     console.error("Gagal memperbarui toko:", error);

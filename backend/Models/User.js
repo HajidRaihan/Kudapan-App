@@ -1,8 +1,5 @@
 const mongoose = require("mongoose");
-const tokoSchema = require("./Store");
-const historySchema = require("./History");
 const keranjangSchema = require("./Cart");
-const orderSchema = require("./Order");
 
 const userSchema = new mongoose.Schema({
   nama: {
@@ -28,14 +25,7 @@ const userSchema = new mongoose.Schema({
     default: "customer",
   }, // Menambah atribut role
   toko: { type: mongoose.Schema.Types.ObjectId, ref: "Toko" },
-  // order_history: [historySchema],
   keranjang: [keranjangSchema],
-  // orders: [
-  //   {
-  //     type: mongoose.Schema.Types.ObjectId,
-  //     ref: "Order",
-  //   },
-  // ],
   saldo: {
     type: Number,
     default: 0,
