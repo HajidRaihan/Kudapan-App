@@ -37,6 +37,8 @@ const Login = () => {
           navigate("/");
         } else if (res.role === "vendor") {
           navigate("/vendor");
+        } else if (res.role === "admin") {
+          navigate("/admin");
         }
       }
     } catch (error) {

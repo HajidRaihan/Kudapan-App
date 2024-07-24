@@ -19,9 +19,10 @@ import { useEffect } from "react";
 import DetailPesanan from "./pages/vendor/DetailPesanan";
 import Payment from "./pages/Payment";
 import ProfileVendor from "./pages/vendor/ProfileVendor";
-import VendorRegister from "./pages/VendorRegister";
 import VendorRoute from "./middleware/VendorRoute";
 import CustomerRoute from "./middleware/CustomerRoute";
+import HomeAdmin from "./pages/admin/HomeAdmin";
+import RegisVendor from "./pages/admin/RegisVendor";
 
 function App() {
   useEffect(() => {
@@ -112,7 +113,6 @@ function App() {
             </VendorRoute>
           }
         />
-        <Route path="/vendor/register" element={<VendorRegister />} />
         <Route
           path="/create-toko"
           element={
@@ -145,6 +145,12 @@ function App() {
             </VendorRoute>
           }
         />
+
+        {/* admin route */}
+
+        <Route path="/admin" element={<HomeAdmin />} />
+        <Route path="/admin/vendor-register" element={<RegisVendor />} />
+
         <Route path="/socket" element={<SocketTest />} />
         <Route path="/tes" element={<Tes />} />
 

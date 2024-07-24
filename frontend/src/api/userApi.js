@@ -24,6 +24,21 @@ const getUserById = async (userId) => {
   }
 };
 
+const getAllUser = async () => {
+  const tokken = TokenHandler();
+
+  const headerToken = {
+    Authorization: `${tokken}`,
+  };
+
+  try {
+    const responseData = await RequestApi("GET", `user/get`, {}, headerToken, "Menampilkan user");
+    return responseData;
+  } catch (error) {
+    console.error("Terjadi kesalahan saat menampilkan user", error);
+  }
+};
+
 const editProfile = async (userId, data) => {
   const tokken = TokenHandler();
 
@@ -48,4 +63,4 @@ const editProfile = async (userId, data) => {
   }
 };
 
-export { getUserById, editProfile };
+export { getUserById, editProfile, getAllUser };
