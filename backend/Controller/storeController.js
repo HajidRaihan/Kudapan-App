@@ -107,6 +107,12 @@ const getStoreById = async (req, res) => {
 
     const toko = await Toko.findById(user.toko).populate({ path: "produk" });
 
+    // const tokoWithIncompleteOrdersCount = await Order.countDocuments({
+    //   status: { $ne: "selesai" },
+    // });
+
+    // console.log({ tokoWithIncompleteOrdersCount });
+
     return res.status(200).json(toko);
     // return res.json({ toko: toko });
   } catch (error) {
@@ -177,6 +183,35 @@ const updateStore = async (req, res) => {
   }
 };
 
+const changeTokoStatus = async (req, res) => {
+  const { status } = req.body;
+
+  try {
+    const user = await User.findById(req.params.userId);
+
+    if (!user) {
+      return res.status(400).json("user not found");
+    }
+
+    const toko = await Toko.findById(user.toko);
+
+    // return console.log(toko);
+
+    if (!toko) {
+      return res.status(400).json("toko not found");
+    }
+
+    // return console.log({ status });
+
+    toko.toko_status = status;
+    await toko.save();
+    return res.status(200).json({ message: "success update toko", data: toko });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
+  }
+};
+
 const filterToko = () => {
   const { kategory } = req.query;
 };
@@ -186,4 +221,5 @@ module.exports = {
   addStore,
   updateStore,
   getStoreById,
+  changeTokoStatus,
 };

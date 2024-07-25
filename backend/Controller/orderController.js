@@ -257,8 +257,38 @@ const hitungTotalHarga = (produkArray) => {
 //   }
 // };
 
+// const getOrderUser = async (req, res) => {
+//   const { userId } = req.params;
+
+//   try {
+//     const user = await User.findById(userId);
+
+//     if (!user) {
+//       return res.status(404).json({ error: "User not found" });
+//     }
+
+//     const orders = await Order.find({ toko_id: user.toko });
+
+//     // Array to hold orders with userPemesan
+//     const ordersWithUserPemesan = [];
+
+//     for (const order of orders) {
+//       const user_pemesan = await User.findById(order.pemesan);
+//       ordersWithUserPemesan.push({ ...order.toObject(), user_pemesan });
+//     }
+
+//     // console.log(ordersWithUserPemesan);
+//     return res
+//       .status(200)
+//       .json({ message: "Order berhasil didapatkan", data: ordersWithUserPemesan });
+//   } catch (err) {
+//     return res.status(500).json({ error: "Gagal menampilkan order", error: err });
+//   }
+// };
+
 const getOrderUser = async (req, res) => {
   const { userId } = req.params;
+  const { startDate, endDate } = req.query;
 
   try {
     const user = await User.findById(userId);
@@ -267,7 +297,22 @@ const getOrderUser = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    const orders = await Order.find({ toko_id: user.toko });
+    // Construct the date range filter if dates are provided
+    const dateFilter = {};
+    if (startDate) {
+      dateFilter.$gte = new Date(startDate);
+    }
+    if (endDate) {
+      dateFilter.$lte = new Date(endDate);
+    }
+
+    const filter = { toko_id: user.toko };
+    if (startDate || endDate) {
+      filter.waktu_pemesanan = dateFilter;
+    }
+
+    // Find orders by toko_id and filter by date range
+    const orders = await Order.find(filter);
 
     // Array to hold orders with userPemesan
     const ordersWithUserPemesan = [];
@@ -277,12 +322,12 @@ const getOrderUser = async (req, res) => {
       ordersWithUserPemesan.push({ ...order.toObject(), user_pemesan });
     }
 
-    // console.log(ordersWithUserPemesan);
     return res
       .status(200)
       .json({ message: "Order berhasil didapatkan", data: ordersWithUserPemesan });
   } catch (err) {
-    return res.status(500).json({ error: "Gagal menampilkan order", error: err });
+    console.log(err);
+    return res.status(500).json({ error: "Gagal menampilkan order", detail: err });
   }
 };
 

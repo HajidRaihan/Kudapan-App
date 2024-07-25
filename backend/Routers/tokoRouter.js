@@ -5,6 +5,7 @@ const {
   addStore,
   updateStore,
   getStoreById,
+  changeTokoStatus,
 } = require("../Controller/storeController");
 const multer = require("multer");
 const path = require("path");
@@ -17,5 +18,6 @@ router.get("/get/:userId", getStoreById);
 
 router.post("/add/:userId", verifyUser("vendor"), upload.single("image"), addStore);
 router.put("/update/:tokoId", upload.single("image"), updateStore);
+router.put("/status/:userId", changeTokoStatus);
 
 module.exports = router;

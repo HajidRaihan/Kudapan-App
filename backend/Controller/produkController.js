@@ -1,5 +1,5 @@
 const { query } = require("express");
-const { Toko, Produk, User } = require("../models");
+const { Toko, Produk, User, Order } = require("../models");
 const fs = require("fs");
 const path = require("path");
 
@@ -173,6 +173,11 @@ const getProduk = async (req, res) => {
       return res.status(404).json({ error: "Toko tidak ditemukan" });
     }
 
+    const incompleteOrder = await Order.countDocuments({
+      toko_id: tokoId,
+      status: { $ne: "selesai" },
+    });
+
     // Ambil daftar produk dari toko
     const produk = toko.produk;
     console.log({ produk });
@@ -180,6 +185,7 @@ const getProduk = async (req, res) => {
     res.status(200).json({
       toko: toko.nama,
       tokoId: toko._id,
+      incompleteOrder: incompleteOrder,
       produk,
     });
   } catch (error) {
