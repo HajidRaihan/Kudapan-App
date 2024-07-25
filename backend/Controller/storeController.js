@@ -1,4 +1,30 @@
-const { Toko, User, Produk } = require("../models");
+const { Toko, User, Produk, Order } = require("../models");
+
+// const getAllStore = async (req, res) => {
+//   const { search } = req.query;
+//   try {
+//     let toko;
+//     console.log({ search });
+//     if (search) {
+//       // Search for a store by name or location
+//       toko = await Toko.find({
+//         $or: [{ nama: { $regex: search, $options: "i" } }],
+//       });
+//     } else {
+//       toko = await Toko.find();
+//     }
+
+//     const incompleteOrdersCount = await Order.countDocuments({
+//       toko_id: tokoId,
+//       status: "not completed",
+//     });
+
+//     res.json(toko);
+//   } catch (error) {
+//     console.error("Gagal mendapatkan toko:", error);
+//     res.status(500).json({ error: "Gagal mendapatkan toko" });
+//   }
+// };
 
 const getAllStore = async (req, res) => {
   const { search } = req.query;
@@ -13,7 +39,19 @@ const getAllStore = async (req, res) => {
     } else {
       toko = await Toko.find();
     }
-    res.json(toko);
+
+    // For each store, count the number of incomplete orders
+    const tokoWithIncompleteOrdersCount = await Promise.all(
+      toko.map(async (store) => {
+        const incompleteOrdersCount = await Order.countDocuments({
+          toko_id: store._id,
+          status: { $ne: "selesai" },
+        });
+        return { ...store.toObject(), incompleteOrdersCount };
+      })
+    );
+
+    res.json(tokoWithIncompleteOrdersCount);
   } catch (error) {
     console.error("Gagal mendapatkan toko:", error);
     res.status(500).json({ error: "Gagal mendapatkan toko" });

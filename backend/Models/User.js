@@ -23,8 +23,13 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ["admin", "vendor", "customer"],
     default: "customer",
-  }, // Menambah atribut role
+  },
   toko: { type: mongoose.Schema.Types.ObjectId, ref: "Toko" },
+  status: {
+    type: String,
+    enum: ["aktif", "nonaktif"],
+    default: "aktif",
+  },
   keranjang: [keranjangSchema],
   saldo: {
     type: Number,

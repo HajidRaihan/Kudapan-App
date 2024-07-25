@@ -1,4 +1,4 @@
-const { User } = require("../models");
+const { User, Admin } = require("../models");
 const bcrypt = require("bcrypt");
 const generateLogToken = require("../utils");
 
@@ -36,16 +36,59 @@ const registerUser = async (req, res) => {
   }
 };
 
+// const loginUser = async (req, res) => {
+//   try {
+//     const user = await User.findOne({ email: req.body.email });
+//     const admin = await Admin.findOne({ email: req.body.email });
+//     if (!user || !admin) {
+//       return res.status(404).send("Pengguna tidak ditemukan");
+//     }
+
+//     const isPasswordValid = await bcrypt.compare(req.body.password, user.password);
+//     if (!isPasswordValid) {
+//       return res.status(401).send("Password salah");
+//     }
+
+//     res.send({
+//       _id: user._id,
+//       nama: user.nama,
+//       email: user.email,
+//       role: user.role,
+//       token: generateLogToken(user),
+//     });
+//   } catch (error) {
+//     res.status(500).json("Internal server error");
+//     console.error("Error logging in user:", error);
+//   }
+// };
+
 const loginUser = async (req, res) => {
   try {
-    const user = await User.findOne({ email: req.body.email });
-    if (!user) {
-      return res.status(404).send("Pengguna tidak ditemukan");
+    const { email, password } = req.body;
+
+    // Cek pengguna di koleksi User
+    let user = await User.findOne({ email });
+    let isPasswordValid = false;
+
+    if (user) {
+      isPasswordValid = await bcrypt.compare(password, user.password);
     }
 
-    const isPasswordValid = await bcrypt.compare(req.body.password, user.password);
-    if (!isPasswordValid) {
-      return res.status(401).send("Password salah");
+    if (!user || !isPasswordValid) {
+      // Jika pengguna tidak ditemukan atau password salah, cek di koleksi Admin
+      const admin = await Admin.findOne({ email });
+      if (admin) {
+        isPasswordValid = await bcrypt.compare(password, admin.password);
+        if (isPasswordValid) {
+          user = admin; // Menggunakan variabel user untuk menyimpan data admin
+          user.role = "admin"; // Tentukan role sebagai admin
+        }
+      }
+    }
+
+    // Jika pengguna dan admin tidak ditemukan atau password salah
+    if (!user || !isPasswordValid) {
+      return res.status(404).send("Pengguna tidak ditemukan atau password salah");
     }
 
     res.send({
@@ -113,10 +156,30 @@ const editUser = async (req, res) => {
   }
 };
 
+const changeStatusUser = async (req, res) => {
+  const { status } = req.body;
+
+  try {
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+      return res.status(400).json("User not found");
+    }
+
+    user.status = status;
+    await user.save();
+    return res.status(200).json({ message: "success update user", data: user });
+  } catch (error) {
+    res.status(500).json(error);
+    console.log(error);
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
   getAllUser,
   getUserById,
   editUser,
+  changeStatusUser,
 };

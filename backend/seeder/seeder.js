@@ -56,7 +56,8 @@
 // }
 
 const dotenv = require("dotenv");
-const { Produk, Toko, User, Order } = require("../models");
+const { Produk, Toko, User, Order, Admin } = require("../models");
+const dataAdmin = require("./data/dataAdmin");
 const dataProduk = require("./data/dataProduk");
 const dataToko = require("./data/dataToko");
 const dataUser = require("./data/dataUser");
@@ -70,13 +71,15 @@ const seedDatabase = async () => {
       Toko.deleteMany(),
       Produk.deleteMany(),
       User.deleteMany(),
-      Order.deleteMany(),
+      Admin.deleteMany(),
+      // Order.deleteMany(),
     ]);
 
     await Promise.all([
       Toko.insertMany(dataToko),
       Produk.insertMany(dataProduk),
       User.insertMany(dataUser),
+      Admin.insertMany(dataAdmin),
     ]);
 
     console.log("Data Imported");

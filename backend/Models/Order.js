@@ -26,8 +26,8 @@ const orderSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["diterima", "diproses", "selesai"],
-      default: "diterima",
+      enum: ["menunggu", "ditolak", "diterima", "diproses", "selesai"],
+      default: "menunggu",
     },
     status_pembayaran: {
       type: String,
