@@ -113,6 +113,7 @@ const Home = () => {
               deskripsi={data.deskripsi}
               image={data.image}
               id={data._id}
+              incompleteOrdersCount={data.incompleteOrdersCount}
             />
           );
         })}

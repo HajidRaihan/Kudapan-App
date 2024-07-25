@@ -23,6 +23,7 @@ import VendorRoute from "./middleware/VendorRoute";
 import CustomerRoute from "./middleware/CustomerRoute";
 import HomeAdmin from "./pages/admin/HomeAdmin";
 import RegisVendor from "./pages/admin/RegisVendor";
+import AdminRoute from "./middleware/AdminRoute";
 
 function App() {
   useEffect(() => {
@@ -148,7 +149,14 @@ function App() {
 
         {/* admin route */}
 
-        <Route path="/admin" element={<HomeAdmin />} />
+        <Route
+          path="/admin"
+          element={
+            <AdminRoute>
+              <HomeAdmin />
+            </AdminRoute>
+          }
+        />
         <Route path="/admin/vendor-register" element={<RegisVendor />} />
 
         <Route path="/socket" element={<SocketTest />} />

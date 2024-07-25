@@ -7,7 +7,7 @@ const CustomerTable = ({ data }) => {
   }, []);
   return (
     <div className="w-full bg-white p-8 mt-10 rounded-lg shadow-lg">
-      <h1 className="font-bold">List Vendor</h1>
+      <h1 className="font-bold">List Customer</h1>
 
       <div className="overflow-x-auto border rounded-lg mt-5 bg-white">
         <table className="table">

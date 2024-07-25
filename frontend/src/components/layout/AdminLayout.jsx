@@ -1,7 +1,12 @@
+import Cookies from "js-cookie";
 import React from "react";
 import { Link } from "react-router-dom";
 
 const AdminLayout = ({ children }) => {
+  const logoutHanlder = () => {
+    Cookies.remove("access_token_kudapan");
+    window.location.reload();
+  };
   return (
     <div className="flex h-screen bg-[#F5F5F5]">
       <div className="bg-primary w-64 flex-shrink-0">
@@ -22,6 +27,9 @@ const AdminLayout = ({ children }) => {
               >
                 Registrasi
               </Link>
+            </li>{" "}
+            <li className="absolute bottom-5" onClick={logoutHanlder}>
+              <button className="block p-2 rounded hover:bg-slate-700 text-white">Logout</button>
             </li>
           </ul>
         </div>

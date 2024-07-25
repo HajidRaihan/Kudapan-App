@@ -63,4 +63,28 @@ const editProfile = async (userId, data) => {
   }
 };
 
-export { getUserById, editProfile, getAllUser };
+const changeStatusUser = async (userId, data) => {
+  const tokken = TokenHandler();
+
+  const headerToken = {
+    Authorization: `${tokken}`,
+    "Content-Type": "application/json",
+  };
+
+  console.log(data);
+
+  try {
+    const responseData = await RequestApi(
+      "PUT",
+      `user/status/${userId}`,
+      data,
+      headerToken,
+      "change status user"
+    );
+    return responseData;
+  } catch (error) {
+    console.error("Terjadi kesalahan ubah status user", error);
+  }
+};
+
+export { getUserById, editProfile, getAllUser, changeStatusUser };

@@ -7,6 +7,10 @@ const StyledShutdown = styled(ShutDown)`
   color: #fff;
   width: 15px;
 `;
+const StyledShutdownGreen = styled(ShutDown)`
+  color: #02f760;
+  width: 15px;
+`;
 
 const VendorTable = ({ data, handleOpen }) => {
   return (
@@ -34,12 +38,21 @@ const VendorTable = ({ data, handleOpen }) => {
                   <FormatRupiah value={vendor.saldo} />
                 </td>
                 <td>
-                  <button
-                    className="text-white w-10 h-10 rounded-md hover:opacity-85 bg-primary"
-                    onClick={() => handleOpen(vendor._id, vendor.nama)}
-                  >
-                    <StyledShutdown />
-                  </button>
+                  {vendor.status === "aktif" ? (
+                    <button
+                      className="text-white w-10 h-10 rounded-md hover:opacity-85 bg-green-400"
+                      onClick={() => handleOpen(vendor._id, vendor.nama, vendor.status)}
+                    >
+                      <StyledShutdown />
+                    </button>
+                  ) : (
+                    <button
+                      className="text-white w-10 h-10 rounded-md hover:opacity-85 bg-primary"
+                      onClick={() => handleOpen(vendor._id, vendor.nama, vendor.status)}
+                    >
+                      <StyledShutdown />
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}

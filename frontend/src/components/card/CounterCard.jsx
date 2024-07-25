@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types"; // Pastikan untuk mengimpor PropTypes
 
-const CounterCard = ({ nama, deskripsi, image, id }) => {
+const CounterCard = ({ nama, deskripsi, image, id, incompleteOrdersCount }) => {
   return (
     <Link to={`/warung/${id}`} className="card card-side shadow-lg h-20 mb-5 bg-white">
       <figure className="w-[30%] h-full ">
@@ -14,6 +14,7 @@ const CounterCard = ({ nama, deskripsi, image, id }) => {
       <div className="p-5 flex justify-center flex-col">
         <h2 className=" text-sm font-semibold">{nama}</h2>
         <p className="text-xs">{deskripsi}</p>
+        <p className="text-xs">yang antri {incompleteOrdersCount}</p>
       </div>
     </Link>
   );

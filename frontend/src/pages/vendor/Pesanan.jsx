@@ -88,6 +88,41 @@ const Pesanan = () => {
     }
   };
 
+  const konfirmasiOrderHandler = async (konfirStatus, orderId) => {
+    const data = {
+      status: konfirStatus,
+    };
+
+    console.log(data);
+    try {
+      const res = await changeStatusOrder(userId, orderId, { status: "diterima" });
+      console.log({ res });
+      setOpen(false);
+      toast.success("berhasil mengubah status pesanan");
+      if (res) {
+        setPesananData((prevPesananData) => {
+          // Buat salinan baru dari pesananData
+          const updatedPesananData = [...prevPesananData];
+
+          // Temukan pesanan yang sesuai berdasarkan orderId
+          const pesananToUpdate = updatedPesananData.find((pesanan) => pesanan._id === orderId);
+
+          console.log({ pesananToUpdate });
+
+          // Jika pesanan ditemukan, perbarui statusnya
+          if (pesananToUpdate) {
+            pesananToUpdate.status = status;
+          }
+
+          return updatedPesananData;
+        });
+      }
+    } catch (error) {
+      console.error("Gagal mengubah status pesanan:", error);
+      toast.error("Gagal mengubah status pesanan");
+    }
+  };
+
   const deleteRiwayatHandler = async () => {
     try {
       const res = await deleteRiwayatPesanan(userId);
@@ -121,9 +156,25 @@ const Pesanan = () => {
             return (
               <div className="mb-10 mx-5 mt-5" key={pesanan._id}>
                 <div className="flex justify-between items-center">
-                  <div className="flex gap-3">
-                    <button
-                      className={`w-24 h-8 text-white text-sm flex justify-center items-center rounded-xl
+                  {pesanan.status === "menunggu" ? (
+                    <div className="flex items-center gap-2">
+                      <button
+                        className="bg-blue-500 text-white px-3 py-1 rounded-md"
+                        onClick={() => konfirmasiOrderHandler("diterima", pesanan._id)}
+                      >
+                        Konfirmasi
+                      </button>
+                      <button
+                        className="bg-red-500 text-white px-3 py-1 rounded-md"
+                        onClick={() => konfirmasiOrderHandler("ditolak", pesanan._id)}
+                      >
+                        Tolak !
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="flex gap-3">
+                      <button
+                        className={`w-24 h-8 text-white text-sm flex justify-center items-center rounded-xl
                     ${
                       pesanan.status === "diterima"
                         ? "bg-primary"
@@ -132,18 +183,19 @@ const Pesanan = () => {
                         : "bg-green-500"
                     }
                     `}
-                      onClick={() => openHandler(pesanan._id)}
-                    >
-                      {pesanan.status}
-                    </button>
-                    <div
-                      className={`w-24 h-8 text-white text-sm flex justify-center items-center rounded-xl
+                        onClick={() => openHandler(pesanan._id)}
+                      >
+                        {pesanan.status}
+                      </button>
+                      <div
+                        className={`w-24 h-8 text-white text-sm flex justify-center items-center rounded-xl
                     ${pesanan.status_pembayaran === "belum lunas" ? "bg-primary" : "bg-green-500"}
                     `}
-                    >
-                      {pesanan.status_pembayaran}
+                      >
+                        {pesanan.status_pembayaran}
+                      </div>
                     </div>
-                  </div>
+                  )}
                   <button
                     onClick={() => navigate(`${pesanan._id}/${pesanan.pemesan}`)}
                     className="w-24 h-8  text-sm flex justify-center gap-3 items-center rounded-xl"

@@ -31,20 +31,25 @@ const VendorRoute = ({ children }) => {
   }, [tokenData._id]);
 
   if (!token) {
-    location.href = "/login";
+    navigate("/login");
     return null;
   }
 
-  if (token && tokenData.role !== "vendor") {
-    location.href = "/";
+  if (token && tokenData.role === "customer") {
+    navigate("/");
+    console.log("anda bukan vendor");
     return null;
   }
+  // if (token && tokenData.role === "vendor") {
+  //   location.href = "/vendor";
+  //   return null;
+  // }
 
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  if (tokenData.role === "vendor") {
+  if (token && tokenData.role === "vendor") {
     return (
       <>
         {userDetail?.toko === null && location.pathname !== "/create-toko" ? (
