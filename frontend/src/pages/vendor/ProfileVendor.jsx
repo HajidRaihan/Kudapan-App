@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { toast, Toaster } from "react-hot-toast";
-import { getDetailTokoByUserId } from "../../api/tokoApi";
+import toast, { Toaster } from "react-hot-toast";
+import { changeTokoStatus, getDetailTokoByUserId } from "../../api/tokoApi";
 import { getUserById } from "../../api/userApi";
 import VendorLayout from "../../components/layout/VendorLayout";
 import { DecodeToken } from "../../helper/DecodeToken";
@@ -75,9 +75,24 @@ const ProfileVendor = () => {
     Cookies.remove("access_token_kudapan");
     window.location.reload();
   };
+
+  const changeStatusHandler = async () => {
+    const newStatus = detailToko.toko_status === "open" ? "close" : "open";
+
+    try {
+      const res = await changeTokoStatus({ status: newStatus }, userId);
+      toast.success("sukses mengubah status toko");
+      setDetailToko({ ...detailToko, toko_status: newStatus });
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+      toast.error("gagal mengubah status toko");
+    }
+  };
   return (
     <div className="lg:flex flex-col items-center relative">
       <VendorLayout>
+        <Toaster />
         <Header title="Profile" />
 
         <div className="lg:w-[700px] mx-5 mt-5">
@@ -127,7 +142,17 @@ const ProfileVendor = () => {
             </div>
           </div>
           <button
-            className="btn bg-primary md:w-full w-[350px] mt-3 text-white btn-error"
+            className={`btn ${
+              detailToko?.toko_status === "open"
+                ? "bg-warning btn-warning"
+                : "bg-success btn-success"
+            }  w-full mt-3 text-white hover:opacity-85 `}
+            onClick={changeStatusHandler}
+          >
+            {detailToko?.toko_status === "open" ? "Close Order" : "Open Order"}
+          </button>
+          <button
+            className="btn bg-primary w-full mt-3 text-white btn-error"
             onClick={logoutHanlder}
           >
             Logout

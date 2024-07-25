@@ -67,7 +67,6 @@ const Home = () => {
   const searchHandler = (e) => {
     setSearch(e.target.value);
   };
-  console.log(import.meta.env.VITE_API_URL);
   return (
     <MainLayout>
       {/* <StyledIcon /> */}
@@ -112,6 +111,7 @@ const Home = () => {
               nama={data.nama}
               deskripsi={data.deskripsi}
               image={data.image}
+              isActive={data.toko_status === "open" ? true : false}
               id={data._id}
               incompleteOrdersCount={data.incompleteOrdersCount}
             />

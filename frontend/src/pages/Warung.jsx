@@ -48,6 +48,7 @@ const Warung = () => {
               );
             })}
           </div>
+          <p className="mx-5 text-xs mt-3">Orderan yang di proses : {tokoData.incompleteOrder}</p>
           <div className="flex flex-wrap gap-5 justify-center mt-5 mb-20 ">
             {tokoData.produk.map((item) => (
               <>

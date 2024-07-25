@@ -24,6 +24,7 @@ import CustomerRoute from "./middleware/CustomerRoute";
 import HomeAdmin from "./pages/admin/HomeAdmin";
 import RegisVendor from "./pages/admin/RegisVendor";
 import AdminRoute from "./middleware/AdminRoute";
+import RekapPesanan from "./pages/vendor/RekapPesanan";
 
 function App() {
   useEffect(() => {
@@ -143,6 +144,15 @@ function App() {
           element={
             <VendorRoute>
               <DetailPesanan />
+            </VendorRoute>
+          }
+        />
+
+        <Route
+          path="/vendor/rekap"
+          element={
+            <VendorRoute>
+              <RekapPesanan />
             </VendorRoute>
           }
         />

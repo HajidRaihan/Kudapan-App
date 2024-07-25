@@ -5,6 +5,7 @@ import { Book } from "@styled-icons/boxicons-regular/Book";
 import { Book as BookSolid } from "@styled-icons/boxicons-solid/Book";
 import { Person } from "@styled-icons/bootstrap/Person";
 import { PersonFill } from "@styled-icons/bootstrap/PersonFill";
+import { History } from "@styled-icons/boxicons-regular/History";
 
 import styled from "styled-components";
 
@@ -38,6 +39,16 @@ const PersonIconRed = styled(PersonFill)`
   width: 24px;
 `;
 
+const HistoryIconBlack = styled(History)`
+  color: #4c4c4c;
+  width: 24px;
+`;
+
+const HistoryIconRed = styled(History)`
+  color: #f40027;
+  width: 24px;
+`;
+
 const BottomNavigationVendor = () => {
   const location = useLocation().pathname;
 
@@ -62,6 +73,17 @@ const BottomNavigationVendor = () => {
             } `}
           >
             pesanan
+          </p>
+        </Link>
+
+        <Link to={"/vendor/rekap"} className="flex flex-col items-center justify-center">
+          {location === "/vendor/rekap" ? <HistoryIconRed /> : <HistoryIconBlack />}
+          <p
+            className={`text-center text-[10px] ${
+              location === "/vendor/rekap" ? "text-primary" : "text-[#4C4C4C]"
+            } `}
+          >
+            Rekap
           </p>
         </Link>
         <Link to={"/vendor/profile"} className="flex flex-col items-center justify-center">

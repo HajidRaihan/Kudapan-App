@@ -101,4 +101,30 @@ const editToko = async (data, tokoId) => {
   }
 };
 
-export { getAllToko, getDetailTokoByUserId, createToko, editToko };
+const changeTokoStatus = async (data, tokoId) => {
+  try {
+    const token = TokenHandler();
+
+    const headerToken = {
+      Authorization: `${token}`,
+      "Content-Type": "application/json",
+    };
+
+    // return console.log({ data });
+
+    const responseData = await RequestApi(
+      "PUT",
+      `store/status/${tokoId}`,
+      data,
+      headerToken,
+      "Mencoba status toko"
+    );
+
+    return responseData;
+  } catch (error) {
+    console.error("Terjadi kesalahan saat status toko  ", error);
+    throw error;
+  }
+};
+
+export { getAllToko, getDetailTokoByUserId, createToko, editToko, changeTokoStatus };

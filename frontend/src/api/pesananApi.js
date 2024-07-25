@@ -1,7 +1,7 @@
 import { RequestApi } from "../helper/RequestApi";
 import { TokenHandler } from "../helper/TokenHandler";
 
-const getPesanan = async (userId) => {
+const getPesanan = async (userId, startDate, endDate) => {
   try {
     const token = TokenHandler();
     // console.log({ userId });
@@ -10,12 +10,22 @@ const getPesanan = async (userId) => {
       Authorization: `${token}`,
     };
 
+    let params = [];
+
+    if (startDate) {
+      params.push(`startDate=${startDate}`);
+    }
+
+    if (endDate) {
+      params.push(`endDate=${endDate}`);
+    }
+
     const responseData = await RequestApi(
       "GET",
-      `order/get/${userId}`,
+      `order/get/${userId}?${params.join("&")}`,
       {},
       headerToken,
-      "Mencoba Menampilkan pesanan"
+      "Mencoba Menampilkan riwayat pesanan"
     );
 
     return responseData;
