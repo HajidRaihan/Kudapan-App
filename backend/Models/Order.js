@@ -18,7 +18,7 @@ const orderSchema = new mongoose.Schema(
     },
     meja: {
       type: Number,
-      required: true,
+      // required: true,
     },
     waktu_pemesanan: {
       type: Date,
@@ -33,6 +33,11 @@ const orderSchema = new mongoose.Schema(
       type: String,
       enum: ["lunas", "belum lunas"],
       default: "belum lunas",
+    },
+    jenis_layanan: {
+      type: String,
+      enum: ["dine in", "take away"],
+      required: true,
     },
   },
   { timestamp: true }

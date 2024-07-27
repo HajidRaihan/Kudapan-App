@@ -7,6 +7,7 @@ const {
   changeStatusOrder,
   getOrderById,
   orderPayment,
+  paymentCashContoller,
 } = require("../controller/orderController");
 const { verifyUser } = require("../middleware/verifyAccessToken");
 
@@ -16,5 +17,6 @@ router.get("/get/:userId", getOrderUser);
 router.get("/get/detail/:id", getOrderById);
 router.post("/payment/:userId/:orderId", orderPayment);
 router.post("/status/:userId/:orderId", changeStatusOrder);
+router.put("/payment/cash/:userId/:orderId", paymentCashContoller);
 
 module.exports = router;

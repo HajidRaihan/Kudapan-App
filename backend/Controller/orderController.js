@@ -2,6 +2,7 @@ const { response } = require("express");
 const { User, History, Toko, Order, Produk } = require("../models");
 
 const addOrder = async (req, res) => {
+  const { jenis_layanan } = req.body;
   const { userId, meja } = req.params;
 
   try {
@@ -9,6 +10,11 @@ const addOrder = async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
+
+    // return console.log(req.body);
+    console.log({ meja });
+
+    // return console.log(typeof meja);
 
     let listOrder = [];
 
@@ -25,7 +31,8 @@ const addOrder = async (req, res) => {
           toko_id: tokoId,
           pesanan: user.keranjang[index].produk,
           total_harga: user.keranjang[index].total_harga,
-          meja: meja,
+          meja: meja === "undefined" ? 0 : Number(meja),
+          jenis_layanan: jenis_layanan,
         });
 
         newOrder.save();
@@ -453,10 +460,41 @@ const orderPayment = async (req, res) => {
     // return console.log({ nominal });
     user.saldo = user.saldo - parseInt(nominal);
 
+    if (user.saldo < parseInt(nominal)) {
+      return res.status(400).json({ error: "Saldo kurang" });
+    }
+
     order.status_pembayaran = "lunas";
     await order.save();
     await user.save();
     await vendor.save();
+
+    return res.json({ message: "berhasil membayar", data: order });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Failed to pay", error });
+  }
+};
+
+const paymentCashContoller = async (req, res) => {
+  const { userId, orderId } = req.params;
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const order = await Order.findById(orderId);
+
+    if (!order) {
+      return res.status(404).json({ error: "Order not found" });
+    }
+
+    order.status_pembayaran = "lunas";
+
+    await order.save();
 
     return res.json({ message: "berhasil membayar", data: order });
   } catch (error) {
@@ -472,4 +510,5 @@ module.exports = {
   changeStatusOrder,
   getOrderById,
   orderPayment,
+  paymentCashContoller,
 };
