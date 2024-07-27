@@ -22,6 +22,7 @@ const OrderModal = ({
   const [catatan, setCatatan] = useState("");
   const { tokoId } = useParams();
   const [detail, setDetail] = useState();
+  const [isLoading, setIsLoading] = useState(false);
   // const dataToken = DecodeToken();
   const token = DecodeToken();
   const userId = token._id;
@@ -29,6 +30,7 @@ const OrderModal = ({
   // console.log(nama, menuId);
 
   const handleAddKeranjang = async () => {
+    setIsLoading(true);
     const data = {
       produkId: menuId,
       tokoId: tokoId,
@@ -44,10 +46,12 @@ const OrderModal = ({
       // openAlertModalHandler();
       isSuccess();
       setOrderCount((prev) => !prev);
+      setIsLoading(false);
       // setOrderCount((prev) => prev - parseInt(jumlah));
       console.log(data);
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
       isError();
     }
   };
@@ -140,8 +144,10 @@ const OrderModal = ({
               <button
                 className="btn btn-success w-full my-2  text-white"
                 onClick={handleAddKeranjang}
+                disabled={isLoading}
               >
-                Tambahkan keranjang
+                {isLoading && <span className="loading loading-spinner loading-sm"></span>}
+                <p>Tambahkan keranjang</p>
               </button>
               {/* <button className="btn btn-error w-full text-white" onClick={orderLangsungHandler}>
                 Order Langsung

@@ -10,7 +10,7 @@ import BackButton from "../components/BackButton";
 
 const History = () => {
   const [historyData, setHistoryData] = useState();
-  const [selectedStatus, setSelectedStatus] = useState("diterima");
+  const [selectedStatus, setSelectedStatus] = useState("menunggu");
   const token = DecodeToken();
   const userId = token._id;
 
@@ -62,7 +62,7 @@ const History = () => {
             </div>
           </div>
 
-          <div className="flex gap-3 mx-5">
+          <div className="flex gap-1 mx-2">
             {listStatus.map((data) => {
               return (
                 <Status
@@ -79,7 +79,7 @@ const History = () => {
           {historyData
             ? [...historyData].reverse().map((history) => {
                 return (
-                  <div className="mb-10 mx-5 mt-5" key={history._id}>
+                  <div className="mb-5 mx-5 mt-5 border p-3 shadow-lg rounded-lg" key={history._id}>
                     <div className="flex justify-between items-end">
                       <h1 className="text-base font-semibold">{history.nama_toko}</h1>
                       <div className="flex gap-3">
@@ -112,10 +112,11 @@ const History = () => {
                     </div>
 
                     <div className="w-full border border-black my-2" />
-                    <div className="mb-5">
+                    <div className="">
                       <div className="flex justify-between items-center">
                         <div>
-                          <p className="text-xs">Meja : {history.meja}</p>
+                          <p className="text-xs">Jenis Layanan : {history.jenis_layanan}</p>
+                          {history.meja !== 0 && <p className="text-xs">Meja : {history.meja}</p>}
                           <p className="text-xs">
                             total harga : <FormatRupiah value={history.total_harga} />
                           </p>
@@ -161,7 +162,9 @@ const History = () => {
 const Status = ({ handler, selected, value }) => {
   return (
     <div
-      className={`py-2 text-xs w-20 flex justify-center border rounded-xl cursor-pointer ${
+      className={`py-2 ${
+        value === "menunggu" ? "text-[10px]" : "text-xs"
+      } w-20 flex justify-center border rounded-xl cursor-pointer ${
         selected && "bg-primary text-white"
       }`}
       onClick={handler}

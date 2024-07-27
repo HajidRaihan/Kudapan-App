@@ -16,7 +16,7 @@ import SocketTest from "./pages/SocketTest";
 import EditProfile from "./pages/EditProfile";
 import Tes from "./pages/Tes";
 import { useEffect } from "react";
-import DetailPesanan from "./pages/vendor/DetailPesanan";
+import QrPesanan from "./pages/vendor/QrPesanan";
 import Payment from "./pages/Payment";
 import ProfileVendor from "./pages/vendor/ProfileVendor";
 import VendorRoute from "./middleware/VendorRoute";
@@ -25,6 +25,7 @@ import HomeAdmin from "./pages/admin/HomeAdmin";
 import RegisVendor from "./pages/admin/RegisVendor";
 import AdminRoute from "./middleware/AdminRoute";
 import RekapPesanan from "./pages/vendor/RekapPesanan";
+import DetailPesanan from "./pages/vendor/DetailPesanan";
 
 function App() {
   useEffect(() => {
@@ -140,7 +141,16 @@ function App() {
           }
         />
         <Route
-          path="/vendor/pesanan/:orderId/:userId"
+          path="/vendor/pesanan/barcode/:orderId/:userId"
+          element={
+            <VendorRoute>
+              <QrPesanan />
+            </VendorRoute>
+          }
+        />
+
+        <Route
+          path="/vendor/pesanan/detail/:orderId/:userId"
           element={
             <VendorRoute>
               <DetailPesanan />

@@ -1,36 +1,93 @@
 import React, { useEffect, useState } from "react";
-import QRCode from "react-qr-code";
-import { useParams } from "react-router-dom";
-import { getDetailOrder } from "../../api/orderAPi";
+import { useNavigate, useParams } from "react-router-dom";
+import { getDetailOrder, orderPaymentCash } from "../../api/orderAPi";
 import CardTransaksi from "../../components/card/CardTransaksi";
 import Header from "../../components/Header";
-import VendorLayout from "../../components/layout/VendorLayout";
+import KonfirmasiModal from "../../components/KonfirmasiModal";
+import QRModal from "../../components/modals/QrModal";
+import { DecodeToken } from "../../helper/DecodeToken";
 import TimeAgo from "../../helper/TimeAgo";
-import QrTransaksi from "../QrTransaksi";
 
 const DetailPesanan = () => {
+  //   const [userId, setUserId] = useState();
+  const [detailPesanan, setDetailPesanan] = useState();
+  const [qrModalOpen, setQrModalOpen] = useState(false);
+  const [konfirmasiModalOpen, setKonfirmasiModalOpen] = useState(false);
+
+  const navigate = useNavigate();
+
   const { orderId, userId } = useParams();
 
-  return (
-    <div className="mb-20">
-      <VendorLayout>
-        {/* <Toaster /> */}
-        <Header title="Pesanan" />
+  useEffect(() => {
+    getDetailOrder(orderId).then((res) => {
+      setDetailPesanan(res.data);
+      console.log(res.data);
+    });
+  }, []);
 
-        <div className="m-5">
-          <div style={{ height: "auto", margin: "0 auto", maxWidth: 500, width: "100%" }}>
-            <QRCode
-              size={256}
-              style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-              value={`localhost:5173/payment/${orderId}/${userId}`}
-              viewBox={`0 0 256 256`}
-            />
+  const paymentHandler = async () => {
+    try {
+      const res = await orderPaymentCash(userId, orderId);
+      console.log(res);
+      navigate("/vendor/pesanan");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return (
+    <div className="xl:mx-96 md:mx-32">
+      {detailPesanan ? (
+        <div>
+          <Header title="Detail Pesanan" />
+          <div className="mx-5 border p-5 rounded-lg shadow-lg">
+            <p className="text-xs">Jenis Layanan : {detailPesanan.jenis_layanan}</p>
+            <p className="text-xs">Pemesan : {detailPesanan.user_pemesan.nama}</p>
+            <p className="text-xs">Email pemesan : {detailPesanan.user_pemesan.email}</p>
+            {/* <p className="text-xs">Waktu pemesanan : {detailPesanan.waktu_pemesanan}</p> */}
+            <p className="text-xs">Total harga : {detailPesanan.total_harga}</p>
+            {detailPesanan.meja !== 0 && <p className="text-xs">Meja : {detailPesanan.meja}</p>}
+            <p className="text-xs">
+              <TimeAgo timestamp={detailPesanan.waktu_pemesanan} />
+            </p>
+            {detailPesanan.pesanan.map((produk) => {
+              return <CardTransaksi key={produk._id} {...produk} />;
+            })}
+            {detailPesanan.status_pembayaran !== "lunas" ? (
+              <div className="mt-5">
+                <h1 className="text-center mb-3 font-semibold text-md">Pilih metode pembayaran</h1>
+                <div className="w-full flex gap-5 ">
+                  <button
+                    onClick={() => setKonfirmasiModalOpen(true)}
+                    className="bg-warning w-1/2 h-10 text-white  text-sm flex justify-center gap-3 items-center rounded-xl"
+                  >
+                    Cash
+                  </button>
+                  <button
+                    onClick={() => setQrModalOpen(true)}
+                    className="w-1/2 h-10 bg-success text-white text-sm flex justify-center gap-3 items-center rounded-xl"
+                  >
+                    Qris
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <p className="text-center mt-5 font-semibold text-lg">Pesanan sudah lunas</p>
+            )}
           </div>
-          <p>
-            localhost:5173/payment/{orderId}/{userId}
-          </p>
+          {qrModalOpen && <QRModal close={() => setQrModalOpen(false)} />}
+          {konfirmasiModalOpen && (
+            <KonfirmasiModal
+              title={"Apakah anda ingin melunaskan pesanan ini?"}
+              action={"Lunas"}
+              handler={paymentHandler}
+              close={() => setKonfirmasiModalOpen(false)}
+            />
+          )}
         </div>
-      </VendorLayout>
+      ) : (
+        <p>loading ...</p>
+      )}
     </div>
   );
 };

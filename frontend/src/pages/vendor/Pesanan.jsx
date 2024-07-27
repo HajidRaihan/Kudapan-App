@@ -165,7 +165,7 @@ const Pesanan = () => {
           [...pesananData].reverse().map((pesanan) => {
             return (
               <div
-                className={`mb-10 mx-5 mt-5 ${
+                className={`mb-3 mx-5 mt-5 border shadow-lg rounded-lg p-3 ${
                   pesanan.status === "ditolak" && "opacity-50"
                 } relative`}
                 key={pesanan._id}
@@ -177,7 +177,7 @@ const Pesanan = () => {
                     </span>
                   </div>
                 )}
-                <div className="w-full border border-black my-3" />
+                {/* <div className="w-full border border-black my-3" /> */}
                 {pesanan.status !== "ditolak" && (
                   <>
                     <div className="flex justify-between items-center mb-3">
@@ -200,37 +200,56 @@ const Pesanan = () => {
                         <div className="flex gap-3">
                           <button
                             className={`w-24 h-8 text-white text-sm flex justify-center items-center rounded-xl
-                    ${
-                      pesanan.status === "diterima"
-                        ? "bg-primary"
-                        : pesanan.status === "diproses"
-                        ? "bg-yellow-500"
-                        : "bg-green-500"
-                    }
-                    `}
+                              ${
+                                pesanan.status === "diterima"
+                                  ? "bg-primary"
+                                  : pesanan.status === "diproses"
+                                  ? "bg-warning"
+                                  : "bg-success"
+                              }
+                              `}
                             onClick={() => openHandler(pesanan._id)}
                           >
                             {pesanan.status}
                           </button>
                           <div
                             className={`w-24 h-8 text-white text-sm flex justify-center items-center rounded-xl
-                    ${pesanan.status_pembayaran === "belum lunas" ? "bg-primary" : "bg-green-500"}
-                    `}
+                              ${
+                                pesanan.status_pembayaran === "belum lunas"
+                                  ? "bg-primary"
+                                  : "bg-success"
+                              }
+                              `}
                           >
                             {pesanan.status_pembayaran}
                           </div>
                         </div>
                       )}
                       <button
-                        onClick={() => navigate(`${pesanan._id}/${pesanan.pemesan}`)}
+                        onClick={() => navigate(`detail/${pesanan._id}/${pesanan.pemesan}`)}
                         className="w-24 h-8  text-sm flex justify-center gap-3 items-center rounded-xl"
                       >
-                        <p>Get QR</p>
+                        <p>Detail</p>
                         <img src={ArroRightIcon} alt="" className="w-4 h-4" />
                       </button>
                     </div>
                   </>
                 )}
+
+                {/* <div className="flex justify-center gap-3 items-center">
+                        <button
+                          onClick={() => navigate(`${pesanan._id}/${pesanan.pemesan}`)}
+                          className="bg-green-500 w-24 h-8 text-white  text-sm flex justify-center gap-3 items-center rounded-xl"
+                        >
+                          Cash
+                        </button>
+                        <button
+                          onClick={() => navigate(`${pesanan._id}/${pesanan.pemesan}`)}
+                          className="w-24 h-8 bg-green-500 text-white text-sm flex justify-center gap-3 items-center rounded-xl"
+                        >
+                          <p>Qris</p>
+                        </button>
+                      </div> */}
                 {/* {pesanan.pesanan.map((toko) => {
                   return (
                     <div className="mb-5">
@@ -243,11 +262,12 @@ const Pesanan = () => {
                     </div>
                   );
                 })} */}
+                <p className="text-xs">Jenis Layanan : {pesanan.jenis_layanan}</p>
                 <p className="text-xs">Pemesan : {pesanan.user_pemesan.nama}</p>
                 <p className="text-xs">Email pemesan : {pesanan.user_pemesan.email}</p>
                 {/* <p className="text-xs">Waktu pemesanan : {pesanan.waktu_pemesanan}</p> */}
                 <p className="text-xs">Total harga : {pesanan.total_harga}</p>
-                <p className="text-xs">Meja : {pesanan.meja}</p>
+                {pesanan.meja !== 0 && <p className="text-xs">Meja : {pesanan.meja}</p>}
                 <p className="text-xs">
                   <TimeAgo timestamp={pesanan.waktu_pemesanan} />
                 </p>

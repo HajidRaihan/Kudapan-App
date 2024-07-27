@@ -95,7 +95,7 @@ const ProfileVendor = () => {
         <Toaster />
         <Header title="Profile" />
 
-        <div className="lg:w-[700px] mx-5 mt-5">
+        <div className="lg:w-[700px] mx-5 mt-5 mb-20">
           <Toaster />
           {userDetail ? (
             <div className="border p-3 rounded-xl shadow-lg relative">

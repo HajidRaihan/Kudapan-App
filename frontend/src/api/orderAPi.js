@@ -1,19 +1,21 @@
 import { RequestApi } from "../helper/RequestApi";
 import { TokenHandler } from "../helper/TokenHandler";
 
-const addOrder = async (userId, meja) => {
+const addOrder = async (userId, meja, jenisLayanan) => {
   const tokken = TokenHandler();
 
   const headerToken = {
     Authorization: `${tokken}`,
-    "Content-Type": "aplication/json",
+    "Content-Type": "application/json",
   };
+
+  console.log({ userId, meja, jenisLayanan });
 
   try {
     const responseData = await RequestApi(
       "POST",
       `order/add/${userId}/${meja}`,
-      {},
+      jenisLayanan,
       headerToken,
       "Membuat order"
     );
@@ -72,4 +74,27 @@ const orderPayment = async (data, userId, orderId) => {
   }
 };
 
-export { addOrder, getDetailOrder, orderPayment };
+const orderPaymentCash = async (userId, orderId) => {
+  const token = TokenHandler();
+
+  const headerToken = {
+    Authorization: `${token}`,
+    "Content-Type": "application/json",
+  };
+
+  try {
+    const responseData = await RequestApi(
+      "PUT",
+      `order/payment/cash/${userId}/${orderId}`,
+      {},
+      headerToken,
+      "membayar order cash"
+    );
+    return responseData;
+  } catch (error) {
+    console.error("Terjadi kesalahan saat membayar order cash", error);
+    throw error;
+  }
+};
+
+export { addOrder, getDetailOrder, orderPayment, orderPaymentCash };

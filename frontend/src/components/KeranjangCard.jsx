@@ -32,18 +32,18 @@ const KeranjangCard = ({
           Total : <FormatRupiah value={produk.total} />
         </p>
       </div>
-      <div className="absolute bottom-1 right-1">
+      <div className="absolute bottom-1 right-1 flex gap-2">
         <div
-          className="bg-primary p-2 w-fit h-fit  rounded-lg btn btn-error btn-sm mr-1"
+          className=" flex items-center justify-center  rounded-full bg-primary text-white hover:bg-secondary h-5 w-5 cursor-pointer"
           onClick={() => deleteProdukKeranjangHandler(keranjangIndex, produkIndex)}
         >
-          <img src={MinusIcon} alt="" className="h-4 w-4 " />
+          <img src={MinusIcon} alt="" className="h-3 w-3 " />
         </div>
         <div
-          className="bg-primary p-2 w-fit h-fit  rounded-lg btn btn-error btn-sm"
+          className=" flex items-center justify-center  rounded-full bg-primary text-white hover:bg-secondary h-5 w-5 cursor-pointer"
           onClick={() => increaseProdukKeranjangHandler(keranjangIndex, produkIndex)}
         >
-          <img src={PlusIcon} alt="" className="h-4 w-4 " />
+          <img src={PlusIcon} alt="" className="h-3 w-3 " />
         </div>
       </div>
     </div>

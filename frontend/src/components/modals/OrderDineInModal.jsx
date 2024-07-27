@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 
-const ChangeStatusOrderModal = ({ close, handler, status, onChange }) => {
+const OrderDineInModal = ({ close, handler, meja, onChange }) => {
+  const jumlahMeja = 10;
   useEffect(() => {
     document.getElementById("my_modal_1").showModal();
   }, []);
@@ -29,18 +30,17 @@ const ChangeStatusOrderModal = ({ close, handler, status, onChange }) => {
           />
         </label> */}
 
-        <label className="form-control w-full max-w-xs">
+        <label className="form-control w-full">
           <div className="label">
-            <span className="label-text font-semibold">Pilih Status</span>
+            <span className="label-text font-semibold">Pilih Meja</span>
           </div>
-          <select
-            className="select select-bordered w-full max-w-xs"
-            onChange={onChange}
-            value={status}
-          >
-            <option value="diterima">diterima</option>
+          <select className="select select-bordered w-full" onChange={onChange} value={meja}>
+            {Array.from({ length: jumlahMeja }, (_, i) => (
+              <option key={i} value={i + 1}>{`Meja ${i + 1}`}</option>
+            ))}
+            {/* <option value="diterima">diterima</option>
             <option value="diproses">diproses</option>
-            <option value="selesai">selesai</option>
+            <option value="selesai">selesai</option> */}
           </select>
         </label>
 
@@ -56,4 +56,4 @@ const ChangeStatusOrderModal = ({ close, handler, status, onChange }) => {
   );
 };
 
-export default ChangeStatusOrderModal;
+export default OrderDineInModal;

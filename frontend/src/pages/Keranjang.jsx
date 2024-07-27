@@ -16,16 +16,21 @@ import toast, { Toaster } from "react-hot-toast";
 import FormatRupiah from "../helper/FormatRupiah";
 import { decrypt } from "../helper/Encrypt";
 import Cookies from "js-cookie";
+import OrderDineInModal from "../components/modals/OrderDineInModal";
 
 const Keranjang = () => {
-  const [keranjangData, setKeranjangData] = useState();
+  const [keranjangData, setKeranjangData] = useState([]);
   const [open, setOpen] = useState(false);
+  const [dineInModalOpen, setDineInModalOpen] = useState(false);
   const [alertModalOpen, setAlertModalOpen] = useState(false);
-  const [meja, setMeja] = useState("");
+  const [meja, setMeja] = useState();
+  const [jenisLayanan, setJenisLayanan] = useState("");
+
   const token = DecodeToken();
   const userId = token._id;
 
-  const openHandler = () => {
+  const openHandler = (layanan) => {
+    setJenisLayanan(layanan);
     setOpen(true);
   };
   const closeHandler = async () => {
@@ -45,7 +50,7 @@ const Keranjang = () => {
 
   const addOrderHandler = async () => {
     console.log("testes");
-    const dataMeja = Cookies.get("meja");
+    // const dataMeja = Cookies.get("meja");
 
     // const mejaDecrypt = decrypt(dataMeja);
 
@@ -55,16 +60,17 @@ const Keranjang = () => {
     //   return alert("Nomor Meja tidak valid, silahkan scan ulang QR Code");
     // }
 
+    // return console.log({ meja });
+
     try {
-      const res = await addOrder(userId, 1);
+      const res = await addOrder(userId, meja, { jenis_layanan: jenisLayanan });
       if (res) {
-        console.log("sukses kokk");
-        console.log(res);
         toast.success("Berhasil Melakukan Order");
 
         // setAlertModalOpen(true);
         setKeranjangData([]);
         setOpen(false);
+        setDineInModalOpen(false);
         console.log("sukses");
       }
       // toast.error("gagal melakukan order");
@@ -118,6 +124,16 @@ const Keranjang = () => {
     setKeranjangData([]);
   };
 
+  const mejaHandler = (e) => {
+    setMeja(e.target.value);
+    console.log(e.target.value);
+  };
+
+  const dineInModalHandler = (layanan) => {
+    setJenisLayanan(layanan);
+    setDineInModalOpen(true);
+  };
+
   return (
     <div className="mb-36">
       <MainLayout>
@@ -126,7 +142,7 @@ const Keranjang = () => {
         {keranjangData
           ? keranjangData.map((keranjang) => {
               return (
-                <div key={keranjang._id} className="mx-5 mb-8">
+                <div key={keranjang._id} className="mx-5 mb-5 border p-3 rounded-lg shadow-lg">
                   <h1 className="text-lg font-semibold">{keranjang.nama_toko}</h1>
                   <p className="text-sm">
                     total harga : <FormatRupiah value={keranjang.total_harga} />
@@ -150,14 +166,32 @@ const Keranjang = () => {
           : null}
 
         {/* <KonfirmasiModal /> */}
+        {keranjangData.length !== 0 ? (
+          <div className=" bottom-16 w-full ">
+            <div className="mx-7 flex justify-center gap-5">
+              <button
+                className="btn bg-primary w-1/2 text-white btn-error "
+                onClick={() => dineInModalHandler("dine in")}
+              >
+                Dine In
+              </button>
+              <button
+                className="btn bg-warning w-1/2 text-white btn-warning "
+                onClick={() => openHandler("take away")}
+              >
+                Take Away
+              </button>
+            </div>
+          </div>
+        ) : null}
       </MainLayout>
-      {keranjangData?.length !== 0 ? (
+      {/* {keranjangData?.length !== 0 ? (
         <div className="fixed bottom-16 w-full flex justify-center">
           <button className="btn bg-primary w-[350px] text-white btn-error " onClick={openHandler}>
             Order
           </button>
         </div>
-      ) : null}
+      ) : null} */}
 
       {open && (
         <KonfirmasiModal
@@ -165,6 +199,14 @@ const Keranjang = () => {
           title="Apakah anda ingin order pesanan yang ada di keranjang?"
           handler={addOrderHandler}
           action="Order"
+        />
+      )}
+      {dineInModalOpen && (
+        <OrderDineInModal
+          onChange={mejaHandler}
+          meja={meja}
+          handler={addOrderHandler}
+          close={() => setDineInModalOpen(false)}
         />
       )}
 

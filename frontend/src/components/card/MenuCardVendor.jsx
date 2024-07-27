@@ -25,7 +25,7 @@ const MenuCardVendor = ({ userId, openEditModal, setDetailToko, ...produk }) => 
     }
   };
   return (
-    <div className="w-full h-24 rounded-xl mt-5 border-slate-500 border flex relative gap-2">
+    <div className="w-full h-24 rounded-lg shadow-lg mt-5  border flex relative gap-2">
       <Toaster />
       <div className="h-full">
         <img

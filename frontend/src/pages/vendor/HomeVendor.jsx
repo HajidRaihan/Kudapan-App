@@ -121,7 +121,7 @@ const HomeVendor = () => {
         <Kategori title="Minuman" />
         <Kategori title="Dessert" />
       </div> */}
-          <div className="mx-5 pb-20">
+          <div className="mx-5 pb-32">
             {detailToko
               ? detailToko.produk.map((data) => {
                   return (
@@ -153,7 +153,7 @@ const HomeVendor = () => {
             {" "}
             {/* Updated line */}
             <button
-              className="btn btn-info text-white w-40 text-xs"
+              className="btn btn-success text-white w-40 text-xs"
               onClick={() => {
                 setNewProdukOpen(true);
                 console.log(newProdukOpen);
