@@ -175,7 +175,7 @@ const getProduk = async (req, res) => {
 
     const incompleteOrder = await Order.countDocuments({
       toko_id: tokoId,
-      status: { $ne: "selesai" },
+      status: { $in: ["diterima", "diproses"] },
     });
 
     // Ambil daftar produk dari toko

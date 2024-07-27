@@ -45,7 +45,7 @@ const getAllStore = async (req, res) => {
       toko.map(async (store) => {
         const incompleteOrdersCount = await Order.countDocuments({
           toko_id: store._id,
-          status: { $ne: "selesai" },
+          status: { $in: ["diterima", "diproses"] },
         });
         return { ...store.toObject(), incompleteOrdersCount };
       })
