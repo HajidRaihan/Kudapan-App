@@ -14,7 +14,7 @@ const History = () => {
   const token = DecodeToken();
   const userId = token._id;
 
-  const listStatus = ["diterima", "diproses", "selesai"];
+  const listStatus = ["menunggu", "diterima", "diproses", "selesai", "ditolak"];
 
   const statusSelectedHandler = (status) => {
     setSelectedStatus(status);

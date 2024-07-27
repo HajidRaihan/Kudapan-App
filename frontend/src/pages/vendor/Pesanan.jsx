@@ -9,6 +9,7 @@ import Header from "../../components/Header";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import ArroRightIcon from "../../assets/icon/arrow-right.svg";
+import KonfirmasiModal from "../../components/KonfirmasiModal";
 
 const Pesanan = () => {
   const token = DecodeToken();
@@ -17,6 +18,8 @@ const Pesanan = () => {
   const [pesananData, setPesananData] = useState();
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState();
+  const [pesananId, setPesananId] = useState();
+  const [konfirmasiModalOpen, setKonfirmasiModalOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -81,6 +84,7 @@ const Pesanan = () => {
 
           return updatedPesananData;
         });
+        console.log("pesanan data", pesananData);
       }
     } catch (error) {
       console.error("Gagal mengubah status pesanan:", error);
@@ -95,7 +99,7 @@ const Pesanan = () => {
 
     console.log(data);
     try {
-      const res = await changeStatusOrder(userId, orderId, { status: "diterima" });
+      const res = await changeStatusOrder(userId, orderId, { status: konfirStatus });
       console.log({ res });
       setOpen(false);
       toast.success("berhasil mengubah status pesanan");
@@ -111,11 +115,12 @@ const Pesanan = () => {
 
           // Jika pesanan ditemukan, perbarui statusnya
           if (pesananToUpdate) {
-            pesananToUpdate.status = status;
+            pesananToUpdate.status = konfirStatus;
           }
 
           return updatedPesananData;
         });
+        setKonfirmasiModalOpen(false);
       }
     } catch (error) {
       console.error("Gagal mengubah status pesanan:", error);
@@ -130,6 +135,11 @@ const Pesanan = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const konfirmasiModalOpenHandler = (pesananId) => {
+    setKonfirmasiModalOpen(true);
+    setPesananId(pesananId);
   };
 
   const openHandler = (id) => {
@@ -154,27 +164,42 @@ const Pesanan = () => {
         {pesananData ? (
           [...pesananData].reverse().map((pesanan) => {
             return (
-              <div className="mb-10 mx-5 mt-5" key={pesanan._id}>
-                <div className="flex justify-between items-center">
-                  {pesanan.status === "menunggu" ? (
-                    <div className="flex items-center gap-2">
-                      <button
-                        className="bg-blue-500 text-white px-3 py-1 rounded-md"
-                        onClick={() => konfirmasiOrderHandler("diterima", pesanan._id)}
-                      >
-                        Konfirmasi
-                      </button>
-                      <button
-                        className="bg-red-500 text-white px-3 py-1 rounded-md"
-                        onClick={() => konfirmasiOrderHandler("ditolak", pesanan._id)}
-                      >
-                        Tolak !
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="flex gap-3">
-                      <button
-                        className={`w-24 h-8 text-white text-sm flex justify-center items-center rounded-xl
+              <div
+                className={`mb-10 mx-5 mt-5 ${
+                  pesanan.status === "ditolak" && "opacity-50"
+                } relative`}
+                key={pesanan._id}
+              >
+                {pesanan.status === "ditolak" && (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="text-white font-bold bg-black bg-opacity-60 py-1 px-3 rounded-md">
+                      Ditolak
+                    </span>
+                  </div>
+                )}
+                <div className="w-full border border-black my-3" />
+                {pesanan.status !== "ditolak" && (
+                  <>
+                    <div className="flex justify-between items-center mb-3">
+                      {pesanan.status === "menunggu" ? (
+                        <div className="flex items-center gap-2">
+                          <button
+                            className="bg-blue-500 text-white px-3 py-1 rounded-md"
+                            onClick={() => konfirmasiOrderHandler("diterima", pesanan._id)}
+                          >
+                            Konfirmasi
+                          </button>
+                          <button
+                            className="bg-red-500 text-white px-3 py-1 rounded-md"
+                            onClick={() => konfirmasiModalOpenHandler(pesanan._id)}
+                          >
+                            Tolak !
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="flex gap-3">
+                          <button
+                            className={`w-24 h-8 text-white text-sm flex justify-center items-center rounded-xl
                     ${
                       pesanan.status === "diterima"
                         ? "bg-primary"
@@ -183,30 +208,29 @@ const Pesanan = () => {
                         : "bg-green-500"
                     }
                     `}
-                        onClick={() => openHandler(pesanan._id)}
-                      >
-                        {pesanan.status}
-                      </button>
-                      <div
-                        className={`w-24 h-8 text-white text-sm flex justify-center items-center rounded-xl
+                            onClick={() => openHandler(pesanan._id)}
+                          >
+                            {pesanan.status}
+                          </button>
+                          <div
+                            className={`w-24 h-8 text-white text-sm flex justify-center items-center rounded-xl
                     ${pesanan.status_pembayaran === "belum lunas" ? "bg-primary" : "bg-green-500"}
                     `}
+                          >
+                            {pesanan.status_pembayaran}
+                          </div>
+                        </div>
+                      )}
+                      <button
+                        onClick={() => navigate(`${pesanan._id}/${pesanan.pemesan}`)}
+                        className="w-24 h-8  text-sm flex justify-center gap-3 items-center rounded-xl"
                       >
-                        {pesanan.status_pembayaran}
-                      </div>
+                        <p>Get QR</p>
+                        <img src={ArroRightIcon} alt="" className="w-4 h-4" />
+                      </button>
                     </div>
-                  )}
-                  <button
-                    onClick={() => navigate(`${pesanan._id}/${pesanan.pemesan}`)}
-                    className="w-24 h-8  text-sm flex justify-center gap-3 items-center rounded-xl"
-                  >
-                    <p>Get QR</p>
-                    <img src={ArroRightIcon} alt="" className="w-4 h-4" />
-                  </button>
-                </div>
-
-                <div className="w-full border border-black my-3" />
-
+                  </>
+                )}
                 {/* {pesanan.pesanan.map((toko) => {
                   return (
                     <div className="mb-5">
@@ -219,17 +243,14 @@ const Pesanan = () => {
                     </div>
                   );
                 })} */}
-
                 <p className="text-xs">Pemesan : {pesanan.user_pemesan.nama}</p>
                 <p className="text-xs">Email pemesan : {pesanan.user_pemesan.email}</p>
                 {/* <p className="text-xs">Waktu pemesanan : {pesanan.waktu_pemesanan}</p> */}
                 <p className="text-xs">Total harga : {pesanan.total_harga}</p>
                 <p className="text-xs">Meja : {pesanan.meja}</p>
-
                 <p className="text-xs">
                   <TimeAgo timestamp={pesanan.waktu_pemesanan} />
                 </p>
-
                 {pesanan.pesanan.map((produk) => {
                   return <CardTransaksi key={produk._id} {...produk} />;
                 })}
@@ -238,6 +259,13 @@ const Pesanan = () => {
           })
         ) : (
           <p>loading...</p>
+        )}
+        {konfirmasiModalOpen && (
+          <KonfirmasiModal
+            title={"Apakah anda ingin menolak pesanan ini?"}
+            action={"Tolak"}
+            handler={() => konfirmasiOrderHandler("ditolak", pesananId)}
+          />
         )}
 
         {open && (
