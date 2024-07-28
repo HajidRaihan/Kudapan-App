@@ -37,7 +37,9 @@ const QRModal = ({ value, onChange, handler, close }) => {
               viewBox={`0 0 256 256`}
             />
           </div>
-          <p>{/* localhost:5173/payment/{orderId}/{userId} */}</p>
+          <p>
+            localhost:5173/payment/{orderId}/{userId}
+          </p>
         </div>
 
         <div className="flex justify-center mt-5 gap-3 w-full">

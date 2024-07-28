@@ -8,7 +8,13 @@ import SearchBar from "../components/SearchBar";
 import MenuCard from "../components/card/MenuCard";
 import toast, { Toaster } from "react-hot-toast";
 import MainLayout from "../components/layout/MainLayout";
+import { PeopleQueue } from "@styled-icons/fluentui-system-filled/PeopleQueue";
+import { styled } from "styled-components";
 
+const PeopleQueueRed = styled(PeopleQueue)`
+  color: #fff;
+  width: 24px;
+`;
 const Warung = () => {
   const { tokoId } = useParams();
   const [tokoData, setTokoData] = useState();
@@ -48,7 +54,12 @@ const Warung = () => {
               );
             })}
           </div>
-          <p className="mx-5 text-xs mt-3">Orderan yang di proses : {tokoData.incompleteOrder}</p>
+          <div className="p-2 bg-primary gap-1 flex items-center rounded-md mx-5 mt-2">
+            <PeopleQueueRed />
+            <p className="text-xs text-white">
+              <b>{tokoData.incompleteOrder}</b> sedang mengantri
+            </p>
+          </div>
           <div className="flex flex-wrap gap-5 justify-center mt-5 mb-20 ">
             {tokoData.produk.map((item) => (
               <>

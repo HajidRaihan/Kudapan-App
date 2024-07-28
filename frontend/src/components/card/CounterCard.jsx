@@ -26,20 +26,31 @@
 //   image: PropTypes.string.isRequired,
 //   id: PropTypes.number.isRequired,
 // };
-
+// @styled-icons/fluentui-system-regular/PeopleQueue
 // export default CounterCard;
 
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { PeopleQueue } from "@styled-icons/fluentui-system-filled/PeopleQueue";
+import { styled } from "styled-components";
+
+const PeopleQueueRed = styled(PeopleQueue)`
+  color: #fff;
+  width: 14px;
+`;
 
 const CounterCard = ({ nama, deskripsi, image, id, incompleteOrdersCount, isActive = true }) => {
   return (
     <Link
       to={isActive ? `/warung/${id}` : "#"}
-      className={`card card-side shadow-lg h-20 mb-5 rounded-lg overflow-hidden transform transition-transform duration-300 ${
+      className={`relative card border card-side shadow-lg h-20 mb-5 rounded-lg overflow-hidden transform transition-transform duration-300 ${
         isActive ? "hover:scale-105" : "opacity-50 pointer-events-none"
       }`}
     >
+      <div className="absolute right-2 top-2 p-1 bg-primary gap-1 flex items-center rounded-md">
+        <PeopleQueueRed />
+        <p className="text-[10px] font-medium text-white">{incompleteOrdersCount}</p>
+      </div>
       <figure className="w-[30%] h-full">
         <img
           src={`http://localhost:8000/images/${image}`}

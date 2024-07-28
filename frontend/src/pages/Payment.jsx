@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { getDetailOrder, orderPayment } from "../api/orderAPi";
 import AlertModal from "../components/AlertModal";
@@ -30,6 +31,7 @@ const Payment = () => {
       console.log(res);
     } catch (error) {
       console.error(error);
+      toast.error("Saldo anda tidak mencukupi");
     }
   };
 
@@ -44,6 +46,7 @@ const Payment = () => {
 
   return (
     <div className="mt-3 flex flex-col justify-center md:w-[700px] mx-auto p-10">
+      <Toaster />
       <h className="text-4xl text-center font-semibold text-primary">Pembayaran</h>
       {detailOrder ? (
         <div className="mb-5  mt-5" key={detailOrder._id}>

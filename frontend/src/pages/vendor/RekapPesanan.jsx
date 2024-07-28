@@ -61,7 +61,7 @@ const RekapPesanan = () => {
             />
           </label>
         </div>
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto text-xs">
           <table className="table-auto w-full">
             <thead className="bg-base-200">
               <tr>
