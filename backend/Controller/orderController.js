@@ -458,11 +458,13 @@ const orderPayment = async (req, res) => {
     vendor.saldo += nominal;
 
     // return console.log({ nominal });
-    user.saldo = user.saldo - parseInt(nominal);
+
+    console.log(user.saldo, parseInt(nominal));
 
     if (user.saldo < parseInt(nominal)) {
       return res.status(400).json({ error: "Saldo kurang" });
     }
+    user.saldo = user.saldo - parseInt(nominal);
 
     order.status_pembayaran = "lunas";
     await order.save();

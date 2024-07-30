@@ -66,7 +66,7 @@ app.use("/api/pesanan", pesananRouter);
 app.use("/images", express.static("images"));
 // Handling all the unknown endpoints
 
-app.get("/", verifyUser("vendor"), (req, res) => {
+app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 app.get("/healthceck", (req, res) => {
