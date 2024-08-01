@@ -53,7 +53,7 @@ const CounterCard = ({ nama, deskripsi, image, id, incompleteOrdersCount, isActi
       </div>
       <figure className="w-[30%] h-full">
         <img
-          src={`http://localhost:8000/images/${image}`}
+          src={`${import.meta.env.VITE_IMGURL}/${image}`}
           alt="menu"
           className="object-cover h-full"
         />
@@ -61,7 +61,6 @@ const CounterCard = ({ nama, deskripsi, image, id, incompleteOrdersCount, isActi
       <div className="p-5 flex justify-center flex-col">
         <h2 className=" text-sm font-semibold">{nama}</h2>
         <p className="text-xs">{deskripsi}</p>
-        <p className="text-xs">yang antri {incompleteOrdersCount}</p>
         {!isActive && (
           <div className="absolute inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
             <span className="text-white font-bold bg-black bg-opacity-60 py-1 px-3 rounded-md">

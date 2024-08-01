@@ -42,9 +42,9 @@ const Login = () => {
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setIsLoading(false);
-      toast.error("Login Failed");
+      toast.error(error.response.data);
     }
   };
 

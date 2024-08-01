@@ -80,7 +80,7 @@ const EditProfile = () => {
           <div className="relative w-fit mx-auto">
             {image !== null ? (
               <img
-                src={`http://localhost:8000/images/${image}`}
+                src={`${import.meta.env.VITE_IMGURL}/${image}`}
                 alt="profile"
                 className={`${
                   profilePreview ? "hidden" : "block"

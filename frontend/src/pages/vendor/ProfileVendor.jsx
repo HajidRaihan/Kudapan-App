@@ -129,7 +129,7 @@ const ProfileVendor = () => {
             </div>
             <div className="mt-3 mb-10">
               <img
-                src={`http://localhost:8000/images/${detailToko?.image}`}
+                src={`${import.meta.env.VITE_IMGURL}/${detailToko?.image}`}
                 alt=""
                 className="rounded-lg w-full max-h-[200px] object-cover object-center"
               />

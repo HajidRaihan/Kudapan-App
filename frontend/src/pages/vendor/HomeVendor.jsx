@@ -170,6 +170,7 @@ const HomeVendor = () => {
               userId={userId}
               isSuccess={() => toast.success("Berhasil Menambahkan Produk")}
               isError={(message) => toast.error(message)}
+              setDetailToko={setDetailToko}
             />
           )}
 
@@ -181,6 +182,7 @@ const HomeVendor = () => {
               produkId={produkId}
               isSuccess={() => toast.success("Berhasil Mengedit Produk")}
               isError={(message) => toast.error(message)}
+              setDetailToko={setDetailToko}
             />
           )}
 

@@ -29,15 +29,11 @@ const ChangeStatusOrderModal = ({ close, handler, status, onChange }) => {
           />
         </label> */}
 
-        <label className="form-control w-full max-w-xs">
+        <label className="form-control w-full ">
           <div className="label">
             <span className="label-text font-semibold">Pilih Status</span>
           </div>
-          <select
-            className="select select-bordered w-full max-w-xs"
-            onChange={onChange}
-            value={status}
-          >
+          <select className="select select-bordered w-full " onChange={onChange} value={status}>
             <option value="diterima">diterima</option>
             <option value="diproses">diproses</option>
             <option value="selesai">selesai</option>

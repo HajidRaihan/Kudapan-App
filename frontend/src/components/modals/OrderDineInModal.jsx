@@ -48,7 +48,7 @@ const OrderDineInModal = ({ close, handler, meja, onChange }) => {
           {/* if there is a button in form, it will close the modal */}
 
           <button className="btn bg-primary btn-error w-full text-white" onClick={handler}>
-            Submit
+            Order
           </button>
         </div>
       </div>

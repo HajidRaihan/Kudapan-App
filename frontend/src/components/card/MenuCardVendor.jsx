@@ -17,7 +17,12 @@ const MenuCardVendor = ({ userId, openEditModal, setDetailToko, ...produk }) => 
       setIsSuccess(true);
       console.log(res);
       setHapusModalOpen(false);
-      window.location.reload();
+      // window.location.reload();
+
+      setDetailToko((prevDetailToko) => {
+        const updatedProdukList = prevDetailToko.produk.filter((p) => p._id !== produk._id);
+        return { ...prevDetailToko, produk: updatedProdukList };
+      });
     } catch (error) {
       console.error(error);
       setIsError(true);
@@ -29,7 +34,7 @@ const MenuCardVendor = ({ userId, openEditModal, setDetailToko, ...produk }) => 
       <Toaster />
       <div className="h-full">
         <img
-          src={`http://localhost:8000/images/${produk.image}`}
+          src={`${import.meta.env.VITE_IMGURL}/${produk.image}`}
           alt="image transaksi"
           className="object-cover min-w-32 w-32 h-full rounded-lg object-center"
         />

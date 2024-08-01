@@ -4,7 +4,7 @@ import { addProduk } from "../../api/produkApi";
 import ButtonSubmit from "../ButtonSubmit";
 import { Toaster } from "react-hot-toast";
 
-const NewProdukModals = ({ close, userId, produkDetail, isSuccess, isError }) => {
+const NewProdukModals = ({ close, userId, produkDetail, isSuccess, isError, setDetailToko }) => {
   const [nama, setNama] = useState("");
   const [harga, setHarga] = useState("");
   const [tipe, setTipe] = useState("makanan");
@@ -51,7 +51,10 @@ const NewProdukModals = ({ close, userId, produkDetail, isSuccess, isError }) =>
       if (res) {
         isSuccess();
         close();
-        window.location.reload();
+        setDetailToko((prevDetailToko) => ({
+          ...prevDetailToko,
+          produk: [...prevDetailToko.produk, { nama, harga, type: tipe, image: res.produk.image }],
+        }));
       }
     } catch (error) {
       console.error(error);
@@ -62,12 +65,6 @@ const NewProdukModals = ({ close, userId, produkDetail, isSuccess, isError }) =>
 
       setIsLoading(false);
     }
-  };
-
-  const tes = (e) => {
-    e.preventDefault();
-    isSuccess();
-    // close();
   };
 
   useEffect(() => {
@@ -89,52 +86,48 @@ const NewProdukModals = ({ close, userId, produkDetail, isSuccess, isError }) =>
         <h3 className="font-bold text-lg mb-3">Tambahkan Produk</h3>
 
         <form action="" className="flex flex-col gap-3">
-          <label className="form-control w-full max-w-xs">
+          <label className="form-control w-full">
             <div className="label">
               <span className="label-text">Nama Produk</span>
             </div>
             <input
               type="text"
               placeholder="Type here"
-              className="input input-bordered w-full max-w-xs"
+              className="input input-bordered  w-full"
               onChange={namaOnChange}
               value={produkDetail?.nama || nama}
               // defaultValue={produkDetail?.nama}
             />
           </label>
-          <label className="form-control w-full max-w-xs">
+          <label className="form-control w-full">
             <div className="label">
               <span className="label-text">Harga Produk</span>
             </div>
             <input
-              type="text"
+              type="number"
               placeholder="Type here"
-              className="input input-bordered w-full max-w-xs"
+              className="input input-bordered w-full"
               onChange={hargaOnChange}
               value={harga}
               defaultValue={produkDetail?.harga}
             />
           </label>
-          <label className="form-control w-full max-w-xs">
+          <label className="form-control w-full">
             <div className="label">
               <span className="label-text">Pilih Tipe Produk</span>
             </div>
-            <select
-              className="select select-bordered w-full max-w-xs"
-              onChange={tipeOnChange}
-              value={tipe}
-            >
+            <select className="select select-bordered w-full" onChange={tipeOnChange} value={tipe}>
               <option value="makanan">Makanan</option>
               <option value="minuman">Minuman</option>
             </select>
           </label>
-          <label className="form-control w-full max-w-xs">
+          <label className="form-control w-full">
             <div className="label">
               <span className="label-text">Gambar Produk</span>
             </div>
             <input
               type="file"
-              className="file-input file-input-bordered w-full max-w-xs file-input-sm file-input-success"
+              className="file-input file-input-bordered w-full file-input-sm file-input-success"
               onChange={(e) => setImage(e.target.files[0])}
             />
           </label>

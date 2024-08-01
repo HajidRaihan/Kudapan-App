@@ -106,7 +106,7 @@ const Profile = () => {
             <div className="avatar">
               <div className="w-24 rounded-full">
                 {userData?.image !== null ? (
-                  <img src={`http://localhost:8000/images/${userData?.image}`} />
+                  <img src={`${import.meta.env.VITE_IMGURL}/${userData?.image}`} />
                 ) : (
                   <img src="https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg" />
                 )}

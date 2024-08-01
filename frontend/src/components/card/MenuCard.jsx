@@ -34,7 +34,7 @@ const MenuCard = ({ nama, harga, image, _id, isSuccess, isError, setOrderCount }
     <Link className="card bg-base-100 shadow-md w-32 h-42 hover:scale-105 transform transition-transform duration-300">
       <figure>
         <img
-          src={`http://localhost:8000/images/${image}`}
+          src={`${import.meta.env.VITE_IMGURL}/${image}`}
           alt="Shoes"
           className="min-h-28 w-full object-cover object-center rounded-xl"
         />

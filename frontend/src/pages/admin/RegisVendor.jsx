@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../../api/authApi";
 import AdminLayout from "../../components/layout/AdminLayout";
@@ -14,7 +15,7 @@ const RegisVendor = () => {
   const handleRegister = async (event) => {
     event.preventDefault();
     if (password !== confirmPassword) {
-      alert("password tidak sama");
+      toast.error("password dan konfirmasi password tidak sama");
       return;
     }
 
@@ -28,13 +29,15 @@ const RegisVendor = () => {
     try {
       const res = await registerUser(data);
       console.log(res);
-      alert("berhasil register");
       setNama("");
       setEmail("");
       setPassword("");
       setConfirmPassword("");
+
+      toast.success("Sukses registrasi vendor");
     } catch (error) {
       console.log(error);
+      toast.error(error.response.data);
       throw error;
     }
   };
@@ -42,6 +45,7 @@ const RegisVendor = () => {
   return (
     <AdminLayout>
       {/* <div className=""> */}
+      <Toaster />
       <form
         onSubmit={handleRegister}
         className="bg-white flex flex-col gap-4 items-center justify-center md:shadow-xl drop-shadow-md md:border border h-[500px] w-[500px] rounded-xl mx-auto p-10"
@@ -122,7 +126,7 @@ const RegisVendor = () => {
           <input
             type="password"
             className="grow"
-            placeholder="Password"
+            placeholder="Konfirmasi Password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />

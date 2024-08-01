@@ -87,7 +87,7 @@ const Home = () => {
         <div className="avatar" onClick={() => navigate("/profile")}>
           <div className="w-10 h-10 rounded-full">
             {userDetail?.image !== null ? (
-              <img src={`http://localhost:8000/images/${userDetail?.image}`} />
+              <img src={`${import.meta.env.VITE_IMGURL}/${userDetail?.image}`} />
             ) : (
               <img src="https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg" />
             )}

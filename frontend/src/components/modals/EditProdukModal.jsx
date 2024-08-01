@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { addProdukKeranjang } from "../../api/keranjangApi";
 import { editProduk, getDetailProduk } from "../../api/produkApi";
 
-const EditProdukModal = ({ close, userId, produkId }) => {
+const EditProdukModal = ({ close, userId, produkId, setDetailToko, isSuccess, isError }) => {
   const [nama, setNama] = useState();
   const [harga, setHarga] = useState();
   const [tipe, setTipe] = useState();
@@ -41,10 +41,19 @@ const EditProdukModal = ({ close, userId, produkId }) => {
       //   const res = await addProduk(userId, data);
       const res = await editProduk(userId, detailProduk._id, data);
       console.log(res);
-      window.location.reload();
+      setDetailToko((prevDetailToko) => {
+        const updatedProduk = prevDetailToko.produk.map((produk) =>
+          produk._id === produkId
+            ? { ...produk, ...data, image: res.data.image || produk.image }
+            : produk
+        );
+        return { ...prevDetailToko, produk: updatedProduk };
+      });
+      isSuccess();
       close();
     } catch (error) {
       console.error(error);
+      isError;
       close();
     }
   };
@@ -83,39 +92,39 @@ const EditProdukModal = ({ close, userId, produkId }) => {
                 ✕
               </button>
             </form>
-            <h3 className="font-bold text-lg mb-3">Tambahkan Produk</h3>
+            <h3 className="font-bold text-lg mb-3">Edit Produk</h3>
 
             <form action="" className="flex flex-col gap-3">
-              <label className="form-control w-full max-w-xs">
+              <label className="form-control w-full ">
                 <div className="label">
                   <span className="label-text">Nama Produk</span>
                 </div>
                 <input
                   type="text"
                   placeholder="Type here"
-                  className="input input-bordered w-full max-w-xs"
+                  className="input input-bordered w-full "
                   onChange={namaOnChange}
                   value={nama}
                 />
               </label>
-              <label className="form-control w-full max-w-xs">
+              <label className="form-control w-full ">
                 <div className="label">
                   <span className="label-text">Harga Produk</span>
                 </div>
                 <input
-                  type="text"
+                  type="number"
                   placeholder="Type here"
-                  className="input input-bordered w-full max-w-xs"
+                  className="input input-bordered w-full "
                   onChange={hargaOnChange}
                   value={harga}
                 />
               </label>
-              <label className="form-control w-full max-w-xs">
+              <label className="form-control w-full ">
                 <div className="label">
                   <span className="label-text">Pilih Tipe Produk</span>
                 </div>
                 <select
-                  className="select select-bordered w-full max-w-xs"
+                  className="select select-bordered w-full "
                   onChange={tipeOnChange}
                   value={tipe}
                 >
@@ -123,13 +132,13 @@ const EditProdukModal = ({ close, userId, produkId }) => {
                   <option value="minuman">Minuman</option>
                 </select>
               </label>
-              <label className="form-control w-full max-w-xs">
+              <label className="form-control w-full ">
                 <div className="label">
                   <span className="label-text">Gambar Produk</span>
                 </div>
                 <input
                   type="file"
-                  className="file-input file-input-bordered w-full max-w-xs file-input-sm file-input-success"
+                  className="file-input file-input-bordered w-full  file-input-sm file-input-success"
                   onChange={(e) => setImage(e.target.files[0])}
                 />
               </label>
@@ -138,7 +147,7 @@ const EditProdukModal = ({ close, userId, produkId }) => {
                   className="btn btn-success w-full my-2  text-white"
                   onClick={newProdukHandler}
                 >
-                  Tambahkan Produk
+                  Edit Produk
                 </button>
                 {/* <button className="btn btn-error w-full text-white">Order Langsung</button> */}
               </div>

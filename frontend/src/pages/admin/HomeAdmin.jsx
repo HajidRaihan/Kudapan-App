@@ -50,10 +50,10 @@ const HomeAdmin = () => {
     //   status = "aktif";
     // }
 
-    // return console.log("data status", { status });
+    // return console.log("data status", { newStatus });
 
     const data = {
-      status: status,
+      status: newStatus,
     };
 
     try {
