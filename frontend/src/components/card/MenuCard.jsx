@@ -36,7 +36,7 @@ const MenuCard = ({ nama, harga, image, _id, isSuccess, isError, setOrderCount }
         <img
           src={`${import.meta.env.VITE_IMGURL}/${image}`}
           alt="Shoes"
-          className="min-h-28 w-full object-cover object-center rounded-xl"
+          className="h-28 w-full object-cover object-center rounded-xl"
         />
       </figure>
       <div className="p-3">

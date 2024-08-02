@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getPesanan } from "../../api/pesananApi";
 import VendorLayout from "../../components/layout/VendorLayout";
 import { DecodeToken } from "../../helper/DecodeToken";
+import FormatRupiah from "../../helper/FormatRupiah";
 
 const RekapPesanan = () => {
   const [pesananData, setPesananData] = useState([]);
@@ -77,7 +78,9 @@ const RekapPesanan = () => {
                   <tr key={pesanan._id}>
                     <td className="p-2">{index + 1}</td>
                     <td className="p-2">{pesanan.user_pemesan.nama}</td>
-                    <td className="p-2">{pesanan.total_harga}</td>
+                    <td className="p-2">
+                      <FormatRupiah value={pesanan.total_harga} />
+                    </td>
                     <td className="p-2">
                       {new Date(pesanan.waktu_pemesanan).toLocaleDateString("id-ID")}
                     </td>

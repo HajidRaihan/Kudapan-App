@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { editToko } from "../../api/tokoApi";
 import { editProfile } from "../../api/userApi";
 
-const EditTokoModal = ({ close, detailToko, isSuccess, isError }) => {
+const EditTokoModal = ({ close, detailToko, isSuccess, isError, setDetailToko }) => {
   const [nama, setNama] = useState(detailToko.nama);
   const [deskripsi, setDeskripsi] = useState(detailToko.deskripsi);
   const [image, setImage] = useState(detailToko.image);
@@ -32,7 +32,8 @@ const EditTokoModal = ({ close, detailToko, isSuccess, isError }) => {
     try {
       const res = await editToko(data, detailToko._id);
       isSuccess();
-      window.location.reload();
+      setDetailToko(res.toko);
+      // window.location.reload();
 
       console.log(res);
     } catch (error) {

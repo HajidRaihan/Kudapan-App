@@ -1,15 +1,7 @@
 import React from "react";
-import { formatDistanceToNow } from "date-fns";
 import moment from "moment";
 
 function TimeAgo({ timestamp }) {
-  // Konversi timestamp ke objek Date
-  // const date = new Date(timestamp);
-
-  // // Hitung jarak waktu antara tanggal sekarang dan timestamp
-  // const timeAgo = formatDistanceToNow(date);
-
-  // const timeAgo = moment("2024-04-12T06:24:44.647Z").fromNow(true);
   const currentTime = moment(); // Waktu saat ini
   const uploadTime = moment(timestamp); // Waktu upload
 
@@ -21,8 +13,13 @@ function TimeAgo({ timestamp }) {
     // Kurang dari 1 jam yang lalu
     const minutesAgo = duration.asMinutes();
     timeAgo = `${Math.floor(minutesAgo)} menit yang lalu`;
-  } else {
+  } else if (hoursAgo < 24) {
+    // Kurang dari 24 jam yang lalu
     timeAgo = `${Math.floor(hoursAgo)} jam yang lalu`;
+  } else {
+    // Lebih dari 24 jam yang lalu
+    const daysAgo = duration.asDays();
+    timeAgo = `${Math.floor(daysAgo)} hari yang lalu`;
   }
 
   return <span>{timeAgo}</span>;

@@ -165,6 +165,7 @@ const ProfileVendor = () => {
             isError={() => toast.error("terjadi kesalahan saat edit profile")}
             close={() => setEditProfileOpen(false)}
             userId={userId}
+            setUserDetail={setUserDetail}
           />
         ) : (
           ""
@@ -175,6 +176,7 @@ const ProfileVendor = () => {
             isSuccess={() => toast.success("sukses edit toko")}
             isError={() => toast.error("terjadi kesalahan saat edit toko")}
             close={() => setEditTokoOpen(false)}
+            setDetailToko={setDetailToko}
           />
         ) : (
           ""

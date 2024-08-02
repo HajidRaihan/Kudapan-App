@@ -10,8 +10,6 @@ import toast, { Toaster } from "react-hot-toast";
 import MainLayout from "../components/layout/MainLayout";
 import { PeopleQueue } from "@styled-icons/fluentui-system-filled/PeopleQueue";
 import { styled } from "styled-components";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
 
 const PeopleQueueRed = styled(PeopleQueue)`
   color: #fff;
@@ -24,8 +22,6 @@ const Warung = () => {
   const [search, setSearch] = useState("");
   const [orderCount, setOrderCount] = useState(true);
 
-  const MySwal = withReactContent(Swal);
-
   // MySwal.fire({
   //   title: <p>Hello World</p>,
   //   didOpen: () => {
@@ -35,22 +31,6 @@ const Warung = () => {
   // }).then(() => {
   //   return MySwal.fire(<p>Shorthand works too</p>);
   // });
-
-  const showAlert = () => {
-    MySwal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        MySwal.fire("Deleted!", "Your file has been deleted.", "success");
-      }
-    });
-  };
 
   useEffect(() => {
     getProduk(tokoId, selectedKategori, search).then((res) => {
@@ -90,9 +70,7 @@ const Warung = () => {
               <b>{tokoData.incompleteOrder}</b> sedang mengantri
             </p>
           </div>
-          <button onClick={showAlert} className="w-full h-10 bg-red-50">
-            clickk
-          </button>
+
           <div className="flex flex-wrap gap-5 justify-center mt-5 mb-20 ">
             {tokoData.produk.map((item) => (
               <>

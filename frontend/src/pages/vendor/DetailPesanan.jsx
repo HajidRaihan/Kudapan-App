@@ -5,6 +5,7 @@ import CardTransaksi from "../../components/card/CardTransaksi";
 import Header from "../../components/Header";
 import KonfirmasiModal from "../../components/KonfirmasiModal";
 import QRModal from "../../components/modals/QrModal";
+import SuksesModal from "../../components/modals/SuksesModal";
 import { DecodeToken } from "../../helper/DecodeToken";
 import TimeAgo from "../../helper/TimeAgo";
 
@@ -13,6 +14,7 @@ const DetailPesanan = () => {
   const [detailPesanan, setDetailPesanan] = useState();
   const [qrModalOpen, setQrModalOpen] = useState(false);
   const [konfirmasiModalOpen, setKonfirmasiModalOpen] = useState(false);
+  const [suksesModalOpen, setSuksesModalOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -29,7 +31,8 @@ const DetailPesanan = () => {
     try {
       const res = await orderPaymentCash(userId, orderId);
       console.log(res);
-      navigate("/vendor/pesanan");
+      setSuksesModalOpen(true);
+      setKonfirmasiModalOpen(false);
     } catch (error) {
       console.log(error);
     }
@@ -82,6 +85,13 @@ const DetailPesanan = () => {
               action={"Lunas"}
               handler={paymentHandler}
               close={() => setKonfirmasiModalOpen(false)}
+            />
+          )}
+          {suksesModalOpen && (
+            <SuksesModal
+              title="Berhasil melunaskan pembayaran"
+              action="Kembali"
+              handler={() => navigate("/vendor/pesanan")}
             />
           )}
         </div>

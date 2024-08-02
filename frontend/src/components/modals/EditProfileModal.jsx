@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { editProfile } from "../../api/userApi";
 
-const EditProfileModal = ({ close, detailProfile, userId, isSuccess, isError }) => {
+const EditProfileModal = ({ close, detailProfile, userId, isSuccess, isError, setUserDetail }) => {
   const [nama, setNama] = useState(detailProfile.nama);
   const [email, setEmail] = useState(detailProfile.email);
 
@@ -29,9 +29,17 @@ const EditProfileModal = ({ close, detailProfile, userId, isSuccess, isError }) 
     try {
       const res = await editProfile(userId, data);
       isSuccess();
-      window.location.reload();
+      // window.location.reload();
 
       console.log(res);
+      setUserDetail((prev) => {
+        return {
+          ...prev,
+          nama: nama,
+          email: email,
+        };
+      });
+      close();
     } catch (error) {
       console.error(error);
       close();
