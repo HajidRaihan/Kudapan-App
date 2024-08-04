@@ -26,32 +26,108 @@ const { Toko, User, Produk, Order } = require("../models");
 //   }
 // };
 
+//! getAll Store Old ---------------------
+// const getAllStore = async (req, res) => {
+//   const { search } = req.query;
+//   try {
+//     let toko;
+//     console.log({ search });
+//     if (search) {
+//       // Search for a store by name or location
+
+//       toko = await Toko.find({
+//         $or: [{ nama: { $regex: search, $options: "i" } }],
+//       });
+//     } else {
+//       toko = await Toko.find();
+//     }
+
+//     // For each store, count the number of incomplete orders
+//     const tokoWithIncompleteOrdersCount = await Promise.all(
+//       toko.map(async (store) => {
+//         const incompleteOrdersCount = await Order.countDocuments({
+//           toko_id: store._id,
+//           status: { $in: ["diterima", "diproses"] },
+//         });
+//         return { ...store.toObject(), incompleteOrdersCount };
+//       })
+//     );
+
+//     res.json(tokoWithIncompleteOrdersCount);
+//   } catch (error) {
+//     console.error("Gagal mendapatkan toko:", error);
+//     res.status(500).json({ error: "Gagal mendapatkan toko" });
+//   }
+// };
+
 const getAllStore = async (req, res) => {
   const { search } = req.query;
   try {
-    let toko;
     console.log({ search });
-    if (search) {
-      // Search for a store by name or location
-      toko = await Toko.find({
-        $or: [{ nama: { $regex: search, $options: "i" } }],
-      });
-    } else {
-      toko = await Toko.find();
-    }
 
-    // For each store, count the number of incomplete orders
-    const tokoWithIncompleteOrdersCount = await Promise.all(
+    // Lookup user details from the users collection
+    const lookupStage = {
+      $lookup: {
+        from: "users", // Nama koleksi users
+        localField: "_id", // Field di Toko yang direferensikan oleh field toko di User
+        foreignField: "toko", // Field di User yang mereferensikan Toko _id
+        as: "userDetails",
+      },
+    };
+
+    // Unwind the userDetails array
+    const unwindStage = {
+      $unwind: "$userDetails",
+    };
+
+    // Match stores where the user status is not "nonaktif"
+    const matchStage = {
+      $match: {
+        "userDetails.status": { $ne: "nonaktif" }, // Hanya menyertakan toko dengan pengguna aktif
+      },
+    };
+
+    // Optional search filter by store name
+    const searchStage = search
+      ? {
+          $match: {
+            nama: { $regex: search, $options: "i" },
+          },
+        }
+      : {};
+
+    // Project necessary fields and lookup incomplete orders
+    const projectStage = {
+      $project: {
+        _id: 1,
+        nama: 1,
+        deskripsi: 1,
+        toko_status: 1,
+        image: 1,
+        // Project field tambahan yang diperlukan dari koleksi Toko
+      },
+    };
+
+    // Pipeline agregasi
+    const pipeline = [lookupStage, unwindStage, matchStage];
+    if (search) pipeline.push(searchStage);
+    pipeline.push(projectStage);
+
+    // Eksekusi pipeline agregasi
+    let toko = await Toko.aggregate(pipeline);
+
+    // Tambahkan hitungan pesanan tidak selesai
+    toko = await Promise.all(
       toko.map(async (store) => {
         const incompleteOrdersCount = await Order.countDocuments({
           toko_id: store._id,
           status: { $in: ["diterima", "diproses"] },
         });
-        return { ...store.toObject(), incompleteOrdersCount };
+        return { ...store, incompleteOrdersCount };
       })
     );
 
-    res.json(tokoWithIncompleteOrdersCount);
+    res.json(toko);
   } catch (error) {
     console.error("Gagal mendapatkan toko:", error);
     res.status(500).json({ error: "Gagal mendapatkan toko" });

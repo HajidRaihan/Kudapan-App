@@ -46,6 +46,8 @@ const { Keranjang, Produk, User, Toko } = require("../models");
 const addProdukKeranjang = async (req, res) => {
   const { tokoId, produkId, jumlah, catatan } = req.body;
   const { userId } = req.params;
+
+  console.log(req.body);
   try {
     const user = await User.findById(userId);
     if (!user) {

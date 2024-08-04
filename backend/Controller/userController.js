@@ -6,7 +6,7 @@ const registerUser = async (req, res) => {
   try {
     let existingUser = await User.findOne({ email: req.body.email });
     if (existingUser) {
-      return res.status(400).json("Email already exists");
+      return res.status(400).send("Email sudah digunakan");
     }
 
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -32,7 +32,7 @@ const registerUser = async (req, res) => {
     });
   } catch (error) {
     console.error("Error registering user:", error);
-    res.status(500).json("Internal server error");
+    res.status(500).send("Internal server error");
   }
 };
 
@@ -66,11 +66,17 @@ const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    // return console.log(email, password);
+
     // Cek pengguna di koleksi User
     let user = await User.findOne({ email });
     let isPasswordValid = false;
 
     if (user) {
+      // Cek status pengguna
+      if (user.status === "nonaktif") {
+        return res.status(403).send("Akun Anda nonaktif. Silakan hubungi administrator.");
+      }
       isPasswordValid = await bcrypt.compare(password, user.password);
     }
 
@@ -78,6 +84,10 @@ const loginUser = async (req, res) => {
       // Jika pengguna tidak ditemukan atau password salah, cek di koleksi Admin
       const admin = await Admin.findOne({ email });
       if (admin) {
+        // Cek status admin (opsional, tergantung kebijakan aplikasi apakah admin bisa dinonaktifkan)
+        if (admin.status === "nonaktif") {
+          return res.status(403).send("Akun admin nonaktif. Silakan hubungi administrator.");
+        }
         isPasswordValid = await bcrypt.compare(password, admin.password);
         if (isPasswordValid) {
           user = admin; // Menggunakan variabel user untuk menyimpan data admin
@@ -91,7 +101,20 @@ const loginUser = async (req, res) => {
       return res.status(404).send("Pengguna tidak ditemukan atau password salah");
     }
 
-    res.send({
+    // Lakukan sesuatu setelah pengguna berhasil login, seperti membuat token JWT
+    // ...
+
+    // console.log(
+    //   res.json({
+    //     _id: user._id,
+    //     nama: user.nama,
+    //     email: user.email,
+    //     role: user.role,
+    //     token: generateLogToken(user),
+    //   })
+    // );
+
+    res.json({
       _id: user._id,
       nama: user.nama,
       email: user.email,
@@ -99,8 +122,8 @@ const loginUser = async (req, res) => {
       token: generateLogToken(user),
     });
   } catch (error) {
-    res.status(500).json("Internal server error");
-    console.error("Error logging in user:", error);
+    console.error("Error login:", error);
+    res.status(500).send("Terjadi kesalahan pada server.");
   }
 };
 
