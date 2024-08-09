@@ -156,6 +156,10 @@ const Pesanan = () => {
     console.log(e.target.value);
   };
 
+  const closeKonfirmasiModalHandler = () => {
+    console.log("klikk");
+  };
+
   return (
     <div className="mb-20">
       <VendorLayout>
@@ -285,6 +289,7 @@ const Pesanan = () => {
             title={"Apakah anda ingin menolak pesanan ini?"}
             action={"Tolak"}
             handler={() => konfirmasiOrderHandler("ditolak", pesananId)}
+            close={() => setKonfirmasiModalOpen(false)}
           />
         )}
 

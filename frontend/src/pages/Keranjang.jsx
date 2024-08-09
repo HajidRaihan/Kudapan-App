@@ -17,9 +17,12 @@ import FormatRupiah from "../helper/FormatRupiah";
 import { decrypt } from "../helper/Encrypt";
 import Cookies from "js-cookie";
 import OrderDineInModal from "../components/modals/OrderDineInModal";
+import CounterCardSkeleton from "../components/skeleton/CounterCardSkeleton";
+import Loader from "../components/Loader";
 
 const Keranjang = () => {
   const [keranjangData, setKeranjangData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [dineInModalOpen, setDineInModalOpen] = useState(false);
   const [alertModalOpen, setAlertModalOpen] = useState(false);
@@ -36,14 +39,19 @@ const Keranjang = () => {
   const closeHandler = async () => {
     setOpen(false);
   };
-
   useEffect(() => {
     const getKeranjangUser = async () => {
-      const token = DecodeToken();
-      const userId = token._id;
-      const keranjang = await getKeranjang(userId);
-      console.log(keranjang);
-      setKeranjangData(keranjang);
+      setIsLoading(true); // Set loading true sebelum fetch data
+      try {
+        const token = DecodeToken();
+        const userId = token._id;
+        const keranjang = await getKeranjang(userId);
+        setKeranjangData(keranjang);
+      } catch (error) {
+        console.error("Error fetching keranjang:", error);
+      } finally {
+        setIsLoading(false); // Set loading false setelah data di-fetch
+      }
     };
     getKeranjangUser();
   }, []);
@@ -139,8 +147,15 @@ const Keranjang = () => {
       <MainLayout>
         <Toaster />
         <Header title="Keranjang" action="Hapus Keranjang" handler={clearKeranjangHandler} />
-        {keranjangData
-          ? keranjangData.map((keranjang) => {
+        {isLoading ? (
+          <Loader />
+        ) : keranjangData.length === 0 ? (
+          <div className="mx-5 font-medium">
+            <p>Keranjangmu masih kosong!</p>
+          </div>
+        ) : (
+          <>
+            {keranjangData.map((keranjang) => {
               return (
                 <div key={keranjang._id} className="mx-5 mb-5 border p-3 rounded-lg shadow-lg">
                   <h1 className="text-lg font-semibold">{keranjang.nama_toko}</h1>
@@ -162,28 +177,25 @@ const Keranjang = () => {
                   })}
                 </div>
               );
-            })
-          : null}
-
-        {/* <KonfirmasiModal /> */}
-        {keranjangData.length !== 0 ? (
-          <div className=" bottom-16 w-full ">
-            <div className="mx-7 flex justify-center gap-5">
-              <button
-                className="btn bg-primary w-1/2 text-white btn-error "
-                onClick={() => dineInModalHandler("dine in")}
-              >
-                Dine In
-              </button>
-              <button
-                className="btn bg-warning w-1/2 text-white btn-warning "
-                onClick={() => openHandler("take away")}
-              >
-                Take Away
-              </button>
+            })}
+            <div className=" bottom-16 w-full ">
+              <div className="mx-7 flex justify-center gap-5">
+                <button
+                  className="btn bg-primary w-1/2 text-white btn-error "
+                  onClick={() => dineInModalHandler("dine in")}
+                >
+                  Dine In
+                </button>
+                <button
+                  className="btn bg-warning w-1/2 text-white btn-warning "
+                  onClick={() => openHandler("take away")}
+                >
+                  Take Away
+                </button>
+              </div>
             </div>
-          </div>
-        ) : null}
+          </>
+        )}
       </MainLayout>
       {/* {keranjangData?.length !== 0 ? (
         <div className="fixed bottom-16 w-full flex justify-center">

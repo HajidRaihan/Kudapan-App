@@ -16,7 +16,7 @@ const KeranjangCard = ({
     <div className="w-full h-24 rounded-xl mt-5 border-slate-500 border flex relative gap-2">
       <div className="h-full">
         <img
-          src={`http://localhost:8000/images/${produk.image}`}
+          src={`${import.meta.env.VITE_IMGURL}/${produk.image}`}
           alt="image transaksi"
           className="object-cover min-w-32 max-w-32 h-full rounded-lg object-center"
         />

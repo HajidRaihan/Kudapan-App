@@ -12,6 +12,7 @@ import { Money } from "@styled-icons/boxicons-regular/Money";
 import { styled } from "styled-components";
 import { getUserById } from "../api/userApi";
 import { useLocation } from "react-router-dom";
+import CounterCardSkeleton from "../components/skeleton/CounterCardSkeleton";
 
 const StyledMoney = styled(Money)`
   color: #105a37;
@@ -95,28 +96,29 @@ const Home = () => {
         </div>
       </div>
       <SearchBar handler={searchHandler} value={search} />
-      {/* <Banner title="KUDAPAN APP" /> */}
-      {/* <div className="flex gap-1 my-5 mx-5">
-        <Kategori title="All" selected={true} />
-        <Kategori title="Makanan" />
-        <Kategori title="Minuman" />
-        <Kategori title="Dessert" />
-      </div> */}
 
       <div className="mx-5 pb-20">
-        {counter?.map((data, index) => {
-          return (
-            <CounterCard
-              key={index}
-              nama={data.nama}
-              deskripsi={data.deskripsi}
-              image={data.image}
-              isActive={data.toko_status === "open" ? true : false}
-              id={data._id}
-              incompleteOrdersCount={data.incompleteOrdersCount}
-            />
-          );
-        })}
+        {counter ? (
+          counter?.map((data, index) => {
+            return (
+              <CounterCard
+                key={index}
+                nama={data.nama}
+                deskripsi={data.deskripsi}
+                image={data.image}
+                isActive={data.toko_status === "open" ? true : false}
+                id={data._id}
+                incompleteOrdersCount={data.incompleteOrdersCount}
+              />
+            );
+          })
+        ) : (
+          <>
+            <CounterCardSkeleton />
+            <CounterCardSkeleton />
+            <CounterCardSkeleton />
+          </>
+        )}
       </div>
     </MainLayout>
   );

@@ -10,6 +10,8 @@ import toast, { Toaster } from "react-hot-toast";
 import MainLayout from "../components/layout/MainLayout";
 import { PeopleQueue } from "@styled-icons/fluentui-system-filled/PeopleQueue";
 import { styled } from "styled-components";
+import MenuCardSkeleton from "../components/skeleton/MenuCardSkeleton";
+import Loader from "../components/Loader";
 
 const PeopleQueueRed = styled(PeopleQueue)`
   color: #fff;
@@ -89,7 +91,7 @@ const Warung = () => {
           </div>
         </>
       ) : (
-        ""
+        <Loader />
       )}
     </MainLayout>
   );

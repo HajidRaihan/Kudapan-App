@@ -1,19 +1,20 @@
 import { RequestApi } from "../helper/RequestApi";
 import { TokenHandler } from "../helper/TokenHandler";
 
-const getHistory = async (userId, status) => {
-  const tokken = TokenHandler();
+const getHistory = async (userId, status, page) => {
+  const token = TokenHandler();
 
   const headerToken = {
-    Authorization: `${tokken}`,
+    Authorization: `${token}`,
   };
-  let route;
 
-  if (status) {
-    route = `history/get/${userId}?status=${status}`;
-  } else {
-    route = `history/get/${userId}`;
-  }
+  // Construct query string with status and page
+  const queryParams = new URLSearchParams();
+  if (status) queryParams.append("status", status);
+  if (page) queryParams.append("page", page);
+
+  // Route with query parameters
+  const route = `history/get/${userId}?${queryParams.toString()}`;
 
   try {
     const responseData = await RequestApi("GET", route, {}, headerToken, "Menampilkan history");

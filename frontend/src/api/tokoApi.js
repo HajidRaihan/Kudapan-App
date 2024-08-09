@@ -1,7 +1,7 @@
 import { RequestApi } from "../helper/RequestApi";
 import { TokenHandler } from "../helper/TokenHandler";
 
-const getAllToko = async (search) => {
+const getAllToko = async (search = "", page) => {
   try {
     const token = TokenHandler();
 
@@ -13,7 +13,12 @@ const getAllToko = async (search) => {
     if (search) {
       params.push(`search=${search}`);
     }
+    if (page) {
+      params.push(`page=${page}`);
+    }
     const pathUrl = `store/getAll?${params.join("&")}`;
+
+    console.log({ pathUrl });
 
     const responseData = await RequestApi(
       "GET",
