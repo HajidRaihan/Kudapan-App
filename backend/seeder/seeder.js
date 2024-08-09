@@ -72,7 +72,7 @@ const seedDatabase = async () => {
       Produk.deleteMany(),
       User.deleteMany(),
       Admin.deleteMany(),
-      // Order.deleteMany(),
+      Order.deleteMany(),
     ]);
 
     await Promise.all([
