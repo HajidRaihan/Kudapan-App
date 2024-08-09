@@ -15,6 +15,7 @@ import { addBalance } from "../api/walletApi";
 import TopUpModal from "../components/modals/TopUpModal";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
+import Loader from "../components/Loader";
 
 const MoneyIcon = styled(Money)`
   color: #105a37;
@@ -145,7 +146,7 @@ const Profile = () => {
           </div>
         </div>
       ) : (
-        <p>loading ...</p>
+        <Loader />
       )}
 
       {topUpModalOpen && (

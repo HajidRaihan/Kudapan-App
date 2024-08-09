@@ -21,7 +21,7 @@ const CardTransaksi = ({ ...produk }) => {
         </div>
       </div> */}
 
-      <div className="w-full h-24 rounded-xl mt-5 border-slate-500 border flex relative gap-2">
+      <div className="w-full h-24 rounded-xl mt-2 border-slate-500 border flex relative gap-2">
         <div className="h-full">
           <img
             src={`${import.meta.env.VITE_IMGURL}/${produk.image}`}

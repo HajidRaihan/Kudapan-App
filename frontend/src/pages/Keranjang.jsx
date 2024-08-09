@@ -28,6 +28,7 @@ const Keranjang = () => {
   const [alertModalOpen, setAlertModalOpen] = useState(false);
   const [meja, setMeja] = useState();
   const [jenisLayanan, setJenisLayanan] = useState("");
+  const [isLoadingOrder, setIsLoadingOrder] = useState(false);
 
   const token = DecodeToken();
   const userId = token._id;
@@ -69,7 +70,7 @@ const Keranjang = () => {
     // }
 
     // return console.log({ meja });
-
+    setIsLoadingOrder(true);
     try {
       const res = await addOrder(userId, meja, { jenis_layanan: jenisLayanan });
       if (res) {
@@ -80,12 +81,14 @@ const Keranjang = () => {
         setOpen(false);
         setDineInModalOpen(false);
         console.log("sukses");
+        setIsLoadingOrder(false);
       }
       // toast.error("gagal melakukan order");
     } catch (error) {
       toast.error("gagal melakukan order " + error.response.data.error);
       console.error("error", error);
       setOpen(false);
+      setIsLoadingOrder(false);
     }
   };
 
@@ -151,7 +154,7 @@ const Keranjang = () => {
           <Loader />
         ) : keranjangData.length === 0 ? (
           <div className="mx-5 font-medium">
-            <p>Keranjangmu masih kosong!</p>
+            <p className="text-center">Keranjangmu masih kosong!</p>
           </div>
         ) : (
           <>
@@ -211,6 +214,7 @@ const Keranjang = () => {
           title="Apakah anda ingin order pesanan yang ada di keranjang?"
           handler={addOrderHandler}
           action="Order"
+          isLoading={isLoadingOrder}
         />
       )}
       {dineInModalOpen && (
@@ -219,6 +223,7 @@ const Keranjang = () => {
           meja={meja}
           handler={addOrderHandler}
           close={() => setDineInModalOpen(false)}
+          isLoading={isLoadingOrder}
         />
       )}
 

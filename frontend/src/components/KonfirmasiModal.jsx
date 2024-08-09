@@ -4,8 +4,9 @@ import { useParams } from "react-router-dom";
 import { getDetailProduk } from "../api/api";
 import { addProdukKeranjang } from "../api/keranjangApi";
 import { DecodeToken } from "../helper/DecodeToken";
+import ButtonSubmit from "./ButtonSubmit";
 
-const KonfirmasiModal = ({ close, title, handler, action, isSuccess, isError }) => {
+const KonfirmasiModal = ({ close, title, handler, action, isSuccess, isError, isLoading }) => {
   useEffect(() => {
     document.getElementById("my_modal_1").showModal();
   }, []);
@@ -23,9 +24,12 @@ const KonfirmasiModal = ({ close, title, handler, action, isSuccess, isError }) 
             <button className="btn" onClick={() => close()}>
               Batalkan
             </button>
-            <button className="btn bg-primary btn-error w-32 text-white" onClick={handler}>
+            {/* <button className="btn bg-primary btn-error w-32 text-white" onClick={handler}>
               {action}
-            </button>
+            </button> */}
+            <div className="w-32">
+              <ButtonSubmit title={action} handler={handler} isLoading={isLoading} />
+            </div>
           </div>
         </div>
       </dialog>

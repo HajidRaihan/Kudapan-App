@@ -12,6 +12,8 @@ import FormatRupiah from "../../helper/FormatRupiah";
 import { Money } from "@styled-icons/boxicons-regular/Money";
 import { styled } from "styled-components";
 import { getUserById } from "../../api/userApi";
+import Loader from "../../components/Loader";
+import CounterCardSkeleton from "../../components/skeleton/CounterCardSkeleton";
 
 const StyledMoney = styled(Money)`
   color: #105a37;
@@ -67,13 +69,13 @@ const HomeVendor = () => {
 
   useEffect(() => {
     const getProdukById = async () => {
-      const res = await getDetailProduk(produkId);
-      console.log(res);
-      setDetailProduk(res);
+      if (produkId) {
+        const res = await getDetailProduk(produkId);
+        console.log(res);
+        setDetailProduk(res);
+      }
     };
-    if (produkId) {
-      getProdukById();
-    }
+    getProdukById();
   }, [produkId]);
 
   const editProdukOpenHandler = (id) => {
@@ -122,19 +124,28 @@ const HomeVendor = () => {
         <Kategori title="Dessert" />
       </div> */}
           <div className="mx-5 pb-32">
-            {detailToko
-              ? detailToko.produk.map((data) => {
-                  return (
-                    <MenuCardVendor
-                      key={data._id}
-                      userId={userDetail?._id}
-                      setDetailToko={setDetailToko}
-                      {...data}
-                      openEditModal={() => editProdukOpenHandler(data._id)}
-                    />
-                  );
-                })
-              : ""}
+            {detailToko ? (
+              detailToko.produk.map((data) => {
+                return (
+                  <MenuCardVendor
+                    key={data._id}
+                    userId={userDetail?._id}
+                    setDetailToko={setDetailToko}
+                    {...data}
+                    openEditModal={() => {
+                      setProdukId(data._id); // Set the produkId
+                      setEditProdukOpen(true); // Open the modal
+                    }}
+                  />
+                );
+              })
+            ) : (
+              <div className="mt-5">
+                <CounterCardSkeleton />
+                <CounterCardSkeleton />
+                <CounterCardSkeleton />
+              </div>
+            )}
           </div>
 
           {/* <div className=""> */}
@@ -179,7 +190,7 @@ const HomeVendor = () => {
               // setNewProdukOpen={() => setNewProdukOpen(true)}
               close={() => setEditProdukOpen(false)}
               userId={userId}
-              produkId={produkId}
+              produk={detailProduk}
               isSuccess={() => toast.success("Berhasil Mengedit Produk")}
               isError={(message) => toast.error(message)}
               setDetailToko={setDetailToko}

@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
+import ButtonSubmit from "../ButtonSubmit";
 
-const OrderDineInModal = ({ close, handler, meja, onChange }) => {
+const OrderDineInModal = ({ close, handler, meja, onChange, isLoading }) => {
   const jumlahMeja = 10;
   useEffect(() => {
     document.getElementById("my_modal_1").showModal();
@@ -47,9 +48,10 @@ const OrderDineInModal = ({ close, handler, meja, onChange }) => {
         <div className="flex justify-center mt-5 gap-3 w-full">
           {/* if there is a button in form, it will close the modal */}
 
-          <button className="btn bg-primary btn-error w-full text-white" onClick={handler}>
+          {/* <button className="btn bg-primary btn-error w-full text-white" onClick={handler}>
             Order
-          </button>
+          </button> */}
+          <ButtonSubmit title={"Order"} handler={handler} isLoading={isLoading} />
         </div>
       </div>
     </dialog>

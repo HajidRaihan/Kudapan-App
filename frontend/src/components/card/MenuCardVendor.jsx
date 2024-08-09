@@ -30,17 +30,17 @@ const MenuCardVendor = ({ userId, openEditModal, setDetailToko, ...produk }) => 
     }
   };
   return (
-    <div className="w-full h-24 rounded-lg shadow-lg mt-5  border flex relative gap-2">
+    <div className="w-full h-20 rounded-lg shadow-lg mt-5  border flex relative gap-2">
       <Toaster />
       <div className="h-full">
         <img
           src={`${import.meta.env.VITE_IMGURL}/${produk.image}`}
           alt="image transaksi"
-          className="object-cover min-w-32 w-32 h-full rounded-lg object-center"
+          className="object-cover min-w-28 w-28 h-full rounded-lg object-center"
         />
       </div>
       <div className="flex flex-col justify-center">
-        <h1 className="text-md font-bold">{produk.nama}</h1>
+        <h1 className="text-sm font-semibold">{produk.nama}</h1>
         <p className="text-xs font-medium">Harga : {produk.harga}</p>
       </div>
       <div className="absolute bottom-1 right-1">

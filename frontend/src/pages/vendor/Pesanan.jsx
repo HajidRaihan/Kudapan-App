@@ -10,6 +10,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import ArroRightIcon from "../../assets/icon/arrow-right.svg";
 import KonfirmasiModal from "../../components/KonfirmasiModal";
+import Loader from "../../components/Loader";
 
 const Pesanan = () => {
   const token = DecodeToken();
@@ -20,6 +21,7 @@ const Pesanan = () => {
   const [status, setStatus] = useState();
   const [pesananId, setPesananId] = useState();
   const [konfirmasiModalOpen, setKonfirmasiModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -62,12 +64,14 @@ const Pesanan = () => {
     const data = {
       status: status,
     };
+    setIsLoading(true);
     try {
       const res = await changeStatusOrder(userId, orderId, data);
       console.log({ res });
       setOpen(false);
       toast.success("berhasil mengubah status pesanan");
       if (res) {
+        setIsLoading(false);
         setPesananData((prevPesananData) => {
           // Buat salinan baru dari pesananData
           const updatedPesananData = [...prevPesananData];
@@ -89,6 +93,7 @@ const Pesanan = () => {
     } catch (error) {
       console.error("Gagal mengubah status pesanan:", error);
       toast.error("Gagal mengubah status pesanan");
+      setIsLoading(false);
     }
   };
 
@@ -98,12 +103,15 @@ const Pesanan = () => {
     };
 
     console.log(data);
+    setIsLoading(true);
     try {
       const res = await changeStatusOrder(userId, orderId, { status: konfirStatus });
       console.log({ res });
       setOpen(false);
       toast.success("berhasil mengubah status pesanan");
       if (res) {
+        setIsLoading(false);
+
         setPesananData((prevPesananData) => {
           // Buat salinan baru dari pesananData
           const updatedPesananData = [...prevPesananData];
@@ -123,6 +131,8 @@ const Pesanan = () => {
         setKonfirmasiModalOpen(false);
       }
     } catch (error) {
+      setIsLoading(false);
+
       console.error("Gagal mengubah status pesanan:", error);
       toast.error("Gagal mengubah status pesanan");
     }
@@ -187,11 +197,21 @@ const Pesanan = () => {
                     <div className="flex justify-between items-center mb-3">
                       {pesanan.status === "menunggu" ? (
                         <div className="flex items-center gap-2">
-                          <button
+                          {/* <button
                             className="bg-blue-500 text-white px-3 py-1 rounded-md"
                             onClick={() => konfirmasiOrderHandler("diterima", pesanan._id)}
                           >
                             Konfirmasi
+                          </button> */}
+                          <button
+                            className="flex items-center justify-center gap-1 bg-blue-500 text-white px-3 py-1 rounded-md"
+                            onClick={() => konfirmasiOrderHandler("diterima", pesanan._id)}
+                            disabled={isLoading}
+                          >
+                            {isLoading && (
+                              <span className="loading loading-spinner loading-xs"></span>
+                            )}
+                            <p>Konfirmasi</p>
                           </button>
                           <button
                             className="bg-red-500 text-white px-3 py-1 rounded-md"
@@ -282,7 +302,7 @@ const Pesanan = () => {
             );
           })
         ) : (
-          <p>loading...</p>
+          <Loader />
         )}
         {konfirmasiModalOpen && (
           <KonfirmasiModal
@@ -290,6 +310,7 @@ const Pesanan = () => {
             action={"Tolak"}
             handler={() => konfirmasiOrderHandler("ditolak", pesananId)}
             close={() => setKonfirmasiModalOpen(false)}
+            isLoading={isLoading}
           />
         )}
 
