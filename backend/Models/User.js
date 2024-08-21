@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["admin", "vendor", "customer"],
+      enum: ["vendor", "customer"],
       default: "customer",
     },
     toko: { type: mongoose.Schema.Types.ObjectId, ref: "Toko" },

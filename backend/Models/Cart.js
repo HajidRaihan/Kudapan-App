@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const produkSchema = require("./Produk");
 const pesananSchema = require("./Pesanan");
 
 const keranjangSchema = new mongoose.Schema({
@@ -21,10 +20,6 @@ const keranjangSchema = new mongoose.Schema({
     enum: ["diterima", "diproses", "Selesai"],
     default: "diterima",
   },
-
-  // produk: [pesananSchema],
 });
-
-// const Keranjang = mongoose.model("Keranjang", keranjangSchema);
 
 module.exports = keranjangSchema;

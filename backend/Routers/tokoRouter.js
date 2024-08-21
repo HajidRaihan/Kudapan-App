@@ -6,11 +6,11 @@ const {
   updateStore,
   getStoreById,
   changeTokoStatus,
-} = require("../Controller/storeController");
+} = require("../controller/storeController");
 const multer = require("multer");
 const path = require("path");
 const upload = require("../middleware/multerMiddleware");
-const { getDetailTokoByUserId } = require("../Controller/produkController");
+const { getDetailTokoByUserId } = require("../controller/produkController");
 const { verifyUser } = require("../middleware/verifyAccessToken");
 
 router.get("/getAll", getAllStore);
