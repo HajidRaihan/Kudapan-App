@@ -3,7 +3,7 @@ dotenv.config();
 
 const express = require("express");
 const cors = require("cors");
-// const userRouter = require("./routers/userRouter");
+const userRouter = require("./routers/userRouter");
 const tokoRouter = require("./routers/tokoRouter");
 const produkRouter = require("./routers/produkRouter");
 const keranjangRouter = require("./routers/keranjangRouter");
