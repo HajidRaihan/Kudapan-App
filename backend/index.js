@@ -1,6 +1,8 @@
+const dotenv = require("dotenv");
+dotenv.config();
+
 const express = require("express");
 const cors = require("cors");
-const dotenv = require("dotenv");
 const userRouter = require("./routers/userRouter");
 const tokoRouter = require("./routers/tokoRouter");
 const produkRouter = require("./routers/produkRouter");
@@ -15,43 +17,14 @@ require("./db/mongoose");
 const morgan = require("morgan");
 const { verifyUser } = require("./middleware/verifyAccessToken");
 
-dotenv.config();
 const app = express();
-const http = require("http");
-const server = http.createServer(app);
-const { Server } = require("socket.io");
-const io = new Server(server, {
-  cors: {
-    origin: "*",
-  },
-});
-
-// socket io setup
-// const io = require("socket.io")(8080, {
-//   cors: {
-//     origin: "*",
-//   },
-// });
-
-io.on("connection", (socket) => {
-  // console.log("a user connected");
-  socket.on("message", (msg) => {
-    io.emit("message", "hello juga mamakmu");
-    console.log(msg);
-  });
-  socket.on("newOrder", (data) => {
-    console.log(data);
-  });
-  socket.on("disconnect", () => {
-    console.log("user disconnected");
-  });
-});
+// const http = require("http");
 
 const port = process.env.PORT || 6000;
+app.use(cors());
 
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
@@ -82,6 +55,8 @@ app.use((error, req, res, next) => {
   console.log(error);
 });
 
-server.listen(port, () => {
-  console.log(`server running at http://localhost:${port}`);
-});
+// app.listen(port, () => {
+//   console.log(`server running at http://localhost:${port}`);
+// });
+
+module.exports = app;
