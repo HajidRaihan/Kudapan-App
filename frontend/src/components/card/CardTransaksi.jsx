@@ -26,7 +26,7 @@ const CardTransaksi = ({ ...produk }) => {
           <img
             src={`${import.meta.env.VITE_IMGURL}/${produk.image}`}
             alt="image transaksi"
-            className="object-cover max-w-32  h-full rounded-lg object-center"
+            className="object-cover w-32  h-full rounded-lg object-center"
           />
         </div>
         <div className="flex flex-col justify-center">

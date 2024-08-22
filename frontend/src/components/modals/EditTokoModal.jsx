@@ -36,6 +36,7 @@ const EditTokoModal = ({ close, detailToko, isSuccess, isError, setDetailToko })
       // window.location.reload();
 
       console.log(res);
+      close();
     } catch (error) {
       console.error(error);
       close();

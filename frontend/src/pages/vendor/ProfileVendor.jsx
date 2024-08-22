@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { changeTokoStatus, getDetailTokoByUserId } from "../../api/tokoApi";
-import { getUserById } from "../../api/userApi";
+import { getUserById, getVendorById } from "../../api/userApi";
 import VendorLayout from "../../components/layout/VendorLayout";
 import { DecodeToken } from "../../helper/DecodeToken";
 import { Money } from "@styled-icons/boxicons-regular/Money";
@@ -36,7 +36,7 @@ const ProfileVendor = () => {
   useEffect(() => {
     const getDetailUser = async () => {
       try {
-        const res = await getUserById(userId);
+        const res = await getVendorById(userId);
         console.log(res);
         setUserDetail(res);
       } catch (error) {

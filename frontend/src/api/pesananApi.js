@@ -1,7 +1,7 @@
 import { RequestApi } from "../helper/RequestApi";
 import { TokenHandler } from "../helper/TokenHandler";
 
-const getPesanan = async (userId, startDate, endDate) => {
+const getPesanan = async (userId, page, startDate, endDate) => {
   try {
     const token = TokenHandler();
     // console.log({ userId });
@@ -20,6 +20,10 @@ const getPesanan = async (userId, startDate, endDate) => {
       params.push(`endDate=${endDate}`);
     }
 
+    if (page) {
+      params.push(`page=${page}`);
+    }
+
     const responseData = await RequestApi(
       "GET",
       `order/get/${userId}?${params.join("&")}`,
@@ -31,6 +35,30 @@ const getPesanan = async (userId, startDate, endDate) => {
     return responseData;
   } catch (error) {
     console.error("Terjadi kesalahan saat menampilkan pesanan  ", error);
+    throw error;
+  }
+};
+
+const getPesananToday = async (userId) => {
+  try {
+    const token = TokenHandler();
+    // console.log({ userId });
+
+    const headerToken = {
+      Authorization: `${token}`,
+    };
+
+    const responseData = await RequestApi(
+      "GET",
+      `order/get/today/${userId}`,
+      {},
+      headerToken,
+      "Mencoba Menampilkan riwayat pesanan hari ini"
+    );
+
+    return responseData;
+  } catch (error) {
+    console.error("Terjadi kesalahan saat menampilkan pesanan ini", error);
     throw error;
   }
 };
@@ -83,4 +111,4 @@ const deleteRiwayatPesanan = async (userId) => {
   }
 };
 
-export { getPesanan, changeStatusOrder, deleteRiwayatPesanan };
+export { getPesanan, changeStatusOrder, deleteRiwayatPesanan, getPesananToday };

@@ -57,10 +57,8 @@ const EditProdukModal = ({ close, userId, produk, setDetailToko, isSuccess, isEr
       console.log(res);
       setIsLoading(false);
       setDetailToko((prevDetailToko) => {
-        const updatedProduk = prevDetailToko.produk.map((produk) =>
-          produk._id === produk._id
-            ? { ...produk, ...data, image: res.data.image || produk.image }
-            : produk
+        const updatedProduk = prevDetailToko.produk.map((p) =>
+          p._id === produk._id ? { ...p, ...data, image: res.data.image || p.image } : p
         );
         return { ...prevDetailToko, produk: updatedProduk };
       });
@@ -133,7 +131,7 @@ const EditProdukModal = ({ close, userId, produk, setDetailToko, isSuccess, isEr
                 </div>
                 <input
                   type="file"
-                  className="file-input file-input-bordered w-full  file-input-sm file-input-success"
+                  className="file-input file-input-bordered w-full file-input-sm file-input-ghost"
                   onChange={(e) => setImage(e.target.files[0])}
                 />
               </label>

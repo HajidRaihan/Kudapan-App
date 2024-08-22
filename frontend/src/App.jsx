@@ -26,6 +26,7 @@ import RegisVendor from "./pages/admin/RegisVendor";
 import AdminRoute from "./middleware/AdminRoute";
 import RekapPesanan from "./pages/vendor/RekapPesanan";
 import DetailPesanan from "./pages/vendor/DetailPesanan";
+import LoginVendor from "./pages/vendor/LoginVendor";
 
 function App() {
   useEffect(() => {
@@ -43,103 +44,20 @@ function App() {
       <Routes>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route
-          path="/"
-          element={
-            <CustomerRoute>
-              <Home />
-            </CustomerRoute>
-          }
-        />
-        <Route
-          path="/profile"
-          element={
-            <CustomerRoute>
-              <Profile />
-            </CustomerRoute>
-          }
-        />
-        <Route
-          path="/warung/:tokoId"
-          element={
-            <CustomerRoute>
-              <Warung />
-            </CustomerRoute>
-          }
-        />
-        <Route
-          path="/order"
-          element={
-            <CustomerRoute>
-              <Order />
-            </CustomerRoute>
-          }
-        />
-        <Route
-          path="/riwayat"
-          element={
-            <CustomerRoute>
-              <History />
-            </CustomerRoute>
-          }
-        />
-        <Route
-          path="/keranjang"
-          element={
-            <CustomerRoute>
-              <Keranjang />
-            </CustomerRoute>
-          }
-        />
-        <Route
-          path="/payment/:orderId/:userId"
-          element={
-            <CustomerRoute>
-              <Payment />
-            </CustomerRoute>
-          }
-        />
-        <Route
-          path="/edit/profile"
-          element={
-            <CustomerRoute>
-              <EditProfile />
-            </CustomerRoute>
-          }
-        />
+        <Route path="/login/vendor" element={<LoginVendor />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/warung/:tokoId" element={<Warung />} />
+        <Route path="/order" element={<Order />} />
+        <Route path="/riwayat" element={<History />} />
+        <Route path="/keranjang" element={<Keranjang />} />
+        <Route path="/payment/:orderId/:userId" element={<Payment />} />
+        <Route path="/edit/profile" element={<EditProfile />} />
 
-        <Route
-          path="/vendor"
-          element={
-            <VendorRoute>
-              <HomeVendor />
-            </VendorRoute>
-          }
-        />
-        <Route
-          path="/create-toko"
-          element={
-            <VendorRoute>
-              <CreateToko />
-            </VendorRoute>
-          }
-        />
-        <Route
-          path="/vendor/pesanan"
-          element={
-            <VendorRoute>
-              <Pesanan />
-            </VendorRoute>
-          }
-        />
-        <Route
-          path="/vendor/profile"
-          element={
-            <VendorRoute>
-              <ProfileVendor />
-            </VendorRoute>
-          }
-        />
+        <Route path="/vendor" element={<HomeVendor />} />
+        <Route path="/create-toko" element={<CreateToko />} />
+        <Route path="/vendor/pesanan" element={<Pesanan />} />
+        <Route path="/vendor/profile" element={<ProfileVendor />} />
         <Route
           path="/vendor/pesanan/barcode/:orderId/:userId"
           element={
@@ -149,23 +67,9 @@ function App() {
           }
         />
 
-        <Route
-          path="/vendor/pesanan/detail/:orderId/:userId"
-          element={
-            <VendorRoute>
-              <DetailPesanan />
-            </VendorRoute>
-          }
-        />
+        <Route path="/vendor/pesanan/detail/:orderId/:userId" element={<DetailPesanan />} />
 
-        <Route
-          path="/vendor/rekap"
-          element={
-            <VendorRoute>
-              <RekapPesanan />
-            </VendorRoute>
-          }
-        />
+        <Route path="/vendor/rekap" element={<RekapPesanan />} />
 
         {/* admin route */}
 

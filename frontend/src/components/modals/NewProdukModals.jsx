@@ -93,7 +93,7 @@ const NewProdukModals = ({ close, userId, produkDetail, isSuccess, isError, setD
             <input
               type="text"
               placeholder="Type here"
-              className="input input-bordered  w-full"
+              className="input input-bordered w-full"
               onChange={namaOnChange}
               value={produkDetail?.nama || nama}
               // defaultValue={produkDetail?.nama}
@@ -127,7 +127,7 @@ const NewProdukModals = ({ close, userId, produkDetail, isSuccess, isError, setD
             </div>
             <input
               type="file"
-              className="file-input file-input-bordered w-full file-input-sm file-input-success"
+              className="file-input file-input-bordered w-full file-input-sm file-input-ghost"
               onChange={(e) => setImage(e.target.files[0])}
             />
           </label>

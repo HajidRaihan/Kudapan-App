@@ -11,7 +11,7 @@ import VendorLayout from "../../components/layout/VendorLayout";
 import FormatRupiah from "../../helper/FormatRupiah";
 import { Money } from "@styled-icons/boxicons-regular/Money";
 import { styled } from "styled-components";
-import { getUserById } from "../../api/userApi";
+import { getUserById, getVendorById } from "../../api/userApi";
 import Loader from "../../components/Loader";
 import CounterCardSkeleton from "../../components/skeleton/CounterCardSkeleton";
 
@@ -41,7 +41,7 @@ const HomeVendor = () => {
   useEffect(() => {
     const getDetailUser = async () => {
       try {
-        const res = await getUserById(userId);
+        const res = await getVendorById(userId);
         setUserDetail(res);
       } catch (error) {
         console.error("Gagal mendapatkan detail user:", error);

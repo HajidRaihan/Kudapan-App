@@ -10,7 +10,9 @@ const MenuCardVendor = ({ userId, openEditModal, setDetailToko, ...produk }) => 
   const [hapusModalOpen, setHapusModalOpen] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const deleteHandler = async () => {
+    setIsLoading(true);
     try {
       const res = await deleteProduk(userId, produk._id);
       toast.success("Berhasil menghapus produk");
@@ -23,9 +25,11 @@ const MenuCardVendor = ({ userId, openEditModal, setDetailToko, ...produk }) => 
         const updatedProdukList = prevDetailToko.produk.filter((p) => p._id !== produk._id);
         return { ...prevDetailToko, produk: updatedProdukList };
       });
+      setIsLoading(false);
     } catch (error) {
       console.error(error);
       setIsError(true);
+      setIsLoading(false);
       toast.error(error.response.data.error);
     }
   };
@@ -66,6 +70,7 @@ const MenuCardVendor = ({ userId, openEditModal, setDetailToko, ...produk }) => 
           close={() => setHapusModalOpen(false)}
           isSuccess={isSuccess}
           isError={isError}
+          isLoading={isLoading}
         />
       )}
     </div>

@@ -9,22 +9,28 @@ const RekapPesanan = () => {
   const [userId, setUserId] = useState();
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const tokenData = DecodeToken();
     setUserId(tokenData._id);
+    console.log(tokenData);
   }, []);
 
   useEffect(() => {
     const fetchData = async () => {
       if (!userId) return;
 
+      setIsLoading(true);
+
       try {
-        const res = await getPesanan(userId, startDate, endDate);
+        const res = await getPesanan(userId, "", startDate, endDate);
         const pesanan = res.data.filter((pesanan) => pesanan.status_pembayaran === "lunas");
         setPesananData(pesanan);
+        setIsLoading(false);
       } catch (error) {
         console.error("Gagal memuat data pesanan:", error);
+        setIsLoading(false);
       }
     };
 
@@ -93,6 +99,13 @@ const RekapPesanan = () => {
                   </td>
                 </tr>
               )}
+              {isLoading ? (
+                <tr>
+                  <td colSpan="4" className="p-2 text-center">
+                    Loading...
+                  </td>
+                </tr>
+              ) : null}
             </tbody>
           </table>
         </div>

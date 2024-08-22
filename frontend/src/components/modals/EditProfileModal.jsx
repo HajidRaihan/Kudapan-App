@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { editProfile } from "../../api/userApi";
+import { editVendor } from "../../api/userApi";
 
 const EditProfileModal = ({ close, detailProfile, userId, isSuccess, isError, setUserDetail }) => {
   const [nama, setNama] = useState(detailProfile.nama);
@@ -27,7 +27,8 @@ const EditProfileModal = ({ close, detailProfile, userId, isSuccess, isError, se
 
     // return console.log({ data });
     try {
-      const res = await editProfile(userId, data);
+      const res = await editVendor(userId, data);
+
       isSuccess();
       // window.location.reload();
 

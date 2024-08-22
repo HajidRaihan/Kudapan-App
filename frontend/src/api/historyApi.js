@@ -16,6 +16,8 @@ const getHistory = async (userId, status, page) => {
   // Route with query parameters
   const route = `history/get/${userId}?${queryParams.toString()}`;
 
+  console.log(route);
+
   try {
     const responseData = await RequestApi("GET", route, {}, headerToken, "Menampilkan history");
     return responseData;

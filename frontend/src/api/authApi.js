@@ -26,4 +26,44 @@ const loginUser = async (credential) => {
   }
 };
 
-export { registerUser, loginUser };
+const loginVendor = async (credential) => {
+  try {
+    const response = await RequestApi(
+      "POST",
+      "user/login/vendor",
+      credential,
+      {},
+      "Mencoba login vendor"
+    );
+    Cookies.set("access_token_kudapan", response.token, { expires: 7 });
+    const token = response.token;
+    const decoded = jwtDecode(token);
+    console.log(decoded);
+    return response;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+const loginAdmin = async (credential) => {
+  try {
+    const response = await RequestApi(
+      "POST",
+      "user/login/admin",
+      credential,
+      {},
+      "Mencoba login admin"
+    );
+    Cookies.set("access_token_kudapan", response.token, { expires: 7 });
+    const token = response.token;
+    const decoded = jwtDecode(token);
+    console.log(decoded);
+    return response;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export { registerUser, loginUser, loginVendor, loginAdmin };

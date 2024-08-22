@@ -3,6 +3,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { getDetailOrder, orderPayment } from "../api/orderAPi";
 import AlertModal from "../components/AlertModal";
+import ButtonSubmit from "../components/ButtonSubmit";
 import CardTransaksi from "../components/card/CardTransaksi";
 
 const Payment = () => {
@@ -11,6 +12,7 @@ const Payment = () => {
   const [detailOrder, setDetailOrder] = useState();
   const [nominal, setNominal] = useState();
   const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const nominalOnChange = (e) => {
     setNominal(e.target.value);
@@ -18,7 +20,7 @@ const Payment = () => {
 
   const paymentHandler = async (e) => {
     e.preventDefault();
-    console.log("clicked");
+    setIsLoading(true);
     const data = {
       nominal: detailOrder.total_harga,
     };
@@ -29,8 +31,10 @@ const Payment = () => {
       document.getElementById("my_modal_1").showModal();
 
       console.log(res);
+      setIsLoading(false);
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
       toast.error("Saldo anda tidak mencukupi");
     }
   };
@@ -63,7 +67,7 @@ const Payment = () => {
         <p>loading...</p>
       )}
 
-      <label className="font-bold input input-bordered flex items-center gap-2 w-full rounded-2xl">
+      <label className="mb-3 font-bold input input-bordered flex items-center gap-2 w-full rounded-2xl">
         <p>Rp.</p>
         <input
           type="text"
@@ -74,9 +78,14 @@ const Payment = () => {
           value={new Intl.NumberFormat("id-ID").format(detailOrder?.total_harga)}
         />
       </label>
-      <button className="btn btn-error w-full mt-3 text-white rounded-2xl" onClick={paymentHandler}>
+      {/* <button className="btn btn-error w-full mt-3 text-white rounded-2xl" onClick={paymentHandler}>
         Konfirmasi Pembayaran
-      </button>
+      </button> */}
+      <ButtonSubmit
+        title={"Konfirmasi Pembayaran"}
+        handler={paymentHandler}
+        isLoading={isLoading}
+      />
 
       <dialog id="my_modal_1" className="modal">
         <div className="modal-box">
