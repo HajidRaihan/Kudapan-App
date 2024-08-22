@@ -14,8 +14,8 @@ router.get("/get/:tokoId", getProduk);
 router.get("/get/detail/:produkId", getProdukById);
 
 // Vendor route
-router.delete("/delete/:userId/:produkId", verifyUser("vendor"), deleteProduk);
-router.post("/add/:userId", verifyUser("vendor"), upload.single("image"), addProduk);
-router.put("/edit/:userId/:produkId", verifyUser("vendor"), upload.single("image"), editProduk);
+router.delete("/delete/:userId/:produkId", deleteProduk); // done
+router.post("/add/:userId", upload.single("image"), addProduk); //done
+router.put("/edit/:userId/:produkId", upload.single("image"), editProduk); // done
 
 module.exports = router;

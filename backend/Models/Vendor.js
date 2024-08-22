@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const keranjangSchema = require("./Cart");
 
-const userSchema = new mongoose.Schema(
+const vendorSchema = new mongoose.Schema(
   {
     nama: {
       type: String,
@@ -12,20 +12,16 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    image: {
-      type: String,
-      default: null,
-    },
     password: {
       type: String,
       required: true,
     },
+    toko: { type: mongoose.Schema.Types.ObjectId, ref: "Toko" },
     status: {
       type: String,
       enum: ["aktif", "nonaktif"],
       default: "aktif",
     },
-    keranjang: [keranjangSchema],
     saldo: {
       type: Number,
       default: 0,
@@ -34,4 +30,4 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = userSchema;
+module.exports = vendorSchema;

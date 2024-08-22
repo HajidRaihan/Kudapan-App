@@ -32,7 +32,7 @@ const loginAdmin = async (req, res) => {
   try {
     const user = await Admin.findOne({ email: email });
     if (!user) {
-      return res.status(404).send("Pengguna tidak ditemukan");
+      return res.status(404).json("Pengguna tidak ditemukan");
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);

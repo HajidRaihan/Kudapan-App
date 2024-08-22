@@ -1,4 +1,4 @@
-const { Toko, User, Produk, Order } = require("../models");
+const { Toko, User, Produk, Order, Vendor } = require("../models");
 
 // const getAllStore = async (req, res) => {
 //   const { search } = req.query;
@@ -63,12 +63,12 @@ const { Toko, User, Produk, Order } = require("../models");
 const getAllStore = async (req, res) => {
   const { search } = req.query;
   try {
-    console.log({ search });
+    // return console.log({ search });
 
     // Lookup user details from the users collection
     const lookupStage = {
       $lookup: {
-        from: "users", // Nama koleksi users
+        from: "vendors", // Nama koleksi users
         localField: "_id", // Field di Toko yang direferensikan oleh field toko di User
         foreignField: "toko", // Field di User yang mereferensikan Toko _id
         as: "userDetails",
@@ -127,7 +127,7 @@ const getAllStore = async (req, res) => {
       })
     );
 
-    console.table(toko);
+    console.log(toko);
 
     res.json(toko);
   } catch (error) {
@@ -142,7 +142,7 @@ const addStore = async (req, res) => {
 
   try {
     // Temukan pengguna berdasarkan ID
-    const user = await User.findById(userId);
+    const user = await Vendor.findById(userId);
     if (!user) {
       return res.status(404).json({ error: "Pengguna tidak ditemukan", id: userId });
     }
@@ -178,7 +178,7 @@ const addStore = async (req, res) => {
 const getStoreById = async (req, res) => {
   try {
     const { userId } = req.params;
-    const user = await User.findById(userId);
+    const user = await Vendor.findById(userId);
     if (!user || !user.toko) {
       return res.status(404).json({ error: "User atau toko tidak ditemukan" });
     }
@@ -265,7 +265,7 @@ const changeTokoStatus = async (req, res) => {
   const { status } = req.body;
 
   try {
-    const user = await User.findById(req.params.userId);
+    const user = await Vendor.findById(req.params.userId);
 
     if (!user) {
       return res.status(400).json("user not found");

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const keranjangSchema = require("./Cart");
+const orderSchema = require("./Order");
 
 const historySchema = new mongoose.Schema({
   pesanan: [keranjangSchema],

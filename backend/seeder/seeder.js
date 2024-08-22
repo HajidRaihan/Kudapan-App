@@ -56,11 +56,12 @@
 // }
 
 const dotenv = require("dotenv");
-const { Produk, Toko, User, Order, Admin } = require("../models");
+const { Produk, Toko, User, Order, Admin, Vendor } = require("../models");
 const dataAdmin = require("./data/dataAdmin");
 const dataProduk = require("./data/dataProduk");
 const dataToko = require("./data/dataToko");
 const dataUser = require("./data/dataUser");
+const dataVendor = require("./data/dataVendor");
 
 dotenv.config();
 require("../db/mongoose");
@@ -72,7 +73,8 @@ const seedDatabase = async () => {
       Produk.deleteMany(),
       User.deleteMany(),
       Admin.deleteMany(),
-      Order.deleteMany(),
+      Vendor.deleteMany(),
+      // Order.deleteMany(),
     ]);
 
     await Promise.all([
@@ -80,6 +82,7 @@ const seedDatabase = async () => {
       Produk.insertMany(dataProduk),
       User.insertMany(dataUser),
       Admin.insertMany(dataAdmin),
+      Vendor.insertMany(dataVendor),
     ]);
 
     console.log("Data Imported");
@@ -97,6 +100,8 @@ const deleteDatabase = async () => {
       Toko.deleteMany(),
       User.deleteMany(),
       Order.deleteMany(),
+      Admin.deleteMany(),
+      Vendor.deleteMany(),
     ]);
     console.log("Data destroyed");
     process.exit();

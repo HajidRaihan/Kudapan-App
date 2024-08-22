@@ -28,7 +28,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(morgan("dev"));
 
-// app.use("/api/user", userRouter);
+app.use("/api/user", userRouter);
 app.use("/api/store", tokoRouter);
 app.use("/api/produk", produkRouter);
 app.use("/api/keranjang", keranjangRouter);
@@ -55,8 +55,8 @@ app.use((error, req, res, next) => {
   console.log(error);
 });
 
-// app.listen(port, () => {
-//   console.log(`server running at http://localhost:${port}`);
-// });
+app.listen(port, () => {
+  console.log(`server running at http://localhost:${port}`);
+});
 
-module.exports = app;
+// module.exports = app;

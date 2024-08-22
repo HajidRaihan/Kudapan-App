@@ -10,19 +10,11 @@ const {
 } = require("../controller/keranjangController");
 const { verifyUser } = require("../middleware/verifyAccessToken");
 
-router.post("/add/:userId", verifyUser("customer"), addProdukKeranjang);
-router.get("/get/:userId", verifyUser("customer"), getKeranjang);
-router.get("/get/jumlah/:userId", verifyUser("customer"), getJumlahKeranjang);
-router.delete(
-  "/delete/:orderIndex/:produkIndex/:userId",
-  verifyUser("customer"),
-  deleteProdukKeranjang
-);
-router.delete("/clear/:userId", verifyUser("customer"), clearKeranjang);
-router.put(
-  "/increase/:orderIndex/:produkIndex/:userId",
-  verifyUser("customer"),
-  increaseProdukKeranjang
-);
+router.post("/add/:userId", addProdukKeranjang); // done
+router.get("/get/:userId", getKeranjang); // done
+router.get("/get/jumlah/:userId", getJumlahKeranjang); // done
+router.delete("/delete/:orderIndex/:produkIndex/:userId", deleteProdukKeranjang); // done
+router.delete("/clear/:userId", clearKeranjang); // done
+router.put("/increase/:orderIndex/:produkIndex/:userId", increaseProdukKeranjang); // done
 
 module.exports = router;

@@ -1,5 +1,5 @@
 const { response } = require("express");
-const { User, History, Toko, Order, Produk } = require("../models");
+const { User, History, Toko, Order, Produk, Vendor } = require("../models");
 
 const addOrder = async (req, res) => {
   const { jenis_layanan } = req.body;
@@ -21,7 +21,7 @@ const addOrder = async (req, res) => {
     for (const [index, item] of user.keranjang.entries()) {
       const tokoId = item.toko;
       try {
-        const vendor = await User.findOne({ toko: tokoId });
+        const vendor = await Vendor.findOne({ toko: tokoId });
         if (!vendor) {
           return res.status(404).json({ error: "Vendor not found" });
         }
@@ -52,26 +52,6 @@ const addOrder = async (req, res) => {
     // return;
     const produkToMove = user.keranjang;
 
-    // Hitung total harga dari keseluruhan produk di keranjang
-    // const totalHarga = hitungTotalHarga(produkToMove);
-    // const newHistory = new History({
-    //   pesanan: produkToMove,
-    //   total: totalHarga,
-    //   meja: meja,
-    //   status: "diproses",
-    // });
-
-    // const saldo = user.saldo;
-
-    // if (saldo < totalHarga) {
-    //   return res.status(400).json({ error: "Saldo tidak mencukupi" });
-    // }
-
-    // user.saldo = user.saldo - totalHarga;
-
-    // user.order_history.push(newHistory);
-
-    // Hapus produk dari keranjang
     user.keranjang = [];
 
     // Simpan perubahan ke MongoDB
@@ -342,13 +322,16 @@ const getOrderUser = async (req, res) => {
   const { userId } = req.params;
   const { startDate, endDate, page = 1, limit = 3 } = req.query;
 
+  console.log(req.query);
+
   try {
-    const user = await User.findById(userId);
+    const user = await Vendor.findById(userId);
 
     if (!user) {
       return res.status(404).json({ message: "User tidak ditemukan" });
     }
 
+    const filter = { toko_id: user.toko };
     const dateFilter = {};
 
     if (startDate) {
@@ -359,9 +342,8 @@ const getOrderUser = async (req, res) => {
       dateFilter.$lte = new Date(endDate);
     }
 
-    const filter = { toko_id: user.toko };
-
-    if (startDate || endDate) {
+    // Only add date filter if it has valid conditions
+    if (Object.keys(dateFilter).length > 0) {
       filter.waktu_pemesanan = dateFilter;
     }
 
@@ -371,6 +353,8 @@ const getOrderUser = async (req, res) => {
       .sort({ createdAt: -1 })
       .limit(parseInt(limit))
       .skip(skip);
+
+    console.log({ orders });
 
     const ordersWithUserPemesan = [];
 
@@ -382,16 +366,17 @@ const getOrderUser = async (req, res) => {
     console.log({
       message: "Order berhasil didapatkan",
       data: ordersWithUserPemesan,
-      hasMore: orders.length === parseInt(limit), // Untuk menunjukkan apakah masih ada order yang perlu dimuat
+      hasMore: orders.length === parseInt(limit),
     });
 
     return res.status(200).json({
       message: "Order berhasil didapatkan",
       data: ordersWithUserPemesan,
-      hasMore: orders.length === parseInt(limit), // Untuk menunjukkan apakah masih ada order yang perlu dimuat
+      hasMore: orders.length === parseInt(limit),
     });
   } catch (err) {
     console.log(err);
+    return res.status(500).json({ message: "Terjadi kesalahan pada server" });
   }
 };
 
@@ -399,7 +384,7 @@ const getOrderUserToday = async (req, res) => {
   const { userId } = req.params;
 
   try {
-    const user = await User.findById(userId);
+    const user = await Vendor.findById(userId);
 
     if (!user) {
       return res.status(404).json({ message: "User tidak ditemukan" });
@@ -514,7 +499,7 @@ const changeStatusOrder = async (req, res) => {
   const { status } = req.body;
 
   try {
-    const user = await User.findById(userId);
+    const user = await Vendor.findById(userId);
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
@@ -552,7 +537,7 @@ const orderPayment = async (req, res) => {
       return res.status(404).json({ error: "Order not found" });
     }
 
-    const vendor = await User.findOne({ toko: order.toko_id });
+    const vendor = await Vendor.findOne({ toko: order.toko_id });
 
     if (order.total_harga > nominal) {
       return res.status(400).json({ error: "Nominal kurang" });

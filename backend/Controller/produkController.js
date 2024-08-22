@@ -1,5 +1,5 @@
 const { query } = require("express");
-const { Toko, Produk, User, Order } = require("../models");
+const { Toko, Produk, User, Order, Vendor } = require("../models");
 const fs = require("fs");
 const path = require("path");
 
@@ -46,7 +46,7 @@ const addProduk = async (req, res) => {
   const { userId } = req.params;
 
   try {
-    const user = await User.findById(userId);
+    const user = await Vendor.findById(userId);
     if (!user) {
       return res.status(404).json({ error: "user tidak ditemukan" });
     }
@@ -87,7 +87,7 @@ const deleteProduk = async (req, res) => {
   const { userId, produkId } = req.params;
 
   try {
-    const user = await User.findById(userId);
+    const user = await Vendor.findById(userId);
     const toko = await Toko.findById(user.toko);
     const produk = await Produk.findById(produkId);
 
@@ -213,7 +213,7 @@ const editProduk = async (req, res) => {
   const { userId, produkId } = req.params;
 
   try {
-    const user = await User.findById(userId);
+    const user = await Vendor.findById(userId);
     const toko = await Toko.findById(user.toko);
     const produk = await Produk.findById(produkId);
 
