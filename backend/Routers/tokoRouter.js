@@ -13,7 +13,7 @@ const upload = require("../middleware/multerMiddleware");
 const { getDetailTokoByUserId } = require("../controller/produkController");
 const { verifyUser } = require("../middleware/verifyAccessToken");
 
-router.get("/getAll", getAllStore); // done customer page
+router.get("/getAll", verifyUser(), getAllStore); // done customer page
 router.get("/get/:userId", getStoreById);
 
 router.post("/add/:userId", upload.single("image"), addStore);

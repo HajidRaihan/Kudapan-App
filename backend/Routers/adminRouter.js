@@ -6,7 +6,7 @@ const upload = require("../middleware/multerMiddleware");
 router.post("/register", registerUser);
 
 router.post("/login", loginUser);
-router.get("/get", getAllUser);
+router.get("/get", verifyUser("admin"), getAllUser);
 router.get("/get/:id", getUserById);
 router.put("/edit/:id", upload.single("image"), editUser);
 

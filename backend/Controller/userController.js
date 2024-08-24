@@ -220,6 +220,18 @@ const getAllUser = async (req, res) => {
     console.log(error);
   }
 };
+
+const getAllVendor = async (req, res) => {
+  const vendor = await Vendor.find();
+
+  try {
+    return res.status(200).json(vendor);
+  } catch (error) {
+    res.status(500).json(error);
+    console.log(error);
+  }
+};
+
 const getUserById = async (req, res) => {
   const { id } = req.params;
 
@@ -322,6 +334,25 @@ const changeStatusUser = async (req, res) => {
   }
 };
 
+const changeStatusVendor = async (req, res) => {
+  const { status } = req.body;
+
+  try {
+    const user = await Vendor.findById(req.params.id);
+
+    if (!user) {
+      return res.status(400).json("User not found");
+    }
+
+    user.status = status;
+    await user.save();
+    return res.status(200).json({ message: "success update user", data: user });
+  } catch (error) {
+    res.status(500).json(error);
+    console.log(error);
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
@@ -334,4 +365,6 @@ module.exports = {
   registerVendor,
   getVendorById,
   editVendor,
+  getAllVendor,
+  changeStatusVendor,
 };

@@ -12,6 +12,10 @@ const verifyUser = (requiredRole) => {
       return next(createError.Unauthorized());
     }
 
+    if (!requiredRole && req.headers["authorization"]) {
+      return next();
+    }
+
     const token = req.headers["authorization"];
     jwt.verify(token, "rahasia_negara", (err, payload) => {
       if (err) {
