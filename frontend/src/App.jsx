@@ -27,6 +27,7 @@ import AdminRoute from "./middleware/AdminRoute";
 import RekapPesanan from "./pages/vendor/RekapPesanan";
 import DetailPesanan from "./pages/vendor/DetailPesanan";
 import LoginVendor from "./pages/vendor/LoginVendor";
+import LoginAdmin from "./pages/admin/LoginAdmin";
 
 function App() {
   useEffect(() => {
@@ -73,14 +74,9 @@ function App() {
 
         {/* admin route */}
 
-        <Route
-          path="/admin"
-          element={
-            <AdminRoute>
-              <HomeAdmin />
-            </AdminRoute>
-          }
-        />
+        <Route path="/admin" element={<HomeAdmin />} />
+
+        <Route path="/login/admin" element={<LoginAdmin />} />
         <Route path="/admin/vendor-register" element={<RegisVendor />} />
 
         <Route path="/socket" element={<SocketTest />} />

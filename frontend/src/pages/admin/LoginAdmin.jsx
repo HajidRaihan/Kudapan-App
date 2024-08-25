@@ -2,10 +2,10 @@ import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
 import { useNavigate } from "react-router-dom";
-import { loginUser, loginVendor } from "../../api/authApi";
+import { loginAdmin } from "../../api/authApi";
 import ButtonSubmit from "../../components/ButtonSubmit";
 
-const LoginVendor = () => {
+const LoginAdmin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -29,11 +29,11 @@ const LoginVendor = () => {
 
     try {
       console.log(credential);
-      const res = await loginVendor(credential);
+      const res = await loginAdmin(credential);
       if (res) {
         toast.success("Login Success");
         setIsLoading(false);
-        navigate("/vendor");
+        navigate("/admin");
       }
     } catch (error) {
       console.error(error);
@@ -47,7 +47,8 @@ const LoginVendor = () => {
       <Toaster />
       <form className="flex flex-col gap-5 items-center justify-center md:shadow-xl drop-shadow-md md:border border-gray-500 h-[500px] w-[400px] rounded-xl mx-auto p-10">
         <h1 className="text-4xl font-semibold text-primary">Login</h1>
-        <p className="text-md font-semibold mb-10 ">sebagai vendor</p>
+        <p className="text-md font-semibold mb-6">sebagai admin</p>
+
         {/* <Input label="Email" type={"email"} onChange={emailOnChange} value={email} /> */}
         {/* <Input label="Password" type={"password"} onChange={passwordOnChange} value={password} /> */}
 
@@ -95,7 +96,7 @@ const LoginVendor = () => {
         <ButtonSubmit title={"Login"} handler={loginHandler} isLoading={isLoading} />
 
         <p className="text-xs">
-          <span className="text-blue-500 cursor-pointer" onClick={() => navigate("/login")}>
+          <span className="text-blue-500 cursor-pointer" onClick={() => navigate("/login/vendor")}>
             Sign in as a customer
           </span>
         </p>
@@ -104,4 +105,4 @@ const LoginVendor = () => {
   );
 };
 
-export default LoginVendor;
+export default LoginAdmin;

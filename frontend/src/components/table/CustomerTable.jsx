@@ -1,7 +1,18 @@
 import React, { useEffect } from "react";
 import FormatRupiah from "../../helper/FormatRupiah";
+import { ShutDown } from "@styled-icons/remix-line/ShutDown";
+import { styled } from "styled-components";
 
-const CustomerTable = ({ data }) => {
+const StyledShutdown = styled(ShutDown)`
+  color: #fff;
+  width: 15px;
+`;
+const StyledShutdownGreen = styled(ShutDown)`
+  color: #02f760;
+  width: 15px;
+`;
+
+const CustomerTable = ({ data, handleOpen }) => {
   useEffect(() => {
     console.log(import.meta.env.VITE_IMGURL);
   }, []);
@@ -27,6 +38,23 @@ const CustomerTable = ({ data }) => {
                 <td>{customer.email}</td>
                 <td>
                   <FormatRupiah value={customer.saldo} />
+                </td>
+                <td>
+                  {customer.status === "aktif" ? (
+                    <button
+                      className="text-white w-10 h-10 rounded-md hover:opacity-85 bg-green-400"
+                      onClick={() => handleOpen(customer._id, customer.nama, customer.status)}
+                    >
+                      <StyledShutdown />
+                    </button>
+                  ) : (
+                    <button
+                      className="text-white w-10 h-10 rounded-md hover:opacity-85 bg-primary"
+                      onClick={() => handleOpen(customer._id, customer.nama, customer.status)}
+                    >
+                      <StyledShutdown />
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}

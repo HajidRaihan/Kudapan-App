@@ -62,6 +62,27 @@ const getAllUser = async () => {
   }
 };
 
+const getAllVendor = async () => {
+  const tokken = TokenHandler();
+
+  const headerToken = {
+    Authorization: `${tokken}`,
+  };
+
+  try {
+    const responseData = await RequestApi(
+      "GET",
+      `user/getVendor`,
+      {},
+      headerToken,
+      "Menampilkan vendor"
+    );
+    return responseData;
+  } catch (error) {
+    console.error("Terjadi kesalahan saat menampilkan vendor", error);
+  }
+};
+
 const editProfile = async (userId, data) => {
   const tokken = TokenHandler();
 
@@ -137,4 +158,37 @@ const changeStatusUser = async (userId, data) => {
   }
 };
 
-export { getUserById, editProfile, getAllUser, changeStatusUser, getVendorById, editVendor };
+const changeStatusVendor = async (userId, data) => {
+  const tokken = TokenHandler();
+
+  const headerToken = {
+    Authorization: `${tokken}`,
+    "Content-Type": "application/json",
+  };
+
+  console.log(data);
+
+  try {
+    const responseData = await RequestApi(
+      "PUT",
+      `user/status/vendor/${userId}`,
+      data,
+      headerToken,
+      "change status vendor"
+    );
+    return responseData;
+  } catch (error) {
+    console.error("Terjadi kesalahan ubah status vendor", error);
+    throw error;
+  }
+};
+export {
+  getUserById,
+  editProfile,
+  getAllUser,
+  changeStatusUser,
+  getVendorById,
+  editVendor,
+  getAllVendor,
+  changeStatusVendor,
+};
