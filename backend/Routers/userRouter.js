@@ -23,20 +23,20 @@ router.post("/register", registerUser);
 router.post("/login", loginUser);
 
 router.post("/admin/register", registerAdmin);
-router.get("/get", getAllUser);
-router.get("/get/:id", getUserById);
-router.put("/edit/:id", upload.single("image"), editUser);
+router.get("/get/:id", verifyUser("customer"), getUserById);
+router.put("/edit/:id", verifyUser("customer"), upload.single("image"), editUser);
 
 // Vendor route
-router.get("/get/vendor/:id", getVendorById);
+router.get("/get/vendor/:id", verifyUser("vendor"), getVendorById);
 router.post("/login/vendor", loginVendor);
-router.post("/vendor/register", registerVendor);
-router.put("/edit/vendor/:id", upload.single("image"), editVendor);
+router.put("/edit/vendor/:id", verifyUser("vendor"), upload.single("image"), editVendor);
 
 // Admin Route
 router.post("/login/admin", loginAdmin);
+router.get("/get", verifyUser("admin"), getAllUser);
+router.post("/vendor/register", verifyUser("admin"), registerVendor);
 router.get("/getVendor", verifyUser("admin"), getAllVendor);
-router.put("/status/:id", changeStatusUser);
-router.put("/status/vendor/:id", changeStatusVendor);
+router.put("/status/:id", verifyUser("admin"), changeStatusUser);
+router.put("/status/vendor/:id", verifyUser("admin"), changeStatusVendor);
 
 module.exports = router;

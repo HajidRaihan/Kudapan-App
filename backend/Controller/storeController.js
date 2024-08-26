@@ -179,8 +179,11 @@ const getStoreById = async (req, res) => {
   try {
     const { userId } = req.params;
     const user = await Vendor.findById(userId);
-    if (!user || !user.toko) {
+    if (!user) {
       return res.status(404).json({ error: "User atau toko tidak ditemukan" });
+    }
+    if (!user.toko) {
+      return res.status(404).json({ error: "toko belum ada" });
     }
 
     const toko = await Toko.findById(user.toko).populate({ path: "produk" });

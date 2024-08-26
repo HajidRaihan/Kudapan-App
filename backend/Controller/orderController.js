@@ -320,7 +320,7 @@ const hitungTotalHarga = (produkArray) => {
 
 const getOrderUser = async (req, res) => {
   const { userId } = req.params;
-  const { startDate, endDate, page = 1, limit = 3 } = req.query;
+  const { startDate, endDate, page = 1, limit = 10 } = req.query;
 
   console.log(req.query);
 

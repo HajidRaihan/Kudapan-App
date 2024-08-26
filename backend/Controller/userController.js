@@ -107,6 +107,7 @@ const loginVendor = async (req, res) => {
       _id: vendor._id,
       nama: vendor.nama,
       email: vendor.email,
+      toko: vendor.toko,
       role: "vendor",
       token: generateLogToken(vendor),
     });

@@ -13,7 +13,11 @@ const verifyUser = (requiredRole) => {
     }
 
     if (!requiredRole && req.headers["authorization"]) {
-      return next();
+      const token = req.headers["authorization"];
+      const role = getRoleFromToken(token);
+      if (role === "admin" || role === "customer" || role === "vendor") return next();
+
+      return next(createError.Unauthorized());
     }
 
     const token = req.headers["authorization"];

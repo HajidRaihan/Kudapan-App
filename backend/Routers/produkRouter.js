@@ -10,12 +10,12 @@ const {
 const upload = require("../middleware/multerMiddleware");
 const { verifyUser } = require("../middleware/verifyAccessToken");
 
-router.get("/get/:tokoId", getProduk);
-router.get("/get/detail/:produkId", getProdukById);
+router.get("/get/:tokoId", verifyUser(), getProduk);
+router.get("/get/detail/:produkId", verifyUser("vendor"), getProdukById);
 
 // Vendor route
-router.delete("/delete/:userId/:produkId", deleteProduk); // done
-router.post("/add/:userId", upload.single("image"), addProduk); //done
-router.put("/edit/:userId/:produkId", upload.single("image"), editProduk); // done
+router.delete("/delete/:userId/:produkId", verifyUser("vendor"), deleteProduk); // done
+router.post("/add/:userId", verifyUser("vendor"), upload.single("image"), addProduk); //done
+router.put("/edit/:userId/:produkId", verifyUser("vendor"), upload.single("image"), editProduk); // done
 
 module.exports = router;
