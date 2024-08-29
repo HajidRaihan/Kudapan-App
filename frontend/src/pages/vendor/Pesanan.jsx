@@ -239,25 +239,10 @@ const Pesanan = () => {
 
         {!isLoadingData ? (
           isToday ? (
-            pesananData.map((pesanan) => (
-              <PesananCard
-                key={pesanan._id}
-                pesanan={pesanan}
-                konfirmasiOrderHandler={konfirmasiOrderHandler}
-                konfirmasiModalOpenHandler={konfirmasiModalOpenHandler}
-                openHandler={openHandler}
-                isLoading={isLoading}
-                navigate={navigate}
-              />
-            ))
-          ) : (
-            <InfiniteScroll
-              dataLength={pesananData.length}
-              next={fetchMoreData}
-              hasMore={hasMore}
-              loader={<LoadingKomponen />}
-            >
-              {pesananData.map((pesanan) => (
+            pesananData.length === 0 ? (
+              <p className="text-center">Belum ada pesanan</p>
+            ) : (
+              pesananData.map((pesanan) => (
                 <PesananCard
                   key={pesanan._id}
                   pesanan={pesanan}
@@ -267,7 +252,30 @@ const Pesanan = () => {
                   isLoading={isLoading}
                   navigate={navigate}
                 />
-              ))}
+              ))
+            )
+          ) : (
+            <InfiniteScroll
+              dataLength={pesananData.length}
+              next={fetchMoreData}
+              hasMore={hasMore}
+              loader={<LoadingKomponen />}
+            >
+              {pesananData.length === 0 ? (
+                <p className="text-center">Belum ada pesanan</p>
+              ) : (
+                pesananData.map((pesanan) => (
+                  <PesananCard
+                    key={pesanan._id}
+                    pesanan={pesanan}
+                    konfirmasiOrderHandler={konfirmasiOrderHandler}
+                    konfirmasiModalOpenHandler={konfirmasiModalOpenHandler}
+                    openHandler={openHandler}
+                    isLoading={isLoading}
+                    navigate={navigate}
+                  />
+                ))
+              )}
             </InfiniteScroll>
           )
         ) : (

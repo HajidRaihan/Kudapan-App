@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { editToko } from "../../api/tokoApi";
 import { editProfile } from "../../api/userApi";
+import ButtonSubmit from "../ButtonSubmit";
 
 const EditTokoModal = ({ close, detailToko, isSuccess, isError, setDetailToko }) => {
   const [nama, setNama] = useState(detailToko.nama);
   const [deskripsi, setDeskripsi] = useState(detailToko.deskripsi);
   const [image, setImage] = useState(detailToko.image);
+  const [isLoading, setIsLoading] = useState(false);
 
   const namaOnChange = (e) => {
     setNama(e.target.value);
@@ -22,6 +24,7 @@ const EditTokoModal = ({ close, detailToko, isSuccess, isError, setDetailToko })
 
   const editTokoHandler = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const data = {
       nama: nama,
       deskripsi: deskripsi,
@@ -33,12 +36,16 @@ const EditTokoModal = ({ close, detailToko, isSuccess, isError, setDetailToko })
       const res = await editToko(data, detailToko._id);
       isSuccess();
       setDetailToko(res.toko);
+      setIsLoading(true);
+
       // window.location.reload();
 
       console.log(res);
       close();
     } catch (error) {
       console.error(error);
+      setIsLoading(true);
+
       close();
       isError();
     }
@@ -95,12 +102,7 @@ const EditTokoModal = ({ close, detailToko, isSuccess, isError, setDetailToko })
                 />
               </label>
               <div>
-                <button
-                  className="btn btn-success w-full my-2  text-white"
-                  onClick={editTokoHandler}
-                >
-                  Submit
-                </button>
+                <ButtonSubmit isLoading={isLoading} title="Submit" handler={editTokoHandler} />
                 {/* <button className="btn btn-error w-full text-white">Order Langsung</button> */}
               </div>
             </form>

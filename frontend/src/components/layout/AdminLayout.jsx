@@ -19,7 +19,7 @@ const AdminLayout = ({ children }) => {
               <Link
                 to={"/admin"}
                 className={`${
-                  location === "/admin" ? "bg-white text-black font-semibold" : ""
+                  location === "/admin" ? "bg-white !text-black !font-semibold" : ""
                 } block p-2 rounded hover:bg-white hover:text-black hover:font-semibold text-white transition-transform`}
               >
                 Dashboard
@@ -29,7 +29,7 @@ const AdminLayout = ({ children }) => {
               <Link
                 to={"/admin/vendor-register"}
                 className={`${
-                  location === "/admin/vendor-register" ? "bg-white text-black font-semibold" : ""
+                  location === "/admin/vendor-register" ? "bg-white !text-black !font-semibold" : ""
                 } block p-2 rounded hover:bg-white hover:text-black hover:font-semibold text-white`}
               >
                 Registrasi

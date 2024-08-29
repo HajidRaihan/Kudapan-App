@@ -2,18 +2,22 @@ import React from "react";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { registerUser } from "../../api/authApi";
+import { registerVendor } from "../../api/authApi";
 import AdminLayout from "../../components/layout/AdminLayout";
+import ButtonSubmit from "../../components/ButtonSubmit";
 
 const RegisVendor = () => {
   const [nama, setNama] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleRegister = async (event) => {
     event.preventDefault();
+
+    setIsLoading(true);
     if (password !== confirmPassword) {
       toast.error("password dan konfirmasi password tidak sama");
       return;
@@ -27,15 +31,17 @@ const RegisVendor = () => {
     };
 
     try {
-      const res = await registerUser(data);
+      const res = await registerVendor(data);
       console.log(res);
       setNama("");
       setEmail("");
       setPassword("");
       setConfirmPassword("");
+      setIsLoading(false);
 
       toast.success("Sukses registrasi vendor");
     } catch (error) {
+      setIsLoading(false);
       console.log(error);
       toast.error(error.response.data);
       throw error;
@@ -47,7 +53,8 @@ const RegisVendor = () => {
       {/* <div className=""> */}
       <Toaster />
       <form
-        onSubmit={handleRegister}
+        // onSubmit={handleRegister}
+
         className="bg-white flex flex-col gap-4 items-center justify-center md:shadow-xl drop-shadow-md md:border border h-[500px] w-[500px] rounded-xl mx-auto p-10"
       >
         <h className="text-4xl font-semibold mb-10 text-primary">Sign Up Vendor</h>
@@ -131,7 +138,8 @@ const RegisVendor = () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </label>
-        <button className="btn btn-error w-full mt-3 text-white rounded-2xl">Sign Up</button>
+        {/* <button className="btn btn-error w-full mt-3 text-white rounded-2xl">Sign Up</button> */}
+        <ButtonSubmit isLoading={isLoading} handler={handleRegister} title="Sign Up" />
         <p className="text-xs">
           Already have an account?{" "}
           <span className="text-blue-500 cursor-pointer" onClick={() => navigate("/login")}>

@@ -42,6 +42,7 @@ const Profile = () => {
   const [userData, setUserData] = useState();
   const [topUpModalOpen, setTopUpModalOpen] = useState(false);
   const [balance, setBalance] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -62,6 +63,7 @@ const Profile = () => {
   }, [userId]);
 
   const topUpHandler = async () => {
+    setIsLoading(true);
     try {
       const res = await addBalance(userId, { saldo: parseInt(balance) });
       console.log(res);
@@ -70,10 +72,12 @@ const Profile = () => {
         ...prevState,
         saldo: prevState.saldo + parseInt(balance),
       }));
+      setIsLoading(false);
       setTopUpModalOpen(false);
     } catch (error) {
       toast.error("Top up saldo gagal");
       console.error(error);
+      setIsLoading(false);
     }
 
     // window.location.reload();
@@ -155,6 +159,7 @@ const Profile = () => {
           onChange={(e) => setBalance(e.target.value.replace(/\D/g, ""))}
           handler={topUpHandler}
           close={() => setTopUpModalOpen(false)}
+          isLoading={isLoading}
         />
       )}
     </MainLayout>

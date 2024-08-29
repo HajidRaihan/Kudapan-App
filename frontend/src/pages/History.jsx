@@ -19,10 +19,14 @@ const History = () => {
   const token = DecodeToken();
   const userId = token._id;
 
-  const listStatus = ["menunggu", "diterima", "diproses", "selesai", "ditolak"];
+  const listStatus = ["menunggu", "diterima", "diproses", "selesai", "dibatalkan"];
 
   const statusSelectedHandler = (status) => {
-    setSelectedStatus(status);
+    let currStatus = status;
+    if (status === "dibatalkan") {
+      currStatus = "ditolak";
+    }
+    setSelectedStatus(currStatus);
     setPage(1);
     setHistoryData([]);
     setHasMore(true);
@@ -67,7 +71,7 @@ const History = () => {
             <Status
               key={data}
               handler={() => statusSelectedHandler(data)}
-              selected={data === selectedStatus}
+              selected={(data === "dibatalkan" ? "ditolak" : data) === selectedStatus}
               value={data}
             />
           ))}

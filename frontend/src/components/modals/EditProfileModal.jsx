@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { editVendor } from "../../api/userApi";
+import ButtonSubmit from "../ButtonSubmit";
 
 const EditProfileModal = ({ close, detailProfile, userId, isSuccess, isError, setUserDetail }) => {
   const [nama, setNama] = useState(detailProfile.nama);
   const [email, setEmail] = useState(detailProfile.email);
+  const [isLoading, setIsLoading] = useState(false);
 
   const namaOnChange = (e) => {
     setNama(e.target.value);
@@ -20,6 +22,7 @@ const EditProfileModal = ({ close, detailProfile, userId, isSuccess, isError, se
 
   const editProfileHandler = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const data = {
       nama: nama,
       email: email,
@@ -28,6 +31,7 @@ const EditProfileModal = ({ close, detailProfile, userId, isSuccess, isError, se
     // return console.log({ data });
     try {
       const res = await editVendor(userId, data);
+      setIsLoading(false);
 
       isSuccess();
       // window.location.reload();
@@ -43,6 +47,8 @@ const EditProfileModal = ({ close, detailProfile, userId, isSuccess, isError, se
       close();
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
+
       close();
       isError();
     }
@@ -89,12 +95,13 @@ const EditProfileModal = ({ close, detailProfile, userId, isSuccess, isError, se
                 />
               </label>
               <div>
-                <button
+                {/* <button
                   className="btn btn-success w-full my-2  text-white"
                   onClick={editProfileHandler}
                 >
                   Submit
-                </button>
+                </button> */}
+                <ButtonSubmit handler={editProfileHandler} isLoading={isLoading} title="Submit" />
                 {/* <button className="btn btn-error w-full text-white">Order Langsung</button> */}
               </div>
             </form>

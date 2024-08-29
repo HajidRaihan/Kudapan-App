@@ -1,10 +1,32 @@
 import Cookies from "js-cookie";
 import { RequestApi } from "../helper/RequestApi";
 import { jwtDecode } from "jwt-decode";
+import { TokenHandler } from "../helper/TokenHandler";
 
 const registerUser = async (data) => {
   try {
     const response = await RequestApi("POST", "user/register", data, {}, "Mencoba register");
+    return response;
+  } catch (error) {
+    console.error("terjadi kesalahan saat register", error);
+    throw error;
+  }
+};
+const registerVendor = async (data) => {
+  try {
+    const token = TokenHandler();
+
+    const headerToken = {
+      Authorization: `${token}`,
+      "Content-Type": "application/json",
+    };
+    const response = await RequestApi(
+      "POST",
+      "user/vendor/register",
+      data,
+      headerToken,
+      "Mencoba register"
+    );
     return response;
   } catch (error) {
     console.error("terjadi kesalahan saat register", error);
@@ -66,4 +88,4 @@ const loginAdmin = async (credential) => {
   }
 };
 
-export { registerUser, loginUser, loginVendor, loginAdmin };
+export { registerUser, loginUser, loginVendor, loginAdmin, registerVendor };

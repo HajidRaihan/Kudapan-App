@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import FormatRupiah from "../../helper/FormatRupiah";
 import { ShutDown } from "@styled-icons/remix-line/ShutDown";
 import { styled } from "styled-components";
+import DeleteIcon from "../../assets/icon/delete-white.svg";
 
 const StyledShutdown = styled(ShutDown)`
   color: #fff;
@@ -12,7 +13,7 @@ const StyledShutdownGreen = styled(ShutDown)`
   width: 15px;
 `;
 
-const CustomerTable = ({ data, handleOpen }) => {
+const CustomerTable = ({ data, handleOpen, deleteModalOpen }) => {
   useEffect(() => {
     console.log(import.meta.env.VITE_IMGURL);
   }, []);
@@ -28,6 +29,7 @@ const CustomerTable = ({ data, handleOpen }) => {
               <th>Nama</th>
               <th>Email</th>
               <th>Saldo</th>
+              <th>Aksi</th>
             </tr>
           </thead>
           <tbody>
@@ -40,21 +42,29 @@ const CustomerTable = ({ data, handleOpen }) => {
                   <FormatRupiah value={customer.saldo} />
                 </td>
                 <td>
-                  {customer.status === "aktif" ? (
+                  <div className="flex items-center gap-2">
+                    {customer.status === "aktif" ? (
+                      <button
+                        className="text-white w-10 h-10 rounded-md hover:opacity-85 bg-green-400"
+                        onClick={() => handleOpen(customer._id, customer.nama, customer.status)}
+                      >
+                        <StyledShutdown />
+                      </button>
+                    ) : (
+                      <button
+                        className="text-white w-10 h-10 rounded-md hover:opacity-85 bg-primary"
+                        onClick={() => handleOpen(customer._id, customer.nama, customer.status)}
+                      >
+                        <StyledShutdown />
+                      </button>
+                    )}
                     <button
-                      className="text-white w-10 h-10 rounded-md hover:opacity-85 bg-green-400"
-                      onClick={() => handleOpen(customer._id, customer.nama, customer.status)}
+                      className="flex items-center justify-center text-white w-10 h-10 rounded-md hover:opacity-85 bg-primary"
+                      onClick={() => deleteModalOpen(customer._id, customer.nama)}
                     >
-                      <StyledShutdown />
+                      <img src={DeleteIcon} alt="" className="w-4 h-4" />
                     </button>
-                  ) : (
-                    <button
-                      className="text-white w-10 h-10 rounded-md hover:opacity-85 bg-primary"
-                      onClick={() => handleOpen(customer._id, customer.nama, customer.status)}
-                    >
-                      <StyledShutdown />
-                    </button>
-                  )}
+                  </div>
                 </td>
               </tr>
             ))}

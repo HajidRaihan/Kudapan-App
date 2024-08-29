@@ -33,8 +33,8 @@ const CreateToko = () => {
     };
 
     try {
-      // const res = await createToko(data, userId);
-      // console.log(res);
+      const res = await createToko(data, userId);
+      console.log(res);
       setIsLoading(false);
       setOpen(true);
     } catch (error) {

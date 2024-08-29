@@ -125,20 +125,24 @@ const HomeVendor = () => {
       </div> */}
           <div className="mx-5 pb-32">
             {detailToko ? (
-              detailToko.produk.map((data) => {
-                return (
-                  <MenuCardVendor
-                    key={data._id}
-                    userId={userDetail?._id}
-                    setDetailToko={setDetailToko}
-                    {...data}
-                    openEditModal={() => {
-                      setProdukId(data._id); // Set the produkId
-                      setEditProdukOpen(true); // Open the modal
-                    }}
-                  />
-                );
-              })
+              detailToko.produk.length === 0 ? (
+                <p className="text-center mt-2">Kamu belum memiliki produk</p>
+              ) : (
+                detailToko.produk.map((data) => {
+                  return (
+                    <MenuCardVendor
+                      key={data._id}
+                      userId={userDetail?._id}
+                      setDetailToko={setDetailToko}
+                      {...data}
+                      openEditModal={() => {
+                        setProdukId(data._id); // Set the produkId
+                        setEditProdukOpen(true); // Open the modal
+                      }}
+                    />
+                  );
+                })
+              )
             ) : (
               <div className="mt-5">
                 <CounterCardSkeleton />

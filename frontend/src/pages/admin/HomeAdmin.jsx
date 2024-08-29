@@ -2,7 +2,14 @@ import React, { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { getAllToko } from "../../api/tokoApi";
-import { changeStatusUser, changeStatusVendor, getAllUser, getAllVendor } from "../../api/userApi";
+import {
+  changeStatusUser,
+  changeStatusVendor,
+  deleteUser,
+  deleteVendor,
+  getAllUser,
+  getAllVendor,
+} from "../../api/userApi";
 import CardDashboard from "../../components/card/CardDashboard";
 import KonfirmasiModal from "../../components/KonfirmasiModal";
 import AdminLayout from "../../components/layout/AdminLayout";
@@ -18,6 +25,9 @@ const HomeAdmin = () => {
   const [currStatus, setCurrStatus] = useState("");
   const [open, setOpen] = useState(false);
   const [openVendor, setOpenVendor] = useState(false);
+  const [konfirmasiModalOpen, setKonfirmasiModalOpen] = useState(false);
+  const [konfirmasiModalVendorOpen, setKonfirmasiModalVendorOpen] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -60,6 +70,19 @@ const HomeAdmin = () => {
     setNamaVendor(nama);
     setCurrStatus(status);
     console.log("ini status current", { status });
+  };
+
+  const handleDeleteModalOpenUser = (id, nama) => {
+    setKonfirmasiModalOpen(true);
+    setUserId(id);
+    setNamaCust(nama);
+  };
+
+  const handleDeleteModalOpenVendor = (id, nama) => {
+    setKonfirmasiModalVendorOpen(true);
+    console.log({ id });
+    setUserId(id);
+    setNamaVendor(nama);
   };
 
   const changeStatusHandler = async () => {
@@ -108,6 +131,53 @@ const HomeAdmin = () => {
     }
   };
 
+  const deleteVendorHandler = async () => {
+    setDeleteLoading(true);
+    try {
+      const res = await deleteVendor(userId);
+      toast.success("success menghapus vendor");
+      setTokoData(
+        tokoData
+          .filter((vendor) => vendor._id !== userId)
+          .map((vendor) => {
+            return { ...vendor };
+          })
+      );
+      console.log(res);
+      setDeleteLoading(false);
+
+      setKonfirmasiModalVendorOpen(false);
+    } catch (err) {
+      console.error(err);
+      setDeleteLoading(false);
+
+      toast.error("gagal menghapus vendor");
+    }
+  };
+
+  const deleteUserHandler = async () => {
+    setDeleteLoading(true);
+    try {
+      const res = await deleteUser(userId);
+      toast.success("success menghapus user");
+      setCustomerData(
+        customerData
+          .filter((user) => user._id !== userId)
+          .map((user) => {
+            return { ...user };
+          })
+      );
+      console.log(res);
+      setKonfirmasiModalOpen(false);
+      setDeleteLoading(false);
+    } catch (err) {
+      console.error(err);
+      setDeleteLoading(false);
+
+      toast.error("gagal menghapus user");
+    }
+  };
+
   return (
     <AdminLayout>
       <Toaster />
@@ -115,9 +185,16 @@ const HomeAdmin = () => {
         <CardDashboard title={"Vendor"} count={tokoData?.length} />
         <CardDashboard title={"Customer"} count={customerData?.length} />
       </div>
-      <VendorTable data={tokoData} handleOpen={handleOpenVendor} />
-      <CustomerTable data={customerData} handleOpen={handleOpen} />
-
+      <VendorTable
+        data={tokoData}
+        handleOpen={handleOpenVendor}
+        deleteModalOpen={handleDeleteModalOpenVendor}
+      />
+      <CustomerTable
+        data={customerData}
+        handleOpen={handleOpen}
+        deleteModalOpen={handleDeleteModalOpenUser}
+      />
       {openVendor ? (
         <KonfirmasiModal
           close={() => setOpenVendor(false)}
@@ -125,10 +202,7 @@ const HomeAdmin = () => {
           action="Ubah Status"
           handler={changeStatusVendorHandler}
         />
-      ) : (
-        ""
-      )}
-
+      ) : null}
       {open ? (
         <KonfirmasiModal
           close={() => setOpen(false)}
@@ -136,9 +210,25 @@ const HomeAdmin = () => {
           action="Ubah Status"
           handler={changeStatusHandler}
         />
-      ) : (
-        ""
-      )}
+      ) : null}
+      {konfirmasiModalVendorOpen ? (
+        <KonfirmasiModal
+          close={() => setKonfirmasiModalVendorOpen(false)}
+          title={`Apakah anda ingin menghapus vendor ${namaVendor}?`}
+          action="Hapus"
+          handler={deleteVendorHandler}
+          isLoading={deleteLoading}
+        />
+      ) : null}
+      {konfirmasiModalOpen ? (
+        <KonfirmasiModal
+          close={() => setKonfirmasiModalOpen(false)}
+          title={`Apakah anda ingin menghapus user ${namaCust}?`}
+          action="Hapus"
+          handler={deleteUserHandler}
+          isLoading={deleteLoading}
+        />
+      ) : null}
     </AdminLayout>
   );
 };

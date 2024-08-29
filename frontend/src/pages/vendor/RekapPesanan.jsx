@@ -108,6 +108,14 @@ const RekapPesanan = () => {
               ) : null}
             </tbody>
           </table>
+          {/* <div className="w-full flex justify-center">
+            <div className="join mt-5 mx-auto">
+              <button className="join-item btn">1</button>
+              <button className="join-item btn btn-active">2</button>
+              <button className="join-item btn">3</button>
+              <button className="join-item btn">4</button>
+            </div>
+          </div> */}
         </div>
       </div>
     </VendorLayout>

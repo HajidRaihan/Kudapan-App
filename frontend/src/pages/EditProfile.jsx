@@ -7,6 +7,7 @@ import { editProfile, getUserById } from "../api/userApi";
 import { Edit } from "@styled-icons/boxicons-solid/Edit";
 import { styled } from "styled-components";
 import toast, { Toaster } from "react-hot-toast";
+import ButtonSubmit from "../components/ButtonSubmit";
 
 const EditIcon = styled(Edit)`
   color: #fff;
@@ -20,6 +21,7 @@ const EditProfile = () => {
   const [image, setImage] = useState();
   const [imageValue, setImageValue] = useState();
   const [profilePreview, setProfilePreview] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const token = TokenHandler();
@@ -48,19 +50,20 @@ const EditProfile = () => {
 
   const editProfileHandler = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const data = {
       nama: username,
       email: email,
       image: imageValue,
     };
 
-    // return console.log({ data });
     try {
       const res = await editProfile(userId, data);
       toast.success("Profile berhasil diubah");
-      console.log(res);
+      setIsLoading(false);
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
       toast.error("Profile gagal diubah");
     }
   };
@@ -132,9 +135,12 @@ const EditProfile = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <button onClick={editProfileHandler} className="w-full btn bg-primary mt-5 text-white">
+        {/* <button onClick={editProfileHandler} className="w-full btn bg-primary mt-5 text-white">
           submit
-        </button>
+        </button> */}
+        <div className="mt-5">
+          <ButtonSubmit title={"Submit"} isLoading={isLoading} handler={editProfileHandler} />
+        </div>
       </div>
     </div>
   );

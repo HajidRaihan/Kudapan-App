@@ -4,7 +4,12 @@ import axios from "axios";
 const API_BASE_URL = import.meta.env.VITE_APIURL;
 
 const handleErrorResponse = (error, action) => {
-  // console.error(`Error: saat ${action}`, error);
+  console.error(`Error: saat ${action}`, error);
+
+  if (error.response.data.message === "Unauthorized") {
+    window.location.href = "/login";
+  }
+
   throw error;
 };
 

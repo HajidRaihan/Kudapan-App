@@ -2,16 +2,20 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../api/authApi";
 import toast, { Toaster } from "react-hot-toast";
+import ButtonSubmit from "../components/ButtonSubmit";
 
 const Register = () => {
   const [nama, setNama] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleRegister = async (event) => {
     event.preventDefault();
+
+    setIsLoading(true);
     if (password !== confirmPassword) {
       alert("password tidak sama");
       return;
@@ -30,11 +34,15 @@ const Register = () => {
       setNama("");
       setEmail("");
       setPassword("");
+      setIsLoading(false);
+
       // alert("berhasil register");
       toast.success("berhasil register");
     } catch (error) {
       console.log(error);
       toast.error("Gagal Register");
+      setIsLoading(false);
+
       throw error;
     }
   };
@@ -44,7 +52,7 @@ const Register = () => {
       <div className="w-screen h-screen flex items-center">
         <Toaster />
         <form
-          onSubmit={handleRegister}
+          // onSubmit={handleRegister}
           className="flex flex-col gap-4 items-center justify-center md:shadow-xl drop-shadow-md md:border border-slate-500 h-[550px] w-[400px] rounded-xl mx-auto p-10"
         >
           <h className="text-4xl font-semibold mb-10 text-primary">Sign Up</h>
@@ -128,7 +136,8 @@ const Register = () => {
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </label>
-          <button className="btn btn-error w-full mt-3 text-white rounded-2xl">Sign Up</button>
+          {/* <button className="btn btn-error w-full mt-3 text-white rounded-2xl">Sign Up</button> */}
+          <ButtonSubmit title="Sign Up" handler={handleRegister} isLoading={isLoading} />
           <p className="text-xs">
             Already have an account?{" "}
             <span className="text-blue-500 cursor-pointer" onClick={() => navigate("/login")}>

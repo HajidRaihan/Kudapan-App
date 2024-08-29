@@ -48,7 +48,7 @@ const Warung = () => {
   const listKategori = ["semua", "makanan", "minuman"];
 
   return (
-    <MainLayout>
+    <MainLayout orderCount={orderCount}>
       {tokoData ? (
         <>
           <Header title={tokoData.toko} />

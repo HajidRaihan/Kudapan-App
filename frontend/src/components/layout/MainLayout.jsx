@@ -3,12 +3,12 @@ import { DecodeToken } from "../../helper/DecodeToken";
 import { TokenHandler } from "../../helper/TokenHandler";
 import BottomNavigation from "../navigation/BottomNavigation";
 
-const MainLayout = ({ children }) => {
+const MainLayout = ({ orderCount, children }) => {
   return (
     <div className="xl:mx-96 md:mx-32">
       {children}
       <div className="flex justify-center">
-        <BottomNavigation />
+        <BottomNavigation orderCount={orderCount} />
       </div>
     </div>
   );

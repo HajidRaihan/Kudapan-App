@@ -91,8 +91,6 @@ const editProfile = async (userId, data) => {
     "Content-Type": "multipart/form-data",
   };
 
-  console.log({ userId });
-
   try {
     const responseData = await RequestApi(
       "PUT",
@@ -182,6 +180,57 @@ const changeStatusVendor = async (userId, data) => {
     throw error;
   }
 };
+
+const deleteUser = async (userId, data) => {
+  const tokken = TokenHandler();
+
+  const headerToken = {
+    Authorization: `${tokken}`,
+    "Content-Type": "application/json",
+  };
+
+  console.log(data);
+
+  try {
+    const responseData = await RequestApi(
+      "DELETE",
+      `user/delete/${userId}`,
+      data,
+      headerToken,
+      "delete user"
+    );
+    return responseData;
+  } catch (error) {
+    console.error("Terjadi kesalahan saat delete user", error);
+    throw error;
+  }
+};
+
+const deleteVendor = async (userId, data) => {
+  const tokken = TokenHandler();
+
+  const headerToken = {
+    Authorization: `${tokken}`,
+    "Content-Type": "application/json",
+  };
+
+  console.log(data);
+
+  try {
+    const responseData = await RequestApi(
+      "DELETE",
+      `user/delete/vendor/${userId}`,
+      data,
+      headerToken,
+      "delete vendor"
+    );
+    return responseData;
+  } catch (error) {
+    console.error("Terjadi kesalahan saat delete vendor", error);
+    throw error;
+  }
+};
+
 export {
   getUserById,
   editProfile,
@@ -191,4 +240,6 @@ export {
   editVendor,
   getAllVendor,
   changeStatusVendor,
+  deleteUser,
+  deleteVendor,
 };
