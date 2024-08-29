@@ -354,6 +354,42 @@ const changeStatusVendor = async (req, res) => {
   }
 };
 
+const deleteUser = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json("User not found");
+    }
+
+    await User.findByIdAndDelete(id);
+
+    return res.status(200).json({ message: "success delete user" });
+  } catch (error) {
+    res.status(500).json(error);
+    console.log(error);
+  }
+};
+
+const deleteVendor = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const user = await Vendor.findById(id);
+    if (!user) {
+      return res.status(404).json("User not found");
+    }
+
+    await Vendor.findByIdAndDelete(id);
+
+    return res.status(200).json({ message: "success delete user" });
+  } catch (error) {
+    res.status(500).json(error);
+    console.log(error);
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
@@ -368,4 +404,6 @@ module.exports = {
   editVendor,
   getAllVendor,
   changeStatusVendor,
+  deleteUser,
+  deleteVendor,
 };

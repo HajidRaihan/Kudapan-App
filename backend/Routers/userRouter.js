@@ -14,6 +14,8 @@ const {
   editVendor,
   getAllVendor,
   changeStatusVendor,
+  deleteUser,
+  deleteVendor,
 } = require("../controller/userController");
 const upload = require("../middleware/multerMiddleware");
 const { verifyUser } = require("../middleware/verifyAccessToken");
@@ -38,5 +40,7 @@ router.post("/vendor/register", verifyUser("admin"), registerVendor);
 router.get("/getVendor", verifyUser("admin"), getAllVendor);
 router.put("/status/:id", verifyUser("admin"), changeStatusUser);
 router.put("/status/vendor/:id", verifyUser("admin"), changeStatusVendor);
+router.delete("/delete/:id", verifyUser("admin"), deleteUser);
+router.delete("/delete/vendor/:id", verifyUser("admin"), deleteVendor);
 
 module.exports = router;
