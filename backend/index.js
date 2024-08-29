@@ -13,8 +13,6 @@ const walletRouter = require("./routers/walletRouter");
 const pesananRouter = require("./routers/pesananRouter");
 const bodyParser = require("body-parser");
 
-console.log(__dirname);
-
 require("./db/mongoose");
 const morgan = require("morgan");
 const { verifyUser } = require("./middleware/verifyAccessToken");
