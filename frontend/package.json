@@ -20,15 +20,12 @@
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
     "react-infinite-scroll-component": "^6.1.0",
-    "react-modal-success": "^1.1.0",
     "react-qr-code": "^2.0.12",
     "react-router-dom": "^6.21.1",
     "socket.io-client": "^4.7.5",
     "styled-component": "^2.8.0",
     "styled-components": "^6.1.8",
-    "styled-icons": "^10.47.1",
-    "sweetalert2": "^11.12.3",
-    "sweetalert2-react-content": "^5.0.7"
+    "styled-icons": "^10.47.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
