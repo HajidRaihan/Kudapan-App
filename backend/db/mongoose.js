@@ -3,6 +3,8 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
+const mongodb = "mongodb+srv://root:31072002@atlascluster.oh7ia.mongodb.net/kudapan_db";
+
 mongoose
   .connect("mongodb+srv://root:31072002@atlascluster.oh7ia.mongodb.net/kudapan_db")
   .then(() => console.log("database connected"))
