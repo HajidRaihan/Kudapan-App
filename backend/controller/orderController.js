@@ -537,6 +537,10 @@ const orderPayment = async (req, res) => {
       return res.status(404).json({ error: "Order not found" });
     }
 
+    if (order.pemesan != userId) {
+      return res.status(403).json({ error: "Kamu bukan pemilik dari pesanan ini" });
+    }
+
     const vendor = await Vendor.findOne({ toko: order.toko_id });
 
     if (order.total_harga > nominal) {
@@ -550,7 +554,7 @@ const orderPayment = async (req, res) => {
     console.log(user.saldo, parseInt(nominal));
 
     if (user.saldo < parseInt(nominal)) {
-      return res.status(400).json({ error: "Saldo kurang" });
+      return res.status(400).json({ error: "Saldo anda tidak mencukupi" });
     }
     user.saldo = user.saldo - parseInt(nominal);
 
