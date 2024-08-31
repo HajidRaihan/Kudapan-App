@@ -35,7 +35,7 @@ const Payment = () => {
     } catch (error) {
       console.error(error);
       setIsLoading(false);
-      toast.error("Saldo anda tidak mencukupi");
+      toast.error(error.response.data.error);
     }
   };
 

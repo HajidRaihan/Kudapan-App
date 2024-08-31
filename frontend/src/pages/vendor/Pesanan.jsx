@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import ArroRightIcon from "../../assets/icon/arrow-right.svg";
 import KonfirmasiModal from "../../components/KonfirmasiModal";
 import Loader from "../../components/Loader";
+import FormatRupiah from "../../helper/FormatRupiah";
 
 const Pesanan = () => {
   const token = DecodeToken();
@@ -326,6 +327,7 @@ const PesananCard = ({
         </span>
       </div>
     )}
+
     {pesanan.status !== "ditolak" && (
       <>
         <div className="flex justify-between items-center mb-1">
@@ -381,11 +383,12 @@ const PesananCard = ({
         </div>
       </>
     )}
-
     <p className="text-xs">Jenis Layanan : {pesanan.jenis_layanan}</p>
     <p className="text-xs">Pemesan : {pesanan.user_pemesan.nama}</p>
     <p className="text-xs">Email pemesan : {pesanan.user_pemesan.email}</p>
-    <p className="text-xs">Total harga : {pesanan.total_harga}</p>
+    <p className="text-xs">
+      Total harga : <FormatRupiah value={pesanan?.total_harga} />
+    </p>
     {pesanan.meja !== 0 && <p className="text-xs">Meja : {pesanan.meja}</p>}
     <p className="text-xs">
       <TimeAgo timestamp={pesanan.waktu_pemesanan} />
