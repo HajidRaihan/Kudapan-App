@@ -1,92 +1,12 @@
 const { Keranjang, Produk, User, Toko } = require("../models");
 
-// const addProdukKeranjang = async (req, res) => {
-//   const { tokoId, produkId, jumlah, catatan } = req.body;
-//   const { userId } = req.params;
-
-//   console.log(req.body);
-//   try {
-//     const user = await User.findById(userId);
-//     if (!user) {
-//       return res.status(401).json({ msg: "User not found" });
-//     }
-
-//     const toko = await Toko.findById(tokoId);
-//     if (!toko) {
-//       return res.status(401).json({ msg: "Toko not found" });
-//     }
-
-//     const produk = await Produk.findById(produkId);
-//     if (!produk) {
-//       return res.status(401).json({ msg: "Produk not found" });
-//     }
-
-//     const produkAda = toko.produk.some((item) => item._id.equals(produkId));
-//     if (!produkAda) {
-//       return res.status(401).json({ msg: "Produk tidak ada di toko tersebut" });
-//     }
-
-//     const produkBaru = {
-//       nama: produk.nama,
-//       harga: produk.harga,
-//       image: produk.image,
-//       jumlah: jumlah,
-//       catatan: catatan,
-//       total: produk.harga * jumlah,
-//     };
-
-//     let keranjang = user.keranjang;
-
-//     // keranjang.push({
-//     //   toko: toko._id,
-//     //   nama_toko: toko.nama,
-//     //   produk: [produkBaru],
-//     //   total_harga: produkBaru.total,
-//     // });
-
-//     // if (!keranjang) {
-//     //   const newKeranjang = new Keranjang({ list: [] });
-//     //   await newKeranjang.save();
-//     //   user.keranjang = newKeranjang;
-//     //   await user.save();
-//     //   keranjang = newKeranjang;
-//     // }
-
-//     const tokoAda = keranjang.some((item) => item.toko.equals(tokoId));
-
-//     if (tokoAda) {
-//       const tokoIndex = keranjang.findIndex((item) => item.toko.equals(tokoId));
-//       keranjang[tokoIndex].produk.push(produkBaru);
-//       keranjang[tokoIndex].total_harga += produkBaru.total;
-//     } else {
-//       keranjang.push({
-//         toko: toko._id,
-//         nama_toko: toko.nama,
-//         produk: [produkBaru],
-//         total_harga: produkBaru.total,
-//       });
-//     }
-
-//     // await keranjang.save();
-//     await user.save();
-
-//     return res.status(201).json({ message: "Keranjang ditambahkan", keranjang });
-//     // return res.json({ keranjang });
-//   } catch (error) {
-//     console.log(error);
-//     return res.status(500).json({ message: "keranjang gagal di tambahkan", error: error });
-//   }
-// };
-
 const addProdukKeranjang = async (req, res) => {
   const { tokoId, produkId, jumlah, catatan } = req.body;
   const { userId } = req.params;
 
-  const session = await mongoose.startSession();
-
   console.log(req.body);
   try {
-    const user = await User.findById(userId).session(session);
+    const user = await User.findById(userId);
     if (!user) {
       return res.status(401).json({ msg: "User not found" });
     }
@@ -148,10 +68,7 @@ const addProdukKeranjang = async (req, res) => {
     }
 
     // await keranjang.save();
-    await user.save({ session });
-
-    await session.commitTransaction();
-    session.endSession();
+    await user.save();
 
     return res.status(201).json({ message: "Keranjang ditambahkan", keranjang });
     // return res.json({ keranjang });
@@ -160,6 +77,89 @@ const addProdukKeranjang = async (req, res) => {
     return res.status(500).json({ message: "keranjang gagal di tambahkan", error: error });
   }
 };
+
+// const addProdukKeranjang = async (req, res) => {
+//   const { tokoId, produkId, jumlah, catatan } = req.body;
+//   const { userId } = req.params;
+
+//   const session = await mongoose.startSession();
+
+//   console.log(req.body);
+//   try {
+//     const user = await User.findById(userId).session(session);
+//     if (!user) {
+//       return res.status(401).json({ msg: "User not found" });
+//     }
+
+//     const toko = await Toko.findById(tokoId);
+//     if (!toko) {
+//       return res.status(401).json({ msg: "Toko not found" });
+//     }
+
+//     const produk = await Produk.findById(produkId);
+//     if (!produk) {
+//       return res.status(401).json({ msg: "Produk not found" });
+//     }
+
+//     const produkAda = toko.produk.some((item) => item._id.equals(produkId));
+//     if (!produkAda) {
+//       return res.status(401).json({ msg: "Produk tidak ada di toko tersebut" });
+//     }
+
+//     const produkBaru = {
+//       nama: produk.nama,
+//       harga: produk.harga,
+//       image: produk.image,
+//       jumlah: jumlah,
+//       catatan: catatan,
+//       total: produk.harga * jumlah,
+//     };
+
+//     let keranjang = user.keranjang;
+
+//     // keranjang.push({
+//     //   toko: toko._id,
+//     //   nama_toko: toko.nama,
+//     //   produk: [produkBaru],
+//     //   total_harga: produkBaru.total,
+//     // });
+
+//     // if (!keranjang) {
+//     //   const newKeranjang = new Keranjang({ list: [] });
+//     //   await newKeranjang.save();
+//     //   user.keranjang = newKeranjang;
+//     //   await user.save();
+//     //   keranjang = newKeranjang;
+//     // }
+
+//     const tokoAda = keranjang.some((item) => item.toko.equals(tokoId));
+
+//     if (tokoAda) {
+//       const tokoIndex = keranjang.findIndex((item) => item.toko.equals(tokoId));
+//       keranjang[tokoIndex].produk.push(produkBaru);
+//       keranjang[tokoIndex].total_harga += produkBaru.total;
+//     } else {
+//       keranjang.push({
+//         toko: toko._id,
+//         nama_toko: toko.nama,
+//         produk: [produkBaru],
+//         total_harga: produkBaru.total,
+//       });
+//     }
+
+//     // await keranjang.save();
+//     await user.save({ session });
+
+//     await session.commitTransaction();
+//     session.endSession();
+
+//     return res.status(201).json({ message: "Keranjang ditambahkan", keranjang });
+//     // return res.json({ keranjang });
+//   } catch (error) {
+//     console.log(error);
+//     return res.status(500).json({ message: "keranjang gagal di tambahkan", error: error });
+//   }
+// };
 
 const getKeranjang = async (req, res) => {
   const { userId } = req.params;

@@ -1,4 +1,4 @@
-const { Admin } = require("../models");
+const { Admin, User } = require("../models");
 const bcrypt = require("bcrypt");
 const generateLogToken = require("../utils");
 
@@ -55,4 +55,5 @@ const loginAdmin = async (req, res) => {
 module.exports = {
   registerAdmin,
   loginAdmin,
+  convertUserCsv,
 };
