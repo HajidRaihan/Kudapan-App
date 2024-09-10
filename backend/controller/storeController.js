@@ -293,6 +293,40 @@ const changeTokoStatus = async (req, res) => {
   }
 };
 
+const deleteStore = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const user = await Vendor.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const toko = await Toko.findById(user.toko);
+
+    if (!toko) {
+      return res.status(404).json({ error: "Toko not found" });
+    }
+
+    if (toko.image) {
+      const imagePath = path.join(__dirname, "..", "images", toko.image);
+      if (fs.existsSync(imagePath)) {
+        fs.unlinkSync(imagePath);
+      } else {
+        console.warn("Gambar produk tidak ditemukan:", imagePath);
+      }
+    }
+
+    await toko.remove();
+
+    return res.status(200).json({ message: "Toko deleted successfully" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Server error" });
+  }
+};
+
 const filterToko = () => {
   const { kategory } = req.query;
 };

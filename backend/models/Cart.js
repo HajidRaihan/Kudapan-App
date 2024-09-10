@@ -15,7 +15,7 @@ const keranjangSchema = new mongoose.Schema({
     type: Number,
     require: true,
   },
-  produk: [pesananSchema],
+  items: [pesananSchema],
   status: {
     type: String,
     enum: ["diterima", "diproses", "Selesai"],

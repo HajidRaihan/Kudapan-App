@@ -29,7 +29,7 @@ const addOrder = async (req, res) => {
         newOrder = new Order({
           pemesan: userId,
           toko_id: tokoId,
-          pesanan: user.keranjang[index].produk,
+          order_items: user.keranjang[index].items,
           total_harga: user.keranjang[index].total_harga,
           meja: meja === "undefined" ? 0 : Number(meja),
           jenis_layanan: jenis_layanan,
@@ -99,7 +99,7 @@ const addSingleOrder = async (req, res) => {
 
     const newOrder = new Order({
       pemesan: userId,
-      pesanan: {
+      order_items: {
         nama: produk.nama,
         harga: produk.harga,
         image: produk.image,

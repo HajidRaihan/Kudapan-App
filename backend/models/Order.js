@@ -11,7 +11,7 @@ const orderSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Store",
     },
-    pesanan: [pesananSchema],
+    order_items: [pesananSchema],
     total_harga: {
       type: Number,
       required: true,
