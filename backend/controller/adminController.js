@@ -1,5 +1,5 @@
 const { Admin, User } = require("../models");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const generateLogToken = require("../utils");
 
 const registerAdmin = async (req, res) => {

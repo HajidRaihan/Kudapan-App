@@ -1,4 +1,4 @@
-// const bcrypt = require("bcrypt");
+// const bcrypt = require("bcryptjs");
 // const dataToko = require("./dataToko");
 
 // const dataUser = [
@@ -55,7 +55,7 @@
 // //   module.exports = dataUser;
 // // });
 
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const dataToko = require("./dataToko");
 
 const customerUser = {
