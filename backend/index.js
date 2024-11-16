@@ -12,16 +12,20 @@ const historyRouter = require("./routers/historyRouter");
 const walletRouter = require("./routers/walletRouter");
 const pesananRouter = require("./routers/pesananRouter");
 const bodyParser = require("body-parser");
+const path = require("path");
 
 require("./db/mongoose");
 const morgan = require("morgan");
 const { verifyUser } = require("./middleware/verifyAccessToken");
 
 const app = express();
+
 // const http = require("http");
 
 const port = process.env.PORT || 6000;
 app.use(cors());
+
+app.use("/images", express.static(path.join(__dirname, "public/images")));
 
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
