@@ -5,6 +5,7 @@ import { getAllToko } from "../../api/tokoApi";
 import {
   changeStatusUser,
   changeStatusVendor,
+  convertUserCsv,
   deleteUser,
   deleteVendor,
   getAllUser,
@@ -178,13 +179,57 @@ const HomeAdmin = () => {
     }
   };
 
+  const convertToCSV = (jsonData) => {
+    return jsonData
+      .map((row) => {
+        const filteredRow = {
+          _id: row._id,
+          nama: row.nama,
+          email: row.email,
+        };
+        return Object.values(filteredRow)
+          .map((value) => (value !== null ? value : ""))
+          .join("|"); // Menggunakan delimiter '|'
+      })
+      .join("\n");
+  };
+
+  const downloadCSV = () => {
+    const csvData = convertToCSV(customerData);
+    const blob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `user.csv`);
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const downloadCSVVendor = () => {
+    const csvData = convertToCSV(tokoData);
+    const blob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `user.csv`);
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <AdminLayout>
       <Toaster />
+      {/* <button onClick={downloadCSV}>convert</button>
+      <button onClick={downloadCSVVendor}>convert vendor</button> */}
       <div className="flex gap-5">
         <CardDashboard title={"Vendor"} count={tokoData?.length} />
         <CardDashboard title={"Customer"} count={customerData?.length} />
       </div>
+
       <VendorTable
         data={tokoData}
         handleOpen={handleOpenVendor}

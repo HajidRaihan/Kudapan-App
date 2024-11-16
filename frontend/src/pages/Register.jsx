@@ -17,7 +17,8 @@ const Register = () => {
 
     setIsLoading(true);
     if (password !== confirmPassword) {
-      alert("password tidak sama");
+      toast.error("password tidak sama");
+      setIsLoading(false);
       return;
     }
 
@@ -34,6 +35,7 @@ const Register = () => {
       setNama("");
       setEmail("");
       setPassword("");
+      setConfirmPassword("");
       setIsLoading(false);
 
       // alert("berhasil register");

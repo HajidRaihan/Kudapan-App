@@ -231,6 +231,28 @@ const deleteVendor = async (userId, data) => {
   }
 };
 
+const convertUserCsv = async () => {
+  const tokken = TokenHandler();
+
+  const headerToken = {
+    Authorization: `${tokken}`,
+  };
+
+  try {
+    const responseData = await RequestApi(
+      "GET",
+      `user/get/user/csv`,
+      {},
+      headerToken,
+      "convert user to csv"
+    );
+    return responseData;
+  } catch (error) {
+    console.error("Terjadi kesalahan saat convert user to csv", error);
+    throw error;
+  }
+};
+
 export {
   getUserById,
   editProfile,
@@ -242,4 +264,5 @@ export {
   changeStatusVendor,
   deleteUser,
   deleteVendor,
+  convertUserCsv,
 };

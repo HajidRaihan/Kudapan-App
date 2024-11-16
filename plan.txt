@@ -1,1 +1,10 @@
 https://excalidraw.com/#json=m1716JN5snhDomK2PW7mO,iPXPddEKESk8lrTU94qzxg
+
+yang harus di lakukan
+load testing (lebih bagus)
+use case diagram, activity diagram, erd, design db
+
+
+
+
+

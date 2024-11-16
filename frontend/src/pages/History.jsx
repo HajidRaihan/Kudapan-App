@@ -121,7 +121,7 @@ const History = () => {
                       </div>
                     </div>
 
-                    {history.pesanan.map((produk) => (
+                    {history.order_items.map((produk) => (
                       <CardTransaksi key={produk._id} {...produk} />
                     ))}
                   </div>

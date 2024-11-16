@@ -41,6 +41,34 @@ const Pesanan = () => {
     setUserId(token._id);
   }, []);
 
+  const convertToCSV = (jsonData) => {
+    return jsonData
+      .map((row) => {
+        const filteredRow = {
+          _id: row._id,
+          pemesan: row.pemesan,
+          total_harga: row.total_harga,
+        };
+        return Object.values(filteredRow)
+          .map((value) => (value !== null ? value : ""))
+          .join("|"); // Menggunakan delimiter '|'
+      })
+      .join("\n");
+  };
+
+  const downloadCSV = () => {
+    const csvData = convertToCSV(pesananData);
+    const blob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `user.csv`);
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   useEffect(() => {
     let interval;
     const fetchData = async () => {
@@ -49,6 +77,7 @@ const Pesanan = () => {
         if (isToday) {
           const initialPesanan = await getPesananToday(userId);
           setPesananData(initialPesanan.data);
+          console.log(initialPesanan);
         } else {
           const initialPesanan = await getPesanan(userId, 1); // memuat halaman pertama
           setPesananData(initialPesanan.data);
@@ -227,6 +256,7 @@ const Pesanan = () => {
       <VendorLayout>
         <Toaster />
         <Header title="Pesanan" handler={deleteRiwayatHandler} />
+        {/* <button onClick={downloadCSV}>lkjsdlaksj</button> */}
         <div className="mx-5 gap-3 flex">
           {kategoriData?.map((data) => (
             <KategoriKomponen
@@ -393,7 +423,7 @@ const PesananCard = ({
     <p className="text-xs">
       <TimeAgo timestamp={pesanan.waktu_pemesanan} />
     </p>
-    {pesanan.pesanan.map((produk) => (
+    {pesanan.order_items.map((produk) => (
       <CardTransaksi key={produk._id} {...produk} />
     ))}
   </div>

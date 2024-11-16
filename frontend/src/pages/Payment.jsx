@@ -44,6 +44,7 @@ const Payment = () => {
       const res = await getDetailOrder(orderId);
       console.log(res.data);
       setDetailOrder(res.data);
+      console.log(detailOrder);
     };
     getDetail();
   }, [orderId]);
@@ -57,7 +58,7 @@ const Payment = () => {
           <div className="flex justify-between items-center"></div>
           <div className="w-full border border-black my-3" />
 
-          {detailOrder.pesanan.map((produk) => {
+          {detailOrder.order_items.map((produk) => {
             return <CardTransaksi key={produk._id} {...produk} />;
           })}
 

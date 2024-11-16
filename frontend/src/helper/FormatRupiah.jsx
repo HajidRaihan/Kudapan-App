@@ -1,6 +1,7 @@
 const FormatRupiah = ({ value }) => {
   // Fungsi untuk memformat angka menjadi format Rupiah
   const formatRupiah = (angka) => {
+    if (!angka) return 0;
     const numberString = angka.toString();
     const split = numberString.split(",");
     const sisa = split[0].length % 3;

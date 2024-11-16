@@ -101,7 +101,7 @@ const HomeVendor = () => {
                     <StyledMoney />
                     {/* <p>Rp. {userDetail.saldo}</p> */}
                     <p className="text-xs">
-                      <FormatRupiah value={userDetail.saldo} />
+                      <FormatRupiah value={userDetail?.saldo} />
                     </p>
                   </div>
                 )}

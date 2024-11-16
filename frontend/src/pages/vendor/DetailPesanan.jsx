@@ -53,7 +53,7 @@ const DetailPesanan = () => {
             <p className="text-xs">
               <TimeAgo timestamp={detailPesanan.waktu_pemesanan} />
             </p>
-            {detailPesanan.pesanan.map((produk) => {
+            {detailPesanan.order_items.map((produk) => {
               return <CardTransaksi key={produk._id} {...produk} />;
             })}
             {detailPesanan.status_pembayaran !== "lunas" ? (

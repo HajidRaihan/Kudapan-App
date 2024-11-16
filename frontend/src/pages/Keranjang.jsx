@@ -99,14 +99,14 @@ const Keranjang = () => {
 
     const keranjang = updatedKeranjangData[keranjangIndex];
 
-    keranjang.produk[produkIndex].jumlah -= 1;
-    keranjang.total_harga -= keranjang.produk[produkIndex].harga;
-    keranjang.produk[produkIndex].total -= keranjang.produk[produkIndex].harga;
+    keranjang.items[produkIndex].jumlah -= 1;
+    keranjang.total_harga -= keranjang.items[produkIndex].harga;
+    keranjang.items[produkIndex].total -= keranjang.items[produkIndex].harga;
 
-    if (keranjang.produk[produkIndex].jumlah === 0) {
-      keranjang.produk.splice(produkIndex, 1);
+    if (keranjang.items[produkIndex].jumlah === 0) {
+      keranjang.items.splice(produkIndex, 1);
     }
-    if (keranjang.produk.length === 0) {
+    if (keranjang.items.length === 0) {
       updatedKeranjangData.splice(keranjangIndex, 1);
     }
 
@@ -121,9 +121,9 @@ const Keranjang = () => {
 
     const keranjang = updatedKeranjangData[keranjangIndex];
 
-    keranjang.produk[produkIndex].jumlah += 1;
-    keranjang.total_harga += keranjang.produk[produkIndex].harga;
-    keranjang.produk[produkIndex].total += keranjang.produk[produkIndex].harga;
+    keranjang.items[produkIndex].jumlah += 1;
+    keranjang.total_harga += keranjang.items[produkIndex].harga;
+    keranjang.items[produkIndex].total += keranjang.items[produkIndex].harga;
 
     setKeranjangData(updatedKeranjangData);
   };
@@ -166,11 +166,11 @@ const Keranjang = () => {
                     total harga : <FormatRupiah value={keranjang.total_harga} />
                   </p>
                   <div className="w-full border border-black my-3" />
-                  {keranjang.produk.map((produk) => {
+                  {keranjang.items.map((produk) => {
                     return (
                       <KeranjangCard
                         key={produk._id}
-                        produkIndex={keranjang.produk.indexOf(produk)}
+                        produkIndex={keranjang.items.indexOf(produk)}
                         keranjangIndex={keranjangData.indexOf(keranjang)}
                         deleteProdukKeranjangHandler={deleteProdukKeranjangHandler}
                         increaseProdukKeranjangHandler={increaseProdukKeranjangHandler}

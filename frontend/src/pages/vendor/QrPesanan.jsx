@@ -22,13 +22,13 @@ const QrPesanan = () => {
             <QRCode
               size={256}
               style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-              value={`localhost:5173/payment/${orderId}/${userId}`}
+              value={`${import.meta.env.VITE_BASEURL}/payment/${orderId}/${userId}`}
               viewBox={`0 0 256 256`}
             />
           </div>
-          <p>
+          {/* <p>
             localhost:5173/payment/{orderId}/{userId}
-          </p>
+          </p> */}
         </div>
       </VendorLayout>
     </div>
