@@ -1,18 +1,16 @@
 {
-    "version": 2,
-    "rewrites": [
-    { "source": "/images/(.*)", "destination": "/api" }
+  "version": 2,
+  "rewrites": [{ "source": "/images/(.*)", "destination": "/api" }],
+  "builds": [
+    {
+      "src": "./index.js",
+      "use": "@vercel/node"
+    }
   ],
-    "builds": [
-        {
-            "src": "./index.js",
-            "use": "@vercel/node"
-        }],
-    "routes": [
-        {
-            "src": "/(.*)",
-            "dest": "/"
-        }
-    ]
-    
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/"
+    }
+  ]
 }
