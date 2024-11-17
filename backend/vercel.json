@@ -11,6 +11,6 @@
       "src": "/(.*)",
       "dest": "/"
     }
-  ],
-  "rewrites": [{ "source": "/images/(.*)", "destination": "/api" }]
+  ]
+  // "rewrites": [{ "source": "/images/(.*)", "destination": "/api" }]
 }
