@@ -357,23 +357,53 @@ const getOrderUser = async (req, res) => {
     console.log({ orders });
 
     const ordersWithUserPemesan = [];
+    let totalPenghasilan = 0;
 
     for (const order of orders) {
       const user_pemesan = await User.findById(order.pemesan);
       ordersWithUserPemesan.push({ ...order.toObject(), user_pemesan });
+
+      if (order.status_pembayaran === "lunas" && order.total_harga) {
+        totalPenghasilan += order.total_harga;
+      }
     }
 
     console.log({
       message: "Order berhasil didapatkan",
       data: ordersWithUserPemesan,
+      totalPenghasilan,
       hasMore: orders.length === parseInt(limit),
     });
 
     return res.status(200).json({
       message: "Order berhasil didapatkan",
       data: ordersWithUserPemesan,
+      totalPenghasilan,
       hasMore: orders.length === parseInt(limit),
     });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: "Terjadi kesalahan pada server" });
+  }
+};
+
+const getVendorIncome = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const user = await Vendor.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "Vendor tidak ditemukan" });
+    }
+
+    const income = await Order.aggregate([
+      { $match: { toko_id: user.toko } },
+      { $group: { _id: null, totalIncome: { $sum: "$total_harga" } } },
+    ]);
+    console.log(income);
+
+    return res.status(200).json({ message: "Penghasilan berhasil didapatkan", data: income });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: "Terjadi kesalahan pada server" });
@@ -606,4 +636,5 @@ module.exports = {
   orderPayment,
   paymentCashContoller,
   getOrderUserToday,
+  getVendorIncome,
 };
