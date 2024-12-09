@@ -112,7 +112,7 @@ const deleteProduk = async (req, res) => {
     // }
     // await user.save();
     if (produk.image) {
-      const imagePath = path.join(__dirname, "..", "images", produk.image);
+      const imagePath = path.join(__dirname, "..", "public/images", produk.image);
       if (fs.existsSync(imagePath)) {
         fs.unlinkSync(imagePath);
       } else {

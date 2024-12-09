@@ -398,7 +398,7 @@ const getVendorIncome = async (req, res) => {
     }
 
     const income = await Order.aggregate([
-      { $match: { toko_id: user.toko } },
+      { $match: { toko_id: user.toko, status_pembayaran: "lunas" } },
       { $group: { _id: null, totalIncome: { $sum: "$total_harga" } } },
     ]);
     console.log(income);
