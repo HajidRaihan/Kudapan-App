@@ -410,6 +410,49 @@ const getVendorIncome = async (req, res) => {
   }
 };
 
+const getVendorIncomeToday = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const user = await Vendor.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "Vendor tidak ditemukan" });
+    }
+
+    // Dapatkan awal dan akhir hari ini
+    const startOfDay = new Date();
+    startOfDay.setHours(0, 0, 0, 0); // Set waktu ke 00:00:00
+    const endOfDay = new Date();
+    endOfDay.setHours(23, 59, 59, 999); // Set waktu ke 23:59:59
+
+    const income = await Order.aggregate([
+      {
+        $match: {
+          toko_id: user.toko,
+          status_pembayaran: "lunas",
+          waktu_pemesanan: { $gte: startOfDay, $lte: endOfDay }, // Filter untuk hari ini
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalIncome: { $sum: "$total_harga" }, // Hitung total harga
+        },
+      },
+    ]);
+    console.log(income);
+
+    return res.status(200).json({
+      message: "Penghasilan hari ini berhasil didapatkan",
+      data: income.length > 0 ? income[0].totalIncome : 0, // Kembalikan 0 jika tidak ada income
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: "Terjadi kesalahan pada server" });
+  }
+};
+
 const getOrderUserToday = async (req, res) => {
   const { userId } = req.params;
 
@@ -637,4 +680,5 @@ module.exports = {
   paymentCashContoller,
   getOrderUserToday,
   getVendorIncome,
+  getVendorIncomeToday,
 };

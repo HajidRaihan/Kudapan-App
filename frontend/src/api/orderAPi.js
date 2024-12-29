@@ -97,4 +97,51 @@ const orderPaymentCash = async (userId, orderId) => {
   }
 };
 
-export { addOrder, getDetailOrder, orderPayment, orderPaymentCash };
+const getIncomeVendor = async (userId) => {
+  const token = TokenHandler();
+  const headerToken = {
+    Authorization: `${token}`,
+  };
+  try {
+    const responseData = await RequestApi(
+      "GET",
+      `order/get/income/${userId}`,
+      {},
+      headerToken,
+      "mengambil pendapatan"
+    );
+    return responseData;
+  } catch (error) {
+    console.error("Terjadi kesalahan saat mengambil pendapatan", error);
+    throw error;
+  }
+};
+
+const getIncomeVendorToday = async (userId) => {
+  const token = TokenHandler();
+  const headerToken = {
+    Authorization: `${token}`,
+  };
+  try {
+    const responseData = await RequestApi(
+      "GET",
+      `order/get/income_today/${userId}`,
+      {},
+      headerToken,
+      "mengambil pendapatan hari ini"
+    );
+    return responseData;
+  } catch (error) {
+    console.error("Terjadi kesalahan saat mengambil pendapatan hari ini", error);
+    throw error;
+  }
+};
+
+export {
+  addOrder,
+  getDetailOrder,
+  orderPayment,
+  orderPaymentCash,
+  getIncomeVendor,
+  getIncomeVendorToday,
+};

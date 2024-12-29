@@ -1,3 +1,4 @@
+// eslint-disable-next-line react/prop-types
 const FormatRupiah = ({ value }) => {
   // Fungsi untuk memformat angka menjadi format Rupiah
   const formatRupiah = (angka) => {

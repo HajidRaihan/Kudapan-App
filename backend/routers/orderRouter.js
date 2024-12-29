@@ -10,6 +10,7 @@ const {
   paymentCashContoller,
   getOrderUserToday,
   getVendorIncome,
+  getVendorIncomeToday,
 } = require("../controller/orderController");
 const { verifyUser } = require("../middleware/verifyAccessToken");
 
@@ -22,5 +23,6 @@ router.post("/payment/:userId/:orderId", verifyUser("customer"), orderPayment); 
 router.post("/status/:userId/:orderId", verifyUser("vendor"), changeStatusOrder); // done
 router.put("/payment/cash/:userId/:orderId", verifyUser("vendor"), paymentCashContoller); // done
 router.get("/get/income/:userId", getVendorIncome);
+router.get("/get/income_today/:userId", getVendorIncomeToday);
 
 module.exports = router;
